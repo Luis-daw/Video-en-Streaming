@@ -146,6 +146,7 @@ class Movie extends Production{
     #resource;
     #locations;
     constructor(title, nationality, publication, synopsis, image, resource = Resource, locations = []){
+        console.log(title);
         super(title, nationality, publication, synopsis, image);
         this.#resource = resource,
         this.#locations = locations;
