@@ -5,7 +5,11 @@ class VideoSystem{
     #categories = [];
     #actors = [];
     #directors = [];
-
+    /*
+    
+    Sys
+    
+    */
     constructor(name){
         this.#name = name;
     }
