@@ -1,3 +1,4 @@
+"use strict";
 class Person {
     #name;
     #lastname1;
@@ -100,6 +101,7 @@ class Production{
     #synopsis;
     #image;
     constructor(title, nationality, publication, synopsis, image){
+        if (new.target === Production) throw "Hola";
         this.#title =  title;
         this.#nationality =  nationality;
         this.#publication =  publication;
