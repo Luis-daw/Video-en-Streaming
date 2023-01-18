@@ -38,7 +38,7 @@ console.log(arr2.findIndex((elem) => elem.category == category2));
 let vs=new VideoSystem("Nombre");
 vs.addCategory(category3);
 vs.addCategory(category2);
- vs.addCategory(category);
+vs.addCategory(category);
 // try {
 //     vs.addCategory(category);
 // } catch (error) {
