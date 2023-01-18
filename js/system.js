@@ -8,7 +8,7 @@ class VideoSystem {
     #directors = [];
     /*
     
-    Categorias{
+    Categories{
         category: object category
         productions: array productions.
     }
@@ -43,13 +43,44 @@ class VideoSystem {
         }
     }
     get users() {
-        //Meter iterador
+        let array = this.#systemUsers;
+        return {
+            *[Symbol.iterator]() {
+                for (let i = 0; i < array.length; i++) {
+                    yield array[i];
+                }
+            }
+        }
     }
     get productions() {
-        //Meter iterador
+        let array = this.#productions;
+        return {
+            *[Symbol.iterator]() {
+                for (let i = 0; i < array.length; i++) {
+                    yield array[i];
+                }
+            }
+        }
     }
     get actors() {
-        //Meter iterador
+        let array = this.#actors;
+        return {
+            *[Symbol.iterator]() {
+                for (let i = 0; i < array.length; i++) {
+                    yield array[i].actor;
+                }
+            }
+        }
+    }
+    get directors() {
+        let array = this.#directors;
+        return {
+            *[Symbol.iterator]() {
+                for (let i = 0; i < array.length; i++) {
+                    yield array[i].director;
+                }
+            }
+        }
     }
     addCategory = function (category) {
         if (!(category instanceof Category)) throw "Hola";
@@ -145,7 +176,7 @@ class VideoSystem {
         let pos = this.#categories.findIndex((elem) => elem.category == category);
         let pos2;
         productions.forEach(production => {
-            pos2 = this.#productions.findIndex((elem) => elem == production);
+            pos2 = this.#categories[pos].productions.findIndex((elem) => elem == production);
             this.#categories[pos].productions.splice(pos2, 1);
         });
         return this.#categories[pos].productions.length;
@@ -171,7 +202,7 @@ class VideoSystem {
         let pos = this.#directors.findIndex((elem) => elem.director == director);
         let pos2;
         productions.forEach(production => {
-            pos2 = this.#productions.findIndex((elem) => elem == production);
+            pos2 = this.#directors[pos].productions.findIndex((elem) => elem == production);
             this.#directors[pos].productions.splice(pos2, 1);
         });
         return this.#directors[pos].productions.length;
@@ -197,24 +228,59 @@ class VideoSystem {
         let pos = this.#actors.findIndex((elem) => elem.actor == actor);
         let pos2;
         productions.forEach(production => {
-            pos2 = this.#productions.findIndex((elem) => elem == production);
+            pos2 = this.#actors[pos].productions.findIndex((elem) => elem == production);
             this.#actors[pos].productions.splice(pos2, 1);
         });
         return this.#actors[pos].productions.length;
     }
     getCast(production) {
         if (!(production instanceof Production)) throw "Holaas";
+        let array = this.#actors.filter((elem) => elem.productions.findIndex((elemProduc)=>elemProduc.title == production.title) !== -1)
+        return {
+            *[Symbol.iterator]() {
+                for (let i = 0; i < array.length; i++) {
+                    yield array[i];
+                }
+            }
+        }
     }
     getProductionsDirector(director) {
         if (!(director instanceof Person)) throw "Holaas";
+        let pos = this.#directors.findIndex((dir)=> dir.director == director);
+        if(pos === -1) throw "Incorrecto";
+        let array = this.#directors[pos].productions;
+        return {
+            *[Symbol.iterator]() {
+                for (let i = 0; i < array.length; i++) {
+                    yield array[i].director;
+                }
+            }
+        }
     }
     getProductionsActor(actor) {
         if (!(actor instanceof Person)) throw "Holaas";
+        let pos = this.#actors.findIndex((act)=> act.actor == actor);
+        if(pos === -1) throw "Incorrecto";
+        let array = this.#actors[pos].productions;
+        return {
+            *[Symbol.iterator]() {
+                for (let i = 0; i < array.length; i++) {
+                    yield array[i].actor;
+                }
+            }
+        }
     }
     getProductionsCategory(category) {
         if (!(category instanceof Category)) throw "Holaas";
-    }
-    getCategory() {
-        return this.#categories;
+        let pos = this.#categories.findIndex((cat)=> cat.category == category);
+        if(pos === -1) throw "Incorrecto";
+        let array = this.#categories[pos].productions;
+        return {
+            *[Symbol.iterator]() {
+                for (let i = 0; i < array.length; i++) {
+                    yield array[i];
+                }
+            }
+        }
     }
 }

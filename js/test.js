@@ -38,7 +38,7 @@ console.log(arr2.findIndex((elem) => elem.category == category2));
 let vs=new VideoSystem("Nombre");
 vs.addCategory(category3);
 vs.addCategory(category2);
-// vs.addCategory(category);
+ vs.addCategory(category);
 // try {
 //     vs.addCategory(category);
 // } catch (error) {
@@ -51,16 +51,28 @@ let production4 = new Serie("Hola");
 // vs.addProduction(production);
 // vs.addProduction(production);
 vs.assignCategory(category,production, production2);
-vs.deassignCategory(category, production, production2);
+//vs.deassignCategory(category, production, production2);
 // vs.assignCategory(category, production, production2, production);
-let a = vs.getCategory();
-console.log(a);
-console.log(a[2].productions);
+
 let arr3 = [];
 
 let iterator = vs.categories;
+let iterator2 = vs.getProductionsCategory(category);
 
 //let iterable = iterator.iterator();
 for (const category of iterator) {
     console.log(category);
 }
+for (const category of iterator2) {
+    console.log(category);
+}
+
+
+
+obj.productions.push(production);
+obj.productions.push(production2);
+obj3.productions.push(production2);
+
+let filt = arr2.filter((elem) => elem.productions.findIndex((produc)=>produc.title == production2.title) != -1);
+
+console.log(filt);
