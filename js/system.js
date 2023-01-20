@@ -1,5 +1,6 @@
 "use strict";
-class VideoSystem {
+import {Person, Category, Resource, Production, Movie, Serie, User, Coordinate} from './clases.js';
+export default class VideoSystem {
     #name;
     #systemUsers = [];
     #productions = [];

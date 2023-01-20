@@ -94,19 +94,19 @@ class Resource {
 }
 
 //Hacer abstracta
-class Production{
+class Production {
     #title;
     #nationality;
     #publication;
     #synopsis;
     #image;
-    constructor(title, nationality, publication, synopsis, image){
+    constructor(title, nationality, publication, synopsis, image) {
         if (new.target === Production) throw "Hola";
-        this.#title =  title;
-        this.#nationality =  nationality;
-        this.#publication =  publication;
-        this.#synopsis =  synopsis;
-        this.#image =  image;
+        this.#title = title;
+        this.#nationality = nationality;
+        this.#publication = publication;
+        this.#synopsis = synopsis;
+        this.#image = image;
     }
     get title() {
         return this.#title;
@@ -138,18 +138,18 @@ class Production{
     set image(image) {
         this.#image = image;
     }
-    toString(){
+    toString() {
         return `Titulo: ${this.#title}, nacionalidad: ${this.#nationality}, publicada: ${this.#publication}, sinopsis: ${this.#synopsis} `;
     }
 }
-class Movie extends Production{
+class Movie extends Production {
     #resource;
     #locations;
-    constructor(title, nationality, publication, synopsis, image, resource = Resource, locations = []){
+    constructor(title, nationality, publication, synopsis, image, resource = Resource, locations = []) {
         console.log(title);
         super(title, nationality, publication, synopsis, image);
         this.#resource = resource,
-        this.#locations = locations;
+            this.#locations = locations;
     }
     get resource() {
         return this.#resource;
@@ -163,18 +163,18 @@ class Movie extends Production{
     set locations(locations) {
         this.#locations = locations;
     }
-    toString(){
+    toString() {
         return `Recurso: ${this.#resource.toString()}, localizaciones: ${this.#locations.toString()}`;
     }
 }
-class Serie extends Production{
+class Serie extends Production {
     #resource;
     #locations;
     #seasons;
-    constructor(title, nationality, publication, synopsis, image, resource = Resource, locations = [], seasons = 1){
+    constructor(title, nationality, publication, synopsis, image, resource = Resource, locations = [], seasons = 1) {
         super(title, nationality, publication, synopsis, image);
         this.#resource = resource,
-        this.#locations = locations;
+            this.#locations = locations;
         this.#seasons = seasons;
     }
     get resource() {
@@ -195,18 +195,18 @@ class Serie extends Production{
     set seasons(seasons) {
         this.#seasons = seasons;
     }
-    toString(){
+    toString() {
         return `Recurso: ${this.#resource.toString()}, localizaciones: ${this.#locations.toString()}, temporadas: ${this.#seasons}`;
     }
 }
 
-class User{
+class User {
     #username;
     #email;
     #password;
-    constructor(username, email, password){
+    constructor(username, email, password) {
         this.#username = username;
-        this.#email=email;
+        this.#email = email;
         this.#password = password;
     }
     get username() {
@@ -227,14 +227,14 @@ class User{
     set password(password) {
         this.#password = password;
     }
-    toString(){
+    toString() {
         return `Nombre de usuarios: ${this.#username}, email: ${this.#email}`;
     }
 }
-class Coordinate{
+class Coordinate {
     #latitude;
     #longitude;
-    constructor(latitude, longitude){
+    constructor(latitude, longitude) {
         this.#latitude = latitude;
         this.#longitude = longitude;
     }
@@ -250,7 +250,9 @@ class Coordinate{
     set longitude(longitude) {
         this.#longitude = longitude;
     }
-    toString(){
+    toString() {
         return `Latitud: ${this.#latitude}, longitud: ${this.#longitude}`;
     }
 }
+
+export { Person, Category, Resource, Production, Movie, Serie, User, Coordinate };

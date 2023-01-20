@@ -1,4 +1,6 @@
 "use strict";
+import {Person, Category, Resource, Movie, Serie, User, Coordinate} from "./clases.js";
+import VideoSystem from "./system.js";
 let category = new Category("cat", "descript");
 let category2 = new Category("cat2", "descript");
 let category3 = new Category("cat3", "descript");
