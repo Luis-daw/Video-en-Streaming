@@ -2,8 +2,6 @@
 import { BaseException,
     InvalidValueException,
     AbstractClassException} from "./generalExceptions.js";
-//Excepciones de las clases.
-
 
 /**
  * Clase person
@@ -25,6 +23,9 @@ class Person {
         this.#born = born;
         this.#picture = picture;
     }
+
+    //Getter y setters
+
     get name() {
         return this.#name;
     }
@@ -55,6 +56,7 @@ class Person {
     set picture(picture) {
         this.#picture = picture;
     }
+
     toString() {
         return `Nombre: ${this.#name} apellidos: ${this.#lastname1} ${this.#lastname2} fecha de nacimiento: ${this.#born}`
     }
@@ -71,6 +73,9 @@ class Category {
         this.#name = name;
         this.#description = description;
     }
+
+    //Getter y setters
+
     get name() {
         return this.#name;
     }
@@ -100,6 +105,9 @@ class Resource {
         this.#duration = duration;
         this.#link = link;
     }
+
+    //Getter y setters
+
     get duration() {
         return this.#duration;
     }
@@ -112,6 +120,9 @@ class Resource {
     set link(link) {
         this.#link = link;
     }
+    toString(){
+        return `Duración: ${this.#duration}h`;
+    }
 }
 
 //Clase abstracta Production
@@ -121,7 +132,7 @@ class Production {
     #publication;
     #synopsis;
     #image;
-    constructor(title, nationality, publication, synopsis, image) {
+    constructor(title, publication, nationality = "", synopsis = "", image = "") {
         if (new.target === Production) throw new AbstractClassException("Production");
         if (title == null) throw new InvalidValueException();
         if (nationality == null) throw new InvalidValueException();
@@ -134,6 +145,9 @@ class Production {
         this.#synopsis = synopsis;
         this.#image = image;
     }
+
+    //Getter y setters
+
     get title() {
         return this.#title;
     }
@@ -170,17 +184,20 @@ class Production {
 }
 
 /**
- * Clase Movie
+ * Clase Movie que hereda de Production
  */
 class Movie extends Production {
     #resource;
     #locations;
-    constructor(title, nationality, publication, synopsis, image, resource = Resource, locations = []) {
+    constructor(title, nationality, publication, synopsis, image, resource = new Resource(1, ""), locations = []) {
 
-        super(title, nationality, publication, synopsis, image);
+        super(title, publication, nationality, synopsis, image);
         this.#resource = resource;
         this.#locations = locations;
     }
+
+    //Getter y setters
+
     get resource() {
         return this.#resource;
     }
@@ -194,23 +211,26 @@ class Movie extends Production {
         this.#locations = locations;
     }
     toString() {
-        return `Recurso: ${this.#resource.toString()}, localizaciones: ${this.#locations.toString()}`;
+        return super.toString()+`${this.#resource.toString()}`;
     }
 }
 
 /**
- * Clase Serie
+ * Clase Serie que hereda de Production
  */
 class Serie extends Production {
     #resource;
     #locations;
     #seasons;
-    constructor(title, nationality, publication, synopsis, image, resource = Resource, locations = [], seasons = 1) {
-        super(title, nationality, publication, synopsis, image);
+    constructor(title, nationality, publication, synopsis, image, resource = new Resource(1, ""), locations = [], seasons = 1) {
+        super(title, publication, nationality, synopsis, image);
         this.#resource = resource;
         this.#locations = locations;
         this.#seasons = seasons;
     }
+
+    //Getter y setters
+
     get resource() {
         return this.#resource;
     }
@@ -230,7 +250,7 @@ class Serie extends Production {
         this.#seasons = seasons;
     }
     toString() {
-        return `Recurso: ${this.#resource.toString()}, localizaciones: ${this.#locations.toString()}, temporadas: ${this.#seasons}`;
+        return super.toString()+`${this.#resource.toString()}`;        
     }
 }
 
@@ -249,6 +269,9 @@ class User {
         this.#email = email;
         this.#password = password;
     }
+
+    //Getter y setters
+
     get username() {
         return this.#username;
     }
@@ -283,6 +306,9 @@ class Coordinate {
         this.#latitude = latitude;
         this.#longitude = longitude;
     }
+
+    //Getter y setters
+
     get latitude() {
         return this.#latitude;
     }
@@ -300,4 +326,5 @@ class Coordinate {
     }
 }
 
+//Exportamos los modulos
 export { Person, Category, Resource, Production, Movie, Serie, User, Coordinate };
