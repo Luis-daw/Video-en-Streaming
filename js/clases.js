@@ -1,4 +1,13 @@
 "use strict";
+import { BaseException,
+    InvalidValueException,
+    AbstractClassException} from "./generalExceptions.js";
+//Excepciones de las clases.
+
+
+/**
+ * Clase person
+ */
 class Person {
     #name;
     #lastname1;
@@ -7,6 +16,9 @@ class Person {
     #picture;
 
     constructor(name, lastname1, born, lastname2 = "", picture = "") {
+        if (name == null) throw new InvalidValueException();
+        if (lastname1 == null) throw new InvalidValueException();
+        if (!(born instanceof Date)) throw new InvalidValueException();
         this.#name = name;
         this.#lastname1 = lastname1;
         this.#lastname2 = lastname2;
@@ -48,10 +60,14 @@ class Person {
     }
 }
 
+/**
+ * Clase Category
+ */
 class Category {
     #name;
     #description;
     constructor(name, description = "") {
+        if (name == null) throw new InvalidValueException();
         this.#name = name;
         this.#description = description;
     }
@@ -72,10 +88,15 @@ class Category {
     }
 }
 
+/**
+ * Clase Resource
+ */
 class Resource {
     #duration;
     #link;
     constructor(duration, link) {
+        if (duration == null) throw new InvalidValueException();
+        if (link == null) throw new InvalidValueException();
         this.#duration = duration;
         this.#link = link;
     }
@@ -93,7 +114,7 @@ class Resource {
     }
 }
 
-//Hacer abstracta
+//Clase abstracta Production
 class Production {
     #title;
     #nationality;
@@ -101,7 +122,12 @@ class Production {
     #synopsis;
     #image;
     constructor(title, nationality, publication, synopsis, image) {
-        if (new.target === Production) throw "Hola";
+        if (new.target === Production) throw new AbstractClassException("Production");
+        if (title == null) throw new InvalidValueException();
+        if (nationality == null) throw new InvalidValueException();
+        if (publication == null) throw new InvalidValueException();
+        if (synopsis == null) throw new InvalidValueException();
+        if (image == null) throw new InvalidValueException();
         this.#title = title;
         this.#nationality = nationality;
         this.#publication = publication;
@@ -142,14 +168,18 @@ class Production {
         return `Titulo: ${this.#title}, nacionalidad: ${this.#nationality}, publicada: ${this.#publication}, sinopsis: ${this.#synopsis} `;
     }
 }
+
+/**
+ * Clase Movie
+ */
 class Movie extends Production {
     #resource;
     #locations;
     constructor(title, nationality, publication, synopsis, image, resource = Resource, locations = []) {
-        console.log(title);
+
         super(title, nationality, publication, synopsis, image);
-        this.#resource = resource,
-            this.#locations = locations;
+        this.#resource = resource;
+        this.#locations = locations;
     }
     get resource() {
         return this.#resource;
@@ -167,14 +197,18 @@ class Movie extends Production {
         return `Recurso: ${this.#resource.toString()}, localizaciones: ${this.#locations.toString()}`;
     }
 }
+
+/**
+ * Clase Serie
+ */
 class Serie extends Production {
     #resource;
     #locations;
     #seasons;
     constructor(title, nationality, publication, synopsis, image, resource = Resource, locations = [], seasons = 1) {
         super(title, nationality, publication, synopsis, image);
-        this.#resource = resource,
-            this.#locations = locations;
+        this.#resource = resource;
+        this.#locations = locations;
         this.#seasons = seasons;
     }
     get resource() {
@@ -200,11 +234,17 @@ class Serie extends Production {
     }
 }
 
+/**
+ * Clase User
+ */
 class User {
     #username;
     #email;
     #password;
     constructor(username, email, password) {
+        if (username == null) throw new InvalidValueException();
+        if (email == null) throw new InvalidValueException();
+        if (password == null) throw new InvalidValueException();
         this.#username = username;
         this.#email = email;
         this.#password = password;
@@ -231,10 +271,15 @@ class User {
         return `Nombre de usuarios: ${this.#username}, email: ${this.#email}`;
     }
 }
+/**
+ * Clase Coordinate
+ */
 class Coordinate {
     #latitude;
     #longitude;
     constructor(latitude, longitude) {
+        if (latitude == null) throw new InvalidValueException();
+        if (longitude == null) throw new InvalidValueException();
         this.#latitude = latitude;
         this.#longitude = longitude;
     }

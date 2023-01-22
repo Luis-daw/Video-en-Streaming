@@ -48,6 +48,7 @@ console.log(vs === vs2);
 vs.addCategory(category3);
 vs.addCategory(category2);
 vs.addCategory(category);
+console.log("hola")
 // try {
 //     vs.addCategory(category);
 // } catch (error) {
