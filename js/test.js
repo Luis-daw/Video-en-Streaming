@@ -1,6 +1,6 @@
 "use strict";
 import {Person, Category, Resource, Movie, Serie, User, Coordinate} from "./clases.js";
-import VideoSystem from "./system.js";
+import VideoSystem from "./videoSystemModule.js";
 
 /**
  * Función que pasándole un iterador lo recorre y lo muestra
