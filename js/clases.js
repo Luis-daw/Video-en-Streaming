@@ -143,7 +143,7 @@ class Production {
         this.#nationality = nationality;
         this.#publication = publication;
         this.#synopsis = synopsis;
-        this.#image = image;
+        this.#image = title;
     }
 
     //Getter y setters

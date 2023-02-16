@@ -1,4 +1,4 @@
-import VideoSystem from './videoSystemModel';
+import VideoSystem from './videoSystemModel.js';
 import videoSystemController from './videoSystemController.js';
 import videoSystemView from './videoSystemView.js';
 
