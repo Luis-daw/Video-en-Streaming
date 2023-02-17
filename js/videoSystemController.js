@@ -73,24 +73,30 @@ class videoSystemController {
         console.log(this.#videoSystemModel.name);
         this.onLoad();
         this.onInit(this.#videoSystemModel.categories);
-        this.#videoSystemView.bindInit(this.handleInit.bind(this));
+        this.#videoSystemView.bindInit(this.handleInit.bind(this,this.#videoSystemModel.categories));
     }
-    onInit = () => {
-        //this.#videoSystemView.init(iteratorCategories);
-        //this.#videoSystemView.showCategoriesInNav(iteratorCategories);
+    onInit = (categories) => {
+        this.#videoSystemView.showCategoriesType(categories);
+        this.#videoSystemView.bindProductionsCategoryList(this.handleProductionsCategoryList);
+        this.#videoSystemView.bindProductionsCategoryListInMenu(this.handleProductionsCategoryList);
     }
 
     onLoad = () => {
         this.#loadVideoSystemObjects();
+        this.#videoSystemView.showCategoriesType(this.#videoSystemModel.categories);
         this.onAddCategory();
     }
 
-    handleInit = () => {
-        this.onInit();
+    handleInit = (categories) => {
+        this.onInit(categories);
     }
 
     onAddCategory = () => {
         this.#videoSystemView.showCategoriesInNav(this.#videoSystemModel.categories);
+    }
+    handleProductionsCategoryList = (name) =>{
+        let category = this.#videoSystemModel.getCategory(name);
+        this.#videoSystemView.showProductions(this.#videoSystemModel.getProductionsCategory(category),category.name);
     }
 }
 
