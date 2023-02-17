@@ -73,21 +73,24 @@ class videoSystemController {
         console.log(this.#videoSystemModel.name);
         this.onLoad();
         this.onInit(this.#videoSystemModel.categories);
+        this.#videoSystemView.bindInit(this.handleInit.bind(this));
     }
-    onInit = (iteratorCategories) => {
-        this.#videoSystemView.init(iteratorCategories);
+    onInit = () => {
+        //this.#videoSystemView.init(iteratorCategories);
+        //this.#videoSystemView.showCategoriesInNav(iteratorCategories);
     }
 
     onLoad = () => {
         this.#loadVideoSystemObjects();
+        this.onAddCategory();
     }
 
     handleInit = () => {
         this.onInit();
     }
-    
+
     onAddCategory = () => {
-        this.#managerView.showCategoriesInMenu(this.#manager.categories);
+        this.#videoSystemView.showCategoriesInNav(this.#videoSystemModel.categories);
     }
 }
 
