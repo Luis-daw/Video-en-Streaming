@@ -86,8 +86,8 @@ class videoSystemController {
         this.onInit();
     }
     
-    showProductions = () => {
-        console.log("HOla");
+    onAddCategory = () => {
+        this.#managerView.showCategoriesInMenu(this.#manager.categories);
     }
 }
 
