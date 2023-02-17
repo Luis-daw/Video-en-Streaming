@@ -65,6 +65,13 @@ class videoSystemController {
         this.#videoSystemModel.addActor(act4);
         this.#videoSystemModel.addActor(act5);
         this.#videoSystemModel.addActor(act6);
+
+        this.#videoSystemModel.assignActor(act1, prod1, prod2, prod3, prod4);
+        this.#videoSystemModel.assignActor(act2, prod1, prod2, prod3, prod4);
+        this.#videoSystemModel.assignActor(act3, prod1, prod2, prod3, prod4);
+        this.#videoSystemModel.assignActor(act5, prod11, prod8, prod3, prod4);
+        this.#videoSystemModel.assignActor(act4, prod1, prod2, prod3, prod4);
+
     }
     constructor(videoSystemModel, videoSystemView) {
         this.#videoSystemModel = videoSystemModel;
@@ -79,6 +86,7 @@ class videoSystemController {
         this.#videoSystemView.showCategoriesType(categories);
         this.#videoSystemView.bindProductionsCategoryList(this.handleProductionsCategoryList);
         this.#videoSystemView.bindProductionsCategoryListInMenu(this.handleProductionsCategoryList);
+        //this.#videoSystemView.bindCastProductionList(this.handleCastProductionList);
     }
 
     onLoad = () => {
@@ -97,6 +105,12 @@ class videoSystemController {
     handleProductionsCategoryList = (name) =>{
         let category = this.#videoSystemModel.getCategory(name);
         this.#videoSystemView.showProductions(this.#videoSystemModel.getProductionsCategory(category),category.name);
+        this.#videoSystemView.bindCastProductionList(this.handleCastProductionList);
+    }
+
+    handleCastProductionList = (title) => {
+        let production = this.#videoSystemModel.getProductionTitle(title);
+        this.#videoSystemView.showTeam(this.#videoSystemModel.getCast(production), production.title);
     }
 }
 

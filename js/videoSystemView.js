@@ -55,10 +55,10 @@ class videoSystemView {
     this.mainContent.append(`<h1 class="center">${categoryName}</h1>`);
     for (const production of productions) {
       this.mainContent.append(`
-      <div class="col-4">
+      <div class="col-4"><a href="#${production.title}" data-production="${production.title}">
         <img class="Img--Production" src="${production.image}">
-        <h3 class="center">${production.name}</h3>
-      </div>
+        <h3 class="center">${production.title}</h3>
+      </a></div>
       `);
     }
   }
@@ -73,7 +73,23 @@ class videoSystemView {
       handler(this.dataset.category);
     });
   }
+  bindCastProductionList(handler) {
+    $(this.mainContent).find("a").click(function (event) {
+      handler(this.dataset.production);
+    });
+  }
 
+  showTeam(actors, title){
+    this.mainContent.empty();
+    this.mainContent.append(`<h1 class="center">${title}</h1>`);
+    for (const actor of actors) {
+      this.mainContent.append(`
+      <div class="col-4">
+        <h3 class="center">${actor.toString()}</h3>
+      </div>
+      `);
+    }
+  }
 }
 
 export default videoSystemView;

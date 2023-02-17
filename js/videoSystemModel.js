@@ -473,6 +473,10 @@ let VideoSystem = (function () {
                 }
             }
 
+            getProductionTitle(title){
+                let pos = this.#productions.findIndex((prod) => prod.title == title);
+                return this.#productions[pos];
+            }
 
             //Factorias o también conocidas como patrones de diseño flyweight, comprueban si un objeto esta añadido a la clase
             //Si está lo devuelve, si no lo crea, de esta manera se ahorra mucho espacio de memoria evitando crear los mismos objetos
