@@ -72,17 +72,22 @@ class videoSystemController {
         this.#videoSystemModel.assignActor(act5, prod11, prod8, prod3, prod4);
         this.#videoSystemModel.assignActor(act4, prod1, prod2, prod3, prod4);
 
+        this.#videoSystemModel.assignDirector(dir1, prod1, prod2, prod3, prod4);
+        this.#videoSystemModel.assignDirector(dir2, prod1, prod2, prod3, prod4);
+        this.#videoSystemModel.assignDirector(dir3, prod1, prod2, prod3, prod4, prod11);
+
     }
     constructor(videoSystemModel, videoSystemView) {
         this.#videoSystemModel = videoSystemModel;
         this.#videoSystemView = videoSystemView;
-
-        console.log(this.#videoSystemModel.name);
+        this.arrayProductions;
+        //console.log(this.#videoSystemModel.name);
         this.onLoad();
         this.onInit(this.#videoSystemModel.categories);
         this.#videoSystemView.bindInit(this.handleInit.bind(this,this.#videoSystemModel.categories));
     }
     onInit = (categories) => {
+        this.handleProductionsCarousel();
         this.#videoSystemView.showCategoriesType(categories);
         this.#videoSystemView.bindProductionsCategoryList(this.handleProductionsCategoryList);
         this.#videoSystemView.bindProductionsCategoryListInMenu(this.handleProductionsCategoryList);
@@ -91,7 +96,8 @@ class videoSystemController {
 
     onLoad = () => {
         this.#loadVideoSystemObjects();
-        this.#videoSystemView.showCategoriesType(this.#videoSystemModel.categories);
+        //this.#videoSystemView.showCategoriesType(this.#videoSystemModel.categories);
+        this.handleActorsAndDirectors();
         this.onAddCategory();
     }
 
@@ -104,13 +110,45 @@ class videoSystemController {
     }
     handleProductionsCategoryList = (name) =>{
         let category = this.#videoSystemModel.getCategory(name);
+        console.log(category);
         this.#videoSystemView.showProductions(this.#videoSystemModel.getProductionsCategory(category),category.name);
         this.#videoSystemView.bindCastProductionList(this.handleCastProductionList);
     }
-
+    handleActor = (name) =>{
+        let actor = this.#videoSystemModel.getActor(name);
+        this.#videoSystemView.showOneActor(actor);
+    }
+    handleDirector = (name) =>{
+        let director = this.#videoSystemModel.getDirector(name);
+        this.#videoSystemView.showOneDirector(director);
+    }
+    handleActors = () =>{
+        let actors = this.#videoSystemModel.actors;
+        this.#videoSystemView.showActors(actors);
+        this.#videoSystemView.bindActor(this.handleActor);
+    }
+    handleDirectors = () =>{
+        let directors = this.#videoSystemModel.directors;
+        this.#videoSystemView.showDirectors(directors);
+        this.#videoSystemView.bindDirector(this.handleDirector);
+    }
     handleCastProductionList = (title) => {
         let production = this.#videoSystemModel.getProductionTitle(title);
-        this.#videoSystemView.showTeam(this.#videoSystemModel.getCast(production), production.title);
+        this.#videoSystemView.showTeam(this.#videoSystemModel.getCast(production),this.#videoSystemModel.getDirectorsProduction(production), production.title);
+        this.#videoSystemView.bindDirector(this.handleDirector);
+        this.#videoSystemView.bindActor(this.handleActor);
+    }
+    handleActorsAndDirectors(){
+        this.#videoSystemView.showActorsAndDirectors();
+        this.#videoSystemView.bindDirectorsListInMenu(this.handleDirectors);
+        this.#videoSystemView.bindActorsListInMenu(this.handleActors);
+    }
+    handleProductionsCarousel = () => {
+        if(!this.arrayProductions){
+            this.arrayProductions = this.#videoSystemModel.getSomeRandomProductions(3);
+        }
+        this.#videoSystemView.productionsCarousel(this.arrayProductions);
+        this.#videoSystemView.bindCastProductionList(this.handleCastProductionList);
     }
 }
 

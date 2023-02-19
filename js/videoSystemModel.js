@@ -113,7 +113,7 @@ let VideoSystem = (function () {
                 let array = this.#categories;
                 return {
                     *[Symbol.iterator]() {
-                        for (let i = 0; i < array.length; i++) {
+                        for (let i = 1; i < array.length; i++) {
                             yield array[i].category;
                         }
                     }
@@ -473,6 +473,17 @@ let VideoSystem = (function () {
                 }
             }
 
+            getDirectorsProduction(production){
+                if (!(production instanceof Production)) throw new ProductionVideoSystemException();
+                let array = this.#directors.filter((elem) => elem.productions.findIndex((elemProduc) => elemProduc.title == production.title) !== -1)
+                return {
+                    *[Symbol.iterator]() {
+                        for (let i = 0; i < array.length; i++) {
+                            yield array[i].director;
+                        }
+                    }
+                }
+            }
             getProductionTitle(title){
                 let pos = this.#productions.findIndex((prod) => prod.title == title);
                 return this.#productions[pos];
@@ -557,7 +568,30 @@ let VideoSystem = (function () {
 				}
 				return user;
 			}
-            
+            getSomeRandomProductions(quantity){
+                let arr = [];
+                let arr2 = [];
+                let num;
+                let verif = true;
+                arr.push[Math.floor(Math.random() * this.#productions.length)];
+                do {
+                    num = Math.floor(Math.random() * this.#productions.length);
+                    arr.forEach(element => {
+                        if(element == num) verif = false;
+                        console.log("hola");
+                    });
+                    if(verif){
+                        console.log("pase a verif");
+                        arr.push(num);
+                    }
+                    verif = true;
+                } while (arr.length < quantity);
+                for (let i = 0; i < arr.length; i++) {
+                   arr2.push(this.#productions[arr[i]]);
+                   console.log(this.#productions[arr[i]]);
+                }
+                return arr2;
+            }
         }
         //Creamos el objeto, lo congelamos y lo devolvemos
         let vs = new VideoSystem("Video System");
