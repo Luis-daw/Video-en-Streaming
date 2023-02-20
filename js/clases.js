@@ -60,6 +60,11 @@ class Person {
     toString() {
         return `Nombre: ${this.#name} apellidos: ${this.#lastname1} ${this.#lastname2} fecha de nacimiento: ${this.#born}`
     }
+    mostrarContenidoEnPagina(){        
+        return `<p>
+        Nombre completo: ${this.#name} ${this.#lastname1} ${this.#lastname2} con fecha de nacimiento: ${this.#born.getFullYear()}
+         </p>`;
+    }
 }
 
 /**
@@ -178,10 +183,15 @@ class Production {
     set image(image) {
         this.#image = image;
     }
+    mostrarContenidoEnPagina(){
+        return `<p>
+        ${this.#title} es una producción filmada en ${this.nationality} que fue publicada en ${this.#publication}.
+        Sinopsis no disponible actualmente </p>`;
+    }
     toString() {
         return `Titulo: ${this.#title}, nacionalidad: ${this.#nationality}, publicada: ${this.#publication}, sinopsis: ${this.#synopsis} `;
     }
-}
+    }
 
 /**
  * Clase Movie que hereda de Production

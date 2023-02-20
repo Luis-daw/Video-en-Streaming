@@ -36,7 +36,7 @@ class videoSystemView {
     this.mainCarousel.empty();
     let first = true;
     let content = `
-    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div id="carouselExampleControls" class="carousel slide carousel-dark" data-bs-ride="carousel">
       <div class="carousel-inner">`;
 
     productions.forEach(production => {
@@ -116,14 +116,15 @@ class videoSystemView {
     }
   }
   showProductions(productions, categoryName) {
+    this.mainCarousel.empty();
     this.mainContent.empty();
     // let container = $(`<div class="container row">`)
-    this.mainContent.append(`<h1 class="center">${categoryName}</h1>`);
+    this.mainContent.append(`<h1 class="al-center">${categoryName}</h1>`);
     for (const production of productions) {
       this.mainContent.append(`
-      <div class="col-4"><a href="#${production.title}" data-production="${production.title}">
+      <div class="col-lg-4 col-md-6"><a href="#${production.title}" data-production="${production.title}">
         <img class="Img--Production" src="${production.image}">
-        <h3 class="center">${production.title}</h3>
+        <h3 class="al-center">${production.title}</h3>
       </a></div>
       `);
     }
@@ -167,23 +168,38 @@ class videoSystemView {
       handler(this.dataset.director);
     });
   }
-  showTeam(actors, directors, title) {
+  showTeam(actors, directors, production) {
     this.mainContent.empty();
-    this.mainContent.append(`<h1 class="center">${title}</h1>`);
+    this.mainCarousel.empty();
+    this.mainContent.append(`<h1 class="al-center">${production.title}</h1>
+    <div class="row">
+      <div class="col-md-6">
+        <img class="Img--Production" src="${production.image}">
+      </div> 
+      <div class="col-md-6">
+        ${production.mostrarContenidoEnPagina()}
+      </div> 
+    </div> 
+    `);
+
+
+
+    this.mainContent.append(`<h2 class="al-center">Directores</h2>`);
     for (const director of directors) {
       this.mainContent.append(`
       <div class="col-4">
       <a class="director" href="#${director.name}" data-director="${director.name}">
-        <h3 class="center">${director.name}</h3>
+        <h3 class="al-center">${director.name}</h3>
       </a>
       </div>
       `);
     }
+    this.mainContent.append(`<h2 class="al-center">Actores</h2>`);
     for (const actor of actors) {
       this.mainContent.append(`
       <div class="col-4">
       <a class="actor" href="#${actor.name}" data-actor="${actor.name}">
-        <h3 class="center">${actor.name}</h3>
+        <h3 class="al-center">${actor.name}</h3>
       </a>
       </div>
       `);
@@ -191,46 +207,66 @@ class videoSystemView {
   }
   showActors(actors) {
     this.mainContent.empty();
-    this.mainContent.append(`<h1 class="center">Actores</h1>`);
+    this.mainCarousel.empty();
+    this.mainContent.append(`<h1 class="al-center">Actores</h1>`);
     for (const actor of actors) {
       this.mainContent.append(`
       <div class="col-4">
       <a class="actor" href="#${actor.name}" data-actor="${actor.name}">
-        <h3 class="center">${actor.name}</h3>
+        <h3 class="al-center">${actor.name}</h3>
       </a>
       </div>
       `);
     }
   }
   showDirectors(directors) {
-    this.mainContent.empty()
-    this.mainContent.append(`<h1 class="center">Directores</h1>`);
+    this.mainContent.empty();
+    this.mainCarousel.empty();
+    this.mainContent.append(`<h1 class="al-center">Directores</h1>`);
     for (const director of directors) {
       this.mainContent.append(`
       <div class="col-4">
       <a class="director" href="#${director.name}" data-director="${director.name}">
-        <h3 class="center">${director.name}</h3>
+        <h3 class="al-center">${director.name}</h3>
       </a>
       </div>
       `);
     }
   }
-  showOneDirector(director) {
+  showOneDirector(director, productions) {
     this.mainContent.empty();
     this.mainContent.append(`
-      <div class="col-4">
-        <h3 class="center">${director.toString()}</h3>
+      <div class="col-12">
+        <h3 class="al-center">${director.mostrarContenidoEnPagina()}</h3>
       </div>
+      `);    
+      this.mainContent.append(`<h3 class="al-center">Ha dirigido las siguientes producciones</h3>`);
+    for (const production of productions) {
+      this.mainContent.append(`
+      <div class="col-lg-4 col-md-6"><a href="#${production.title}" data-production="${production.title}">
+          <img class="Img--Production" src="${production.image}">
+          <h3 class="al-center">${production.title}</h3>
+        </a></div>
       `);
-
+    }
   }
-  showOneActor(actor) {
+  showOneActor(actor, productions) {
     this.mainContent.empty();
+    this.mainCarousel.empty();
     this.mainContent.append(`
-      <div class="col-4">
-        <h3 class="center">${actor.toString()}</h3>
+      <div class="col-12">
+        <h3 class="al-center">${actor.mostrarContenidoEnPagina()}</h3>
       </div>
     `);
+    this.mainContent.append(`<h3 class="al-center">Ha actuado en las siguientes producciones</h3>`);
+    for (const production of productions) {
+      this.mainContent.append(`
+        <div class="col-lg-4 col-md-6"><a href="#${production.title}" data-production="${production.title}">
+          <img class="Img--Production" src="${production.image}">
+          <h3 class="al-center">${production.title}</h3>
+        </a></div>
+      `);
+    }
   }
 
 }

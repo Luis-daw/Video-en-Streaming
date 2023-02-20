@@ -36,16 +36,22 @@ class videoSystemController {
 
         let usr1 = this.#videoSystemModel.getUsers("luis", "luis@gmail.com", "123");
 
-        let dir1 = this.#videoSystemModel.getDirector("Dir1", "", new Date());
-        let dir2 = this.#videoSystemModel.getDirector("Dir2", "", new Date());
-        let dir3 = this.#videoSystemModel.getDirector("Dir3", "", new Date());
+        let dir1 = this.#videoSystemModel.getDirector("Quentin", "Tarantino", new Date(1963,0,0,0,0,0));
+        let dir2 = this.#videoSystemModel.getDirector("Stanley", "Kubrick", new Date(1928,0,0,0,0,0));
+        let dir3 = this.#videoSystemModel.getDirector("Martin", "Scorsese", new Date(1942,0,0,0,0,0));
+        let dir4 = this.#videoSystemModel.getDirector("Alfred", "Hitchcock", new Date(1899,0,0,0,0,0));
+        let dir5 = this.#videoSystemModel.getDirector("Billy", "Wilder", new Date(1906,0,0,0,0,0));
 
-        let act1 = this.#videoSystemModel.getDirector("Act1", "", new Date());
-        let act2 = this.#videoSystemModel.getDirector("Act2", "", new Date());
-        let act3 = this.#videoSystemModel.getDirector("Act3", "", new Date());
-        let act4 = this.#videoSystemModel.getDirector("Act4", "", new Date());
-        let act5 = this.#videoSystemModel.getDirector("Act5", "", new Date());
-        let act6 = this.#videoSystemModel.getDirector("Act6", "", new Date());
+        let act1 = this.#videoSystemModel.getActor("Brad", "Pitt", new Date(1987,0,0,0,0,0));
+        let act2 = this.#videoSystemModel.getActor("Leonardo", "DiCaprio", new Date(1974,0,0,0,0,0));
+        let act3 = this.#videoSystemModel.getActor("Morgan", "Freeman", new Date(1937,0,0,0,0,0));
+        let act4 = this.#videoSystemModel.getActor("Tom", "Hanks", new Date(1980,0,0,0,0,0));
+        let act5 = this.#videoSystemModel.getActor("Marion", "Brando", new Date(1924,0,0,0,0,0));
+        let act6 = this.#videoSystemModel.getActor("Scarlett ", "Johansson ", new Date(1984,0,0,0,0,0));
+        let act7 = this.#videoSystemModel.getActor("Angelina", "Jolie", new Date(1975,0,0,0,0,0));
+        let act8 = this.#videoSystemModel.getActor("Jennifer", "Aniston", new Date(1969,0,0,0,0,0));
+        let act9 = this.#videoSystemModel.getActor("Jennifer", "Lawrence", new Date(1990,0,0,0,0,0));
+        let act10 = this.#videoSystemModel.getActor("Marilyn", "Monroe", new Date(1926,0,0,0,0,0));
 
         this.#videoSystemModel.addCategory(cat1);
         this.#videoSystemModel.addCategory(cat2);
@@ -58,6 +64,8 @@ class videoSystemController {
         this.#videoSystemModel.addDirector(dir1);
         this.#videoSystemModel.addDirector(dir2);
         this.#videoSystemModel.addDirector(dir3);
+        this.#videoSystemModel.addDirector(dir4);
+        this.#videoSystemModel.addDirector(dir5);
 
         this.#videoSystemModel.addActor(act1);
         this.#videoSystemModel.addActor(act2);
@@ -65,16 +73,27 @@ class videoSystemController {
         this.#videoSystemModel.addActor(act4);
         this.#videoSystemModel.addActor(act5);
         this.#videoSystemModel.addActor(act6);
+        this.#videoSystemModel.addActor(act7);
+        this.#videoSystemModel.addActor(act8);
+        this.#videoSystemModel.addActor(act9);
+        this.#videoSystemModel.addActor(act10);
 
         this.#videoSystemModel.assignActor(act1, prod1, prod2, prod3, prod4);
         this.#videoSystemModel.assignActor(act2, prod1, prod2, prod3, prod4);
         this.#videoSystemModel.assignActor(act3, prod1, prod2, prod3, prod4);
-        this.#videoSystemModel.assignActor(act5, prod11, prod8, prod3, prod4);
-        this.#videoSystemModel.assignActor(act4, prod1, prod2, prod3, prod4);
+        this.#videoSystemModel.assignActor(act5, prod5, prod6, prod7, prod8);
+        this.#videoSystemModel.assignActor(act4, prod5, prod6, prod7, prod8);
+        this.#videoSystemModel.assignActor(act6, prod5, prod6, prod7, prod8);
+        this.#videoSystemModel.assignActor(act7, prod9, prod10, prod11, prod12);
+        this.#videoSystemModel.assignActor(act8, prod9, prod10, prod11, prod12);
+        this.#videoSystemModel.assignActor(act9, prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10, prod11, prod12);
+        this.#videoSystemModel.assignActor(act10, prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10, prod11, prod12);
 
-        this.#videoSystemModel.assignDirector(dir1, prod1, prod2, prod3, prod4);
-        this.#videoSystemModel.assignDirector(dir2, prod1, prod2, prod3, prod4);
-        this.#videoSystemModel.assignDirector(dir3, prod1, prod2, prod3, prod4, prod11);
+        this.#videoSystemModel.assignDirector(dir1, prod1, prod2, prod3, prod4, prod5, prod6);
+        this.#videoSystemModel.assignDirector(dir2, prod7, prod8, prod9, prod10, prod11, prod12);
+        this.#videoSystemModel.assignDirector(dir3, prod1, prod2, prod6, prod7, prod10, prod12);
+        this.#videoSystemModel.assignDirector(dir4, prod3, prod4, prod5, prod8, prod9, prod11);
+        this.#videoSystemModel.assignDirector(dir5, prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10, prod11, prod12);
 
     }
     constructor(videoSystemModel, videoSystemView) {
@@ -116,11 +135,16 @@ class videoSystemController {
     }
     handleActor = (name) =>{
         let actor = this.#videoSystemModel.getActor(name);
-        this.#videoSystemView.showOneActor(actor);
+        let productions = this.#videoSystemModel.getProductionsActor(actor);
+        console.log(productions);
+        this.#videoSystemView.showOneActor(actor, productions);
+        this.#videoSystemView.bindCastProductionList(this.handleCastProductionList);
     }
     handleDirector = (name) =>{
         let director = this.#videoSystemModel.getDirector(name);
-        this.#videoSystemView.showOneDirector(director);
+        let productions = this.#videoSystemModel.getProductionsDirector(director);
+        this.#videoSystemView.showOneDirector(director, productions);
+        this.#videoSystemView.bindCastProductionList(this.handleCastProductionList);
     }
     handleActors = () =>{
         let actors = this.#videoSystemModel.actors;
@@ -134,7 +158,7 @@ class videoSystemController {
     }
     handleCastProductionList = (title) => {
         let production = this.#videoSystemModel.getProductionTitle(title);
-        this.#videoSystemView.showTeam(this.#videoSystemModel.getCast(production),this.#videoSystemModel.getDirectorsProduction(production), production.title);
+        this.#videoSystemView.showTeam(this.#videoSystemModel.getCast(production),this.#videoSystemModel.getDirectorsProduction(production), production);
         this.#videoSystemView.bindDirector(this.handleDirector);
         this.#videoSystemView.bindActor(this.handleActor);
     }
