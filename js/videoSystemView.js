@@ -75,7 +75,28 @@ class videoSystemView {
         "width=800, height=600, top=250, left=250, titlebar=yes, toolbar=no, menubar = no, location = no");
       this.otherWindow.addEventListener('DOMContentLoaded', () => {
         handler(event.target.dataset.production);
+      });      
+      this.windows.push(this.otherWindow);
+    });
+  }
+  bindShowDirectorInNewWindow(handler) {
+    $('#prod').click((event) => {
+      this.otherWindow = window.open("anotherIndex.html", `ProductWindow${this.counter++}`,
+        "width=800, height=600, top=250, left=250, titlebar=yes, toolbar=no, menubar = no, location = no");
+      this.otherWindow.addEventListener('DOMContentLoaded', () => {
+        handler(event.target.dataset.director);
       });
+      this.windows.push(this.otherWindow);
+    });
+  }
+  bindShowActorInNewWindow(handler) {
+    $('#prod').click((event) => {
+      this.otherWindow = window.open("anotherIndex.html", `ProductWindow${this.counter++}`,
+        "width=800, height=600, top=250, left=250, titlebar=yes, toolbar=no, menubar = no, location = no");
+      this.otherWindow.addEventListener('DOMContentLoaded', () => {
+        handler(event.target.dataset.actor);
+      });
+      this.windows.push(this.otherWindow);
     });
   }
 
@@ -252,6 +273,9 @@ class videoSystemView {
       <div class="col-12">
         <h3 class="al-center">${director.mostrarContenidoEnPagina()}</h3>
       </div>
+      <div class="col-12">
+        <button id="prod" class="btn btn-secondary" data-director="${director.name}">Abrir en otra página</button>
+      </div>
       `);
     this.mainContent.append(`<h3 class="al-center">Ha dirigido las siguientes producciones</h3>`);
     for (const production of productions) {
@@ -269,6 +293,9 @@ class videoSystemView {
     this.mainContent.append(`
       <div class="col-12">
         <h3 class="al-center">${actor.mostrarContenidoEnPagina()}</h3>
+      </div>
+      <div class="col-12">
+        <button id="prod" class="btn btn-secondary" data-actor="${actor.name}">Abrir en otra página</button>
       </div>
     `);
     this.mainContent.append(`<h3 class="al-center">Ha actuado en las siguientes producciones</h3>`);
@@ -298,6 +325,33 @@ class videoSystemView {
         </div>
       </div> 
     </div> 
+    `);
+    }
+    else {
+      content.append(`<h1> ${message} </h1>`);
+    }
+  }
+  showActorInNewWindow(actor, message) {
+    let content = $(this.otherWindow.document).find('#main--another--content');
+    if (actor) {
+      content.append(`<div class="col-12">
+      <h3 class="al-center">${actor.mostrarContenidoEnPagina()}</h3>
+    </div>
+      <div class="col-12">
+        <button id="prod" class="btn btn-secondary" data-actor="${actor.name}">Abrir en otra página</button>
+      </div>
+    `);
+    }
+    else {
+      content.append(`<h1> ${message} </h1>`);
+    }
+  }
+  showDirectorInNewWindow(director, message) {
+    let content = $(this.otherWindow.document).find('#main--another--content');
+    if (director) {
+      content.append(`<div class="col-12">
+      <h3 class="al-center">${director.mostrarContenidoEnPagina()}</h3>
+    </div>
     `);
     }
     else {

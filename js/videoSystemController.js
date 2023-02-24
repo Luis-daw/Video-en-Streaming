@@ -136,12 +136,18 @@ class videoSystemController {
         let productions = this.#videoSystemModel.getProductionsActor(actor);
         this.#videoSystemView.showOneActor(actor, productions);
         this.#videoSystemView.bindCastProductionList(this.handleCastProductionList);
+        this.#videoSystemView.bindShowActorInNewWindow(
+            this.handleShowActorInNewWindow
+        );
     }
     handleDirector = (name) => {
         let director = this.#videoSystemModel.getDirector(name);
         let productions = this.#videoSystemModel.getProductionsDirector(director);
         this.#videoSystemView.showOneDirector(director, productions);
         this.#videoSystemView.bindCastProductionList(this.handleCastProductionList);
+        this.#videoSystemView.bindShowDirectorInNewWindow(
+            this.handleShowDirectorInNewWindow
+        );
     }
     handleActors = () => {
         let actors = this.#videoSystemModel.actors;
@@ -180,6 +186,24 @@ class videoSystemController {
             this.#videoSystemView.showProductionInNewWindow(production);
         } catch (error) {
             this.#videoSystemView.showProductionInNewWindow(null, 'No existe esta producción en la página.');
+            console.error(error);
+        }
+    }
+    handleShowDirectorInNewWindow = (name) => {
+        try {
+            let director = this.#videoSystemModel.getDirector(name);
+            this.#videoSystemView.showDirectorInNewWindow(director);
+        } catch (error) {
+            this.#videoSystemView.showDirectorInNewWindow(null, 'No existe este director en la página.');
+            console.error(error);
+        }
+    }
+    handleShowActorInNewWindow = (name) => {
+        try {
+            let actor = this.#videoSystemModel.getActor(name);
+            this.#videoSystemView.showActorInNewWindow(actor);
+        } catch (error) {
+            this.#videoSystemView.showDirectorInNewWindow(null, 'No existe este actor en la página.');
             console.error(error);
         }
     }
