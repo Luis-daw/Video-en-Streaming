@@ -116,7 +116,9 @@ class videoSystemController {
         this.#loadVideoSystemObjects();
         //this.#videoSystemView.showCategoriesType(this.#videoSystemModel.categories);
         this.handleActorsAndDirectors();
+        this.handleWindowsInMenu();
         this.onAddCategory();
+        this.#videoSystemView.bindCloseAllWindows(this.handleCloseAllWindows);
     }
 
     handleInit = (categories) => {
@@ -206,6 +208,14 @@ class videoSystemController {
             this.#videoSystemView.showDirectorInNewWindow(null, 'No existe este actor en la página.');
             console.error(error);
         }
+    }
+    handleWindowsInMenu = () => {
+        this.#videoSystemView.showWindowsCloseOnMenu();
+    }
+    handleCloseAllWindows = (windows) => {
+        windows.forEach(window => {
+            window.close();
+        });
     }
 }
 

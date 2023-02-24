@@ -1,6 +1,14 @@
 "use strict";
 
 class videoSystemView {
+  #excecuteHandler(
+    handler, handlerArguments, scrollElement, data, url, event) {
+    handler(...handlerArguments);
+    $(scrollElement).get(0).scrollIntoView();
+    history.pushState(data, null, url);
+    event.preventDefault();
+  }
+
   constructor() {
     // this.main = $('main');
     // this.linkShoppingcart = $('#shoppingcart');
@@ -75,7 +83,7 @@ class videoSystemView {
         "width=800, height=600, top=250, left=250, titlebar=yes, toolbar=no, menubar = no, location = no");
       this.otherWindow.addEventListener('DOMContentLoaded', () => {
         handler(event.target.dataset.production);
-      });      
+      });
       this.windows.push(this.otherWindow);
     });
   }
@@ -99,7 +107,11 @@ class videoSystemView {
       this.windows.push(this.otherWindow);
     });
   }
-
+  bindCloseAllWindows(handler) {
+    $("#close--windows").click((event) => {
+      handler(this.windows);
+    });
+  }
   productionsCarousel(productions) {
     this.mainCarousel.empty();
     let first = true;
@@ -357,6 +369,11 @@ class videoSystemView {
     else {
       content.append(`<h1> ${message} </h1>`);
     }
+  }
+  showWindowsCloseOnMenu() {
+    $(this.navContent).append(`
+      <a class="nav-link" id="close--windows" href="#">Cerrar ventanas</a>
+    `);
   }
 }
 
