@@ -36,22 +36,22 @@ class videoSystemController {
 
         let usr1 = this.#videoSystemModel.getUsers("luis", "luis@gmail.com", "123");
 
-        let dir1 = this.#videoSystemModel.getDirector("Quentin", "Tarantino", new Date(1963,0,0,0,0,0));
-        let dir2 = this.#videoSystemModel.getDirector("Stanley", "Kubrick", new Date(1928,0,0,0,0,0));
-        let dir3 = this.#videoSystemModel.getDirector("Martin", "Scorsese", new Date(1942,0,0,0,0,0));
-        let dir4 = this.#videoSystemModel.getDirector("Alfred", "Hitchcock", new Date(1899,0,0,0,0,0));
-        let dir5 = this.#videoSystemModel.getDirector("Billy", "Wilder", new Date(1906,0,0,0,0,0));
+        let dir1 = this.#videoSystemModel.getDirector("Quentin", "Tarantino", new Date(1963, 0, 0, 0, 0, 0));
+        let dir2 = this.#videoSystemModel.getDirector("Stanley", "Kubrick", new Date(1928, 0, 0, 0, 0, 0));
+        let dir3 = this.#videoSystemModel.getDirector("Martin", "Scorsese", new Date(1942, 0, 0, 0, 0, 0));
+        let dir4 = this.#videoSystemModel.getDirector("Alfred", "Hitchcock", new Date(1899, 0, 0, 0, 0, 0));
+        let dir5 = this.#videoSystemModel.getDirector("Billy", "Wilder", new Date(1906, 0, 0, 0, 0, 0));
 
-        let act1 = this.#videoSystemModel.getActor("Brad", "Pitt", new Date(1987,0,0,0,0,0));
-        let act2 = this.#videoSystemModel.getActor("Leonardo", "DiCaprio", new Date(1974,0,0,0,0,0));
-        let act3 = this.#videoSystemModel.getActor("Morgan", "Freeman", new Date(1937,0,0,0,0,0));
-        let act4 = this.#videoSystemModel.getActor("Tom", "Hanks", new Date(1980,0,0,0,0,0));
-        let act5 = this.#videoSystemModel.getActor("Marion", "Brando", new Date(1924,0,0,0,0,0));
-        let act6 = this.#videoSystemModel.getActor("Scarlett ", "Johansson ", new Date(1984,0,0,0,0,0));
-        let act7 = this.#videoSystemModel.getActor("Angelina", "Jolie", new Date(1975,0,0,0,0,0));
-        let act8 = this.#videoSystemModel.getActor("Jennifer", "Aniston", new Date(1969,0,0,0,0,0));
-        let act9 = this.#videoSystemModel.getActor("Jennifer", "Lawrence", new Date(1990,0,0,0,0,0));
-        let act10 = this.#videoSystemModel.getActor("Marilyn", "Monroe", new Date(1926,0,0,0,0,0));
+        let act1 = this.#videoSystemModel.getActor("Brad", "Pitt", new Date(1987, 0, 0, 0, 0, 0));
+        let act2 = this.#videoSystemModel.getActor("Leonardo", "DiCaprio", new Date(1974, 0, 0, 0, 0, 0));
+        let act3 = this.#videoSystemModel.getActor("Morgan", "Freeman", new Date(1937, 0, 0, 0, 0, 0));
+        let act4 = this.#videoSystemModel.getActor("Tom", "Hanks", new Date(1980, 0, 0, 0, 0, 0));
+        let act5 = this.#videoSystemModel.getActor("Marion", "Brando", new Date(1924, 0, 0, 0, 0, 0));
+        let act6 = this.#videoSystemModel.getActor("Scarlett ", "Johansson ", new Date(1984, 0, 0, 0, 0, 0));
+        let act7 = this.#videoSystemModel.getActor("Angelina", "Jolie", new Date(1975, 0, 0, 0, 0, 0));
+        let act8 = this.#videoSystemModel.getActor("Jennifer", "Aniston", new Date(1969, 0, 0, 0, 0, 0));
+        let act9 = this.#videoSystemModel.getActor("Jennifer", "Lawrence", new Date(1990, 0, 0, 0, 0, 0));
+        let act10 = this.#videoSystemModel.getActor("Marilyn", "Monroe", new Date(1926, 0, 0, 0, 0, 0));
 
         this.#videoSystemModel.addCategory(cat1);
         this.#videoSystemModel.addCategory(cat2);
@@ -100,10 +100,9 @@ class videoSystemController {
         this.#videoSystemModel = videoSystemModel;
         this.#videoSystemView = videoSystemView;
         this.arrayProductions;
-        //console.log(this.#videoSystemModel.name);
         this.onLoad();
         this.onInit(this.#videoSystemModel.categories);
-        this.#videoSystemView.bindInit(this.handleInit.bind(this,this.#videoSystemModel.categories));
+        this.#videoSystemView.bindInit(this.handleInit.bind(this, this.#videoSystemModel.categories));
     }
     onInit = (categories) => {
         this.handleProductionsCarousel();
@@ -127,52 +126,62 @@ class videoSystemController {
     onAddCategory = () => {
         this.#videoSystemView.showCategoriesInNav(this.#videoSystemModel.categories);
     }
-    handleProductionsCategoryList = (name) =>{
+    handleProductionsCategoryList = (name) => {
         let category = this.#videoSystemModel.getCategory(name);
-        console.log(category);
-        this.#videoSystemView.showProductions(this.#videoSystemModel.getProductionsCategory(category),category.name);
+        this.#videoSystemView.showProductions(this.#videoSystemModel.getProductionsCategory(category), category.name);
         this.#videoSystemView.bindCastProductionList(this.handleCastProductionList);
     }
-    handleActor = (name) =>{
+    handleActor = (name) => {
         let actor = this.#videoSystemModel.getActor(name);
         let productions = this.#videoSystemModel.getProductionsActor(actor);
-        console.log(productions);
         this.#videoSystemView.showOneActor(actor, productions);
         this.#videoSystemView.bindCastProductionList(this.handleCastProductionList);
     }
-    handleDirector = (name) =>{
+    handleDirector = (name) => {
         let director = this.#videoSystemModel.getDirector(name);
         let productions = this.#videoSystemModel.getProductionsDirector(director);
         this.#videoSystemView.showOneDirector(director, productions);
         this.#videoSystemView.bindCastProductionList(this.handleCastProductionList);
     }
-    handleActors = () =>{
+    handleActors = () => {
         let actors = this.#videoSystemModel.actors;
         this.#videoSystemView.showActors(actors);
         this.#videoSystemView.bindActor(this.handleActor);
     }
-    handleDirectors = () =>{
+    handleDirectors = () => {
         let directors = this.#videoSystemModel.directors;
         this.#videoSystemView.showDirectors(directors);
         this.#videoSystemView.bindDirector(this.handleDirector);
     }
     handleCastProductionList = (title) => {
         let production = this.#videoSystemModel.getProductionTitle(title);
-        this.#videoSystemView.showTeam(this.#videoSystemModel.getCast(production),this.#videoSystemModel.getDirectorsProduction(production), production);
+        this.#videoSystemView.showTeam(this.#videoSystemModel.getCast(production), this.#videoSystemModel.getDirectorsProduction(production), production);
         this.#videoSystemView.bindDirector(this.handleDirector);
         this.#videoSystemView.bindActor(this.handleActor);
+        this.#videoSystemView.bindShowProductionInNewWindow(
+            this.handleShowProductionInNewWindow
+        );
     }
-    handleActorsAndDirectors(){
+    handleActorsAndDirectors() {
         this.#videoSystemView.showActorsAndDirectors();
         this.#videoSystemView.bindDirectorsListInMenu(this.handleDirectors);
         this.#videoSystemView.bindActorsListInMenu(this.handleActors);
     }
     handleProductionsCarousel = () => {
-        if(!this.arrayProductions){
+        if (!this.arrayProductions) {
             this.arrayProductions = this.#videoSystemModel.getSomeRandomProductions(3);
         }
         this.#videoSystemView.productionsCarousel(this.arrayProductions);
         this.#videoSystemView.bindCastProductionList(this.handleCastProductionList);
+    }
+    handleShowProductionInNewWindow = (title) => {
+        try {
+            let production = this.#videoSystemModel.getProductionTitle(title);
+            this.#videoSystemView.showProductionInNewWindow(production);
+        } catch (error) {
+            this.#videoSystemView.showProductionInNewWindow(null, 'No existe esta producción en la página.');
+            console.error(error);
+        }
     }
 }
 

@@ -10,12 +10,14 @@ class videoSystemView {
     this.mainCarousel = $("#main--carousel");
     this.mainContent = $("#main--content");
     this.navContent = $("#navContent");
+    this.otherWindow = null;
+    this.windows = [];
+    this.counter = 1;
   }
   init(iteratorCategories) {
     $(this.main).empty();
     let content = "";
     for (const category of iteratorCategories) {
-      console.log(category);
       content += `<div class="col-6">
 		 	<h1 data-category='${category.name}'"> ${category.name}</h1>
 		 </div>`;
@@ -27,9 +29,54 @@ class videoSystemView {
     $('#home').click((event) => {
       handler();
     });
-    // $('#logo').click((event) => {
-    // handler();
-    // });
+  }
+
+  bindProductionsCategoryList(handler) {
+    $(this.mainContent).find('a').click(function (event) {
+      handler(this.dataset.category);
+    });
+  }
+  bindProductionsCategoryListInMenu(handler) {
+    $(this.categories).children().click(function (event) {
+      handler(this.dataset.category);
+    });
+  }
+  bindCastProductionList(handler) {
+    $(this.mainContent).find("a").click(function (event) {
+      handler(this.dataset.production);
+    });
+    this.mainCarousel.find("a").click(function (event) {
+      handler(this.dataset.production);
+    });
+  }
+  bindActorsListInMenu(handler) {
+    $("#actors").click(function (event) {
+      handler();
+    });
+  }
+  bindDirectorsListInMenu(handler) {
+    $("#directors").click(function (event) {
+      handler();
+    });
+  }
+  bindActor(handler) {
+    $(".actor").click(function (event) {
+      handler(this.dataset.actor);
+    });
+  }
+  bindDirector(handler) {
+    $(".director").click(function (event) {
+      handler(this.dataset.director);
+    });
+  }
+  bindShowProductionInNewWindow(handler) {
+    $('#prod').click((event) => {
+      this.otherWindow = window.open("anotherIndex.html", `ProductWindow${this.counter++}`,
+        "width=800, height=600, top=250, left=250, titlebar=yes, toolbar=no, menubar = no, location = no");
+      this.otherWindow.addEventListener('DOMContentLoaded', () => {
+        handler(event.target.dataset.production);
+      });
+    });
   }
 
   productionsCarousel(productions) {
@@ -129,45 +176,6 @@ class videoSystemView {
       `);
     }
   }
-
-  bindProductionsCategoryList(handler) {
-    $(this.mainContent).find('a').click(function (event) {
-      handler(this.dataset.category);
-    });
-  }
-  bindProductionsCategoryListInMenu(handler) {
-    $(this.categories).children().click(function (event) {
-      handler(this.dataset.category);
-    });
-  }
-  bindCastProductionList(handler) {
-    $(this.mainContent).find("a").click(function (event) {
-      handler(this.dataset.production);
-    });
-    this.mainCarousel.find("a").click(function (event) {
-      handler(this.dataset.production);
-    });
-  }
-  bindActorsListInMenu(handler) {
-    $("#actors").click(function (event) {
-      handler();
-    });
-  }
-  bindDirectorsListInMenu(handler) {
-    $("#directors").click(function (event) {
-      handler();
-    });
-  }
-  bindActor(handler) {
-    $(".actor").click(function (event) {
-      handler(this.dataset.actor);
-    });
-  }
-  bindDirector(handler) {
-    $(".director").click(function (event) {
-      handler(this.dataset.director);
-    });
-  }
   showTeam(actors, directors, production) {
     this.mainContent.empty();
     this.mainCarousel.empty();
@@ -177,7 +185,12 @@ class videoSystemView {
         <img class="Img--Production" src="${production.image}">
       </div> 
       <div class="col-md-6">
-        ${production.mostrarContenidoEnPagina()}
+        <div class="row">
+          ${production.mostrarContenidoEnPagina()}
+        </div>
+        <div class="row">
+          <button id="prod" class="btn btn-secondary" data-production="${production.title}">Abrir en otra página</button>
+        </div>
       </div> 
     </div> 
     `);
@@ -239,8 +252,8 @@ class videoSystemView {
       <div class="col-12">
         <h3 class="al-center">${director.mostrarContenidoEnPagina()}</h3>
       </div>
-      `);    
-      this.mainContent.append(`<h3 class="al-center">Ha dirigido las siguientes producciones</h3>`);
+      `);
+    this.mainContent.append(`<h3 class="al-center">Ha dirigido las siguientes producciones</h3>`);
     for (const production of productions) {
       this.mainContent.append(`
       <div class="col-lg-4 col-md-6"><a href="#${production.title}" data-production="${production.title}">
@@ -268,7 +281,29 @@ class videoSystemView {
       `);
     }
   }
-
+  showProductionInNewWindow(production, message) {
+    let content = $(this.otherWindow.document).find('#main--another--content');
+    if (production) {
+      content.append(`<h1 class="al-center">${production.title}</h1>
+    <div class="row">
+      <div class="col-md-6">
+        <img class="Img--Production" src="${production.image}">
+      </div> 
+      <div class="col-md-6">
+        <div class="row">
+          ${production.mostrarContenidoEnPagina()}
+        </div>
+        <div class="row">
+          <button class="btn btn-secondary" data-production="${production.title}">Abrir en otra página</button>
+        </div>
+      </div> 
+    </div> 
+    `);
+    }
+    else {
+      content.append(`<h1> ${message} </h1>`);
+    }
+  }
 }
 
 export default videoSystemView;
