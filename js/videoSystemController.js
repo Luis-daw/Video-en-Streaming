@@ -104,7 +104,8 @@ class videoSystemController {
         this.onInit(this.#videoSystemModel.categories);
         this.#videoSystemView.bindInit(this.handleInit.bind(this, this.#videoSystemModel.categories));
     }
-    onInit = (categories) => {
+    onInit = () => {
+        let categories = this.#videoSystemModel.categories;
         this.handleProductionsCarousel();
         this.#videoSystemView.showCategoriesType(categories);
         this.#videoSystemView.bindProductionsCategoryList(this.handleProductionsCategoryList);
@@ -185,27 +186,32 @@ class videoSystemController {
     handleShowProductionInNewWindow = (title) => {
         try {
             let production = this.#videoSystemModel.getProductionTitle(title);
-            this.#videoSystemView.showProductionInNewWindow(production);
+            let actors = this.#videoSystemModel.getCast(production);
+            let directors = this.#videoSystemModel.getDirectorsProduction(production);
+            this.#videoSystemView.showProductionInNewWindow(production,actors,directors);
         } catch (error) {
-            this.#videoSystemView.showProductionInNewWindow(null, 'No existe esta producción en la página.');
+            this.#videoSystemView.showProductionInNewWindow(null,null,null, 'No existe esta producción en la página.');
             console.error(error);
         }
     }
     handleShowDirectorInNewWindow = (name) => {
         try {
             let director = this.#videoSystemModel.getDirector(name);
-            this.#videoSystemView.showDirectorInNewWindow(director);
+            let productions = this.#videoSystemModel.getProductionsDirector(director);
+            this.#videoSystemView.showDirectorInNewWindow(director, productions);
+            
         } catch (error) {
-            this.#videoSystemView.showDirectorInNewWindow(null, 'No existe este director en la página.');
+            this.#videoSystemView.showDirectorInNewWindow(null, null, 'No existe este director en la página.');
             console.error(error);
         }
     }
     handleShowActorInNewWindow = (name) => {
         try {
             let actor = this.#videoSystemModel.getActor(name);
-            this.#videoSystemView.showActorInNewWindow(actor);
+            let productions = this.#videoSystemModel.getProductionsActor(actor);
+            this.#videoSystemView.showActorInNewWindow(actor, productions);
         } catch (error) {
-            this.#videoSystemView.showDirectorInNewWindow(null, 'No existe este actor en la página.');
+            this.#videoSystemView.showDirectorInNewWindow(null, null, 'No existe este actor en la página.');
             console.error(error);
         }
     }
