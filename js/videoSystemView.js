@@ -26,7 +26,7 @@ class videoSystemView {
     this.windows = [];
     this.counter = 1;
   }
-  
+
   init(iteratorCategories) {
     $(this.main).empty();
     let content = "";
@@ -40,48 +40,48 @@ class videoSystemView {
 
   bindInit(handler) {
     $('#home').click((event) => {
-      this.#excecuteHandler(handler, [], "body", {action: "init"}, "#", event);
+      this.#excecuteHandler(handler, [], "body", { action: "init" }, "#", event);
     });
   }
 
   bindProductionsCategoryList(handler) {
     $(this.mainContent).find('a').click(function (event) {
       //let category = $(event.target).closest($('a')).get(0).dataset.category;
-      excecuteHandler(handler, [this.dataset.category], "body", {action: "productionsCategoryList", category: this.dataset.category}, "#category-list", event);
+      excecuteHandler(handler, [this.dataset.category], "body", { action: "productionsCategoryList", category: this.dataset.category }, "#category-list", event);
     });
   }
   bindProductionsCategoryListInMenu(handler) {
     $(this.categories).children().click(function (event) {
-      excecuteHandler(handler, [this.dataset.category], "body", {action: "productionsCategoryList", category: this.dataset.category}, "#category-list", event);
+      excecuteHandler(handler, [this.dataset.category], "body", { action: "productionsCategoryList", category: this.dataset.category }, "#category-list", event);
     });
   }
   bindCastProductionList(handler) {
     $(this.mainContent).find("a").click(function (event) {
-      console.log(this.dataset.production);
-      excecuteHandler(handler, [this.dataset.production], "body", {action: "showCast", production: this.dataset.production}, "#production", event);
+      // console.log(this.dataset.production);
+      excecuteHandler(handler, [this.dataset.production], "body", { action: "showCast", production: this.dataset.production }, "#production", event);
     });
     this.mainCarousel.find("a").click(function (event) {
-      excecuteHandler(handler, [this.dataset.production], "body", {action: "showCast", production: this.dataset.production}, "#production", event);
+      excecuteHandler(handler, [this.dataset.production], "body", { action: "showCast", production: this.dataset.production }, "#production", event);
     });
   }
   bindActorsListInMenu(handler) {
     $("#actors").click(function (event) {
-      excecuteHandler(handler, [], "body", {action: "showActors"}, "#actors", event);
+      excecuteHandler(handler, [], "body", { action: "showActors" }, "#actors", event);
     });
   }
   bindDirectorsListInMenu(handler) {
     $("#directors").click(function (event) {
-      excecuteHandler(handler, [], "body", {action: "showDirectors"}, "#directors", event);
+      excecuteHandler(handler, [], "body", { action: "showDirectors" }, "#directors", event);
     });
   }
   bindActor(handler) {
     $(".actor").click(function (event) {
-      excecuteHandler(handler, [this.dataset.actor], "body", {action: "showActor", actor: this.dataset.actor}, "#actor", event);
+      excecuteHandler(handler, [this.dataset.actor], "body", { action: "showActor", actor: this.dataset.actor }, "#actor", event);
     });
   }
   bindDirector(handler) {
     $(".director").click(function (event) {
-      excecuteHandler(handler, [this.dataset.director], "body", {action: "showDirector", director: this.dataset.director}, "#director", event);
+      excecuteHandler(handler, [this.dataset.director], "body", { action: "showDirector", director: this.dataset.director }, "#director", event);
     });
   }
   bindShowProductionInNewWindow(handler) {
@@ -119,13 +119,17 @@ class videoSystemView {
       handler(this.windows);
     });
   }
+  bindAdminMenu(handlerNewProduction, handlerRemoveProduction, handlerAssignPerson, handlerDeassignPerson, hAddRemoveCategory, hNewPerson, hRemovePerson) {
+    $('#newCategory').click((event) => {
+      this.#excecuteHandler(handlerNewProduction, [], 'body', { action: 'newCategory' }, '#newCategory', event);
+    });
+  }
   productionsCarousel(productions) {
     this.mainCarousel.empty();
     let first = true;
     let content = `
     <div id="carouselExampleControls" class="carousel slide carousel-dark" data-bs-ride="carousel">
       <div class="carousel-inner">`;
-
     productions.forEach(production => {
       if (first) {
         content += `
@@ -224,9 +228,6 @@ class videoSystemView {
       </div> 
     </div> 
     `);
-
-
-
     this.mainContent.append(`<h2 class="al-center">Directores</h2>`);
     for (const director of directors) {
       this.mainContent.append(`
@@ -317,7 +318,7 @@ class videoSystemView {
       `);
     }
   }
-  showProductionInNewWindow(production,actors, directors, message) {
+  showProductionInNewWindow(production, actors, directors, message) {
     let content = $(this.otherWindow.document).find('#main--another--content');
     if (production) {
       content.append(`<h1 class="al-center">${production.title}</h1>
@@ -332,26 +333,26 @@ class videoSystemView {
       </div> 
     </div> 
     `);
-    content.append(`<h2 class="al-center">Directores</h2>`);
-    for (const director of directors) {
-      content.append(`
+      content.append(`<h2 class="al-center">Directores</h2>`);
+      for (const director of directors) {
+        content.append(`
       <div class="col-4">
       <a class="director" href="#${director.name}" data-director="${director.name}">
         <h3 class="al-center">${director.name}</h3>
       </a>
       </div>
       `);
-    }
-    content.append(`<h2 class="al-center">Actores</h2>`);
-    for (const actor of actors) {
-      content.append(`
+      }
+      content.append(`<h2 class="al-center">Actores</h2>`);
+      for (const actor of actors) {
+        content.append(`
       <div class="col-4">
       <a class="actor" href="#${actor.name}" data-actor="${actor.name}">
         <h3 class="al-center">${actor.name}</h3>
       </a>
       </div>
       `);
-    }
+      }
     }
     else {
       content.append(`<h1> ${message} </h1>`);
@@ -364,36 +365,36 @@ class videoSystemView {
       <h3 class="al-center">${actor.mostrarContenidoEnPagina()}</h3>
     </div>
     `);
-    content.append(`<h3 class="al-center">Ha actuado en las siguientes producciones</h3>`);
-    for (const production of productions) {
-      content.append(`
+      content.append(`<h3 class="al-center">Ha actuado en las siguientes producciones</h3>`);
+      for (const production of productions) {
+        content.append(`
         <div class="col-lg-4 col-md-6"><a href="#${production.title}" data-production="${production.title}">
           <img class="Img--Production" src="${production.image}">
           <h3 class="al-center">${production.title}</h3>
         </a></div>
       `);
-    }
+      }
     }
     else {
       content.append(`<h1> ${message} </h1>`);
     }
   }
-  showDirectorInNewWindow(director,productions, message) {
+  showDirectorInNewWindow(director, productions, message) {
     let content = $(this.otherWindow.document).find('#main--another--content');
     if (director) {
       content.append(`<div class="col-12">
       <h3 class="al-center">${director.mostrarContenidoEnPagina()}</h3>
     </div>
-    `);    
-    content.append(`<h3 class="al-center">Ha dirigido las siguientes producciones</h3>`);
-    for (const production of productions) {
-      content.append(`
+    `);
+      content.append(`<h3 class="al-center">Ha dirigido las siguientes producciones</h3>`);
+      for (const production of productions) {
+        content.append(`
         <div class="col-lg-4 col-md-6"><a href="#${production.title}" data-production="${production.title}">
           <img class="Img--Production" src="${production.image}">
           <h3 class="al-center">${production.title}</h3>
         </a></div>
       `);
-    }
+      }
     }
     else {
       content.append(`<h1> ${message} </h1>`);
@@ -403,6 +404,22 @@ class videoSystemView {
     $(this.navContent).append(`
       <a class="nav-link" id="close--windows" href="#">Cerrar ventanas</a>
     `);
+  }
+  showAdminMenu() {
+    let li = $(`<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" href="#" id="navAdmin" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Administración
+			</a>
+      <div class="dropdown-menu" aria-labelledby="navAdmin">
+			<a id="newProduction" class="dropdown-item" href="#NewProduction">Crear producción</a>
+			<a id="removeProduction" class="dropdown-item" href="#RemoveProduction">Eliminar producción</a>
+			<a id="assignPerson" class="dropdown-item" href="#AssignPerson">Asignar persona</a>
+			<a id="deassignPerson" class="dropdown-item" href="#DeassignPerson">Desasignar persona</a>
+			<a id="newPerson" class="dropdown-item" href="#NewPerson">Nueva persona</a>
+			<a id="removePerson" class="dropdown-item" href="#RemovePerson">Eliminar persona</a>
+		</div>
+    </li>`);
+    this.navContent.append(li);
   }
 }
 

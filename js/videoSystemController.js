@@ -2,7 +2,6 @@ import { Movie, Serie, User } from "./clases.js";
 class videoSystemController {
     #videoSystemView;
     #videoSystemModel;
-
     #loadVideoSystemObjects() {
         let cat1 = this.#videoSystemModel.getCategory("Accion", "Genero accion");
         let cat2 = this.#videoSystemModel.getCategory("Fantasia", "Genero fantasia");
@@ -101,7 +100,7 @@ class videoSystemController {
         this.#videoSystemView = videoSystemView;
         this.arrayProductions;
         this.onLoad();
-        this.onInit(this.#videoSystemModel.categories);
+        this.onInit();
         this.#videoSystemView.bindInit(this.handleInit.bind(this, this.#videoSystemModel.categories));
     }
     onInit = () => {
@@ -120,6 +119,10 @@ class videoSystemController {
         this.handleWindowsInMenu();
         this.onAddCategory();
         this.#videoSystemView.bindCloseAllWindows(this.handleCloseAllWindows);
+        this.#videoSystemView.showAdminMenu();
+        this.#videoSystemView.bindAdminMenu(
+            this.handleNew
+        );
     }
 
     handleInit = (categories) => {
