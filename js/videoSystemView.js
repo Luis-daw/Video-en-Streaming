@@ -507,11 +507,9 @@ class videoSystemView {
   }
   showAddRemoveCategoryForm(categories){
     console.log("TestAddRem");
-
   }
   showNewPersonForm(){
     console.log("TestNewPers");
-
   }
   showRemovePersonForm(actors, directors){
     console.log("TestRemPers");
