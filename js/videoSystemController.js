@@ -121,8 +121,14 @@ class videoSystemController {
         this.#videoSystemView.bindCloseAllWindows(this.handleCloseAllWindows);
         this.#videoSystemView.showAdminMenu();
         this.#videoSystemView.bindAdminMenu(
-            this.handleNew
+            this.handleNewProduction,
+            this.handleRemoveProduction,
+            this.handleAssignDeassignPerson,
+            this.handleAddRemoveCategory,
+            this.handleNewPerson,
+            this.handleRemovePerson
         );
+
     }
 
     handleInit = (categories) => {
@@ -191,9 +197,9 @@ class videoSystemController {
             let production = this.#videoSystemModel.getProductionTitle(title);
             let actors = this.#videoSystemModel.getCast(production);
             let directors = this.#videoSystemModel.getDirectorsProduction(production);
-            this.#videoSystemView.showProductionInNewWindow(production,actors,directors);
+            this.#videoSystemView.showProductionInNewWindow(production, actors, directors);
         } catch (error) {
-            this.#videoSystemView.showProductionInNewWindow(null,null,null, 'No existe esta producción en la página.');
+            this.#videoSystemView.showProductionInNewWindow(null, null, null, 'No existe esta producción en la página.');
             console.error(error);
         }
     }
@@ -202,7 +208,7 @@ class videoSystemController {
             let director = this.#videoSystemModel.getDirector(name);
             let productions = this.#videoSystemModel.getProductionsDirector(director);
             this.#videoSystemView.showDirectorInNewWindow(director, productions);
-            
+
         } catch (error) {
             this.#videoSystemView.showDirectorInNewWindow(null, null, 'No existe este director en la página.');
             console.error(error);
@@ -225,6 +231,31 @@ class videoSystemController {
         windows.forEach(window => {
             window.close();
         });
+    }
+    handleNewProduction = () => {
+        this.#videoSystemView.showNewProductionForm();
+    }
+    handleRemoveProduction = () => {
+        let productions = this.#videoSystemModel.productions;
+        this.#videoSystemView.showRemoveProductionForm(productions);
+    }
+    handleAssignDeassignPerson = () => {
+        let actors = this.#videoSystemModel.actors;
+        let directors = this.#videoSystemModel.directors;
+        let productions = this.#videoSystemModel.productions;
+        this.#videoSystemView.showAssignDeassignPersonForm(actors, directors, productions)
+    }
+    handleAddRemoveCategory = () => {
+        let categories = this.#videoSystemView.categories;
+        this.#videoSystemView.showAddRemoveCategoryForm(categories);
+    }
+    handleNewPerson = () => {
+        this.#videoSystemView.showNewPersonForm();
+    }
+    handleRemovePerson = () => {
+        let actors = this.#videoSystemModel.actors;
+        let directors = this.#videoSystemModel.directors;
+        this.#videoSystemView.showRemovePersonForm(actors, directors);
     }
 }
 

@@ -27,6 +27,66 @@ class videoSystemView {
     this.counter = 1;
   }
 
+  //Mirar luego
+
+  // init(iteratorCategories) {
+  //   $(this.main).empty();
+  //   let content = "";
+  //   for (const category of iteratorCategories) {
+  //     content += `<div class="col-6">
+	// 	 	<h1 data-category='${category.name}'"> ${category.name}</h1>
+	// 	 </div>`;
+  //   }
+  //   this.main.append(`<div class='row'>${content}</div>`);
+  // }
+
+  // bindInit(handler) {
+  //   $('#home').click((event) => {
+  //     this.#excecuteHandler(handler, [], "body", { action: "init" }, "#", event);
+  //   });
+  // }
+
+  // bindProductionsCategoryList(handler) {
+  //   $(this.mainContent).find('a').click((event) => {
+  //     //let category = $(event.target).closest($('a')).get(0).dataset.category;
+  //     this.#excecuteHandler(handler, [this.dataset.category], "body", { action: "productionsCategoryList", category: this.dataset.category }, "#category-list", event);
+  //   });
+  // }
+  // bindProductionsCategoryListInMenu(handler) {
+  //   $(this.categories).children().click((event) => {
+  //     this.#excecuteHandler(handler, [this.dataset.category], "body", { action: "productionsCategoryList", category: this.dataset.category }, "#category-list", event);
+  //   });
+  // }
+  // bindCastProductionList(handler) {
+  //   $(this.mainContent).find("a").click((event) => {
+  //     // console.log(this.dataset.production);
+  //     this.#excecuteHandler(handler, [this.dataset.production], "body", { action: "showCast", production: this.dataset.production }, "#production", event);
+  //   });
+  //   this.mainCarousel.find("a").click((event) => {
+  //     this.#excecuteHandler(handler, [this.dataset.production], "body", { action: "showCast", production: this.dataset.production }, "#production", event);
+  //   });
+  // }
+  // bindActorsListInMenu(handler) {
+  //   $("#actors").click((event) => {
+  //     this.#excecuteHandler(handler, [], "body", { action: "showActors" }, "#actors", event);
+  //   });
+  // }
+  // bindDirectorsListInMenu(handler) {
+  //   $("#directors").click((event) => {
+  //     this.#excecuteHandler(handler, [], "body", { action: "showDirectors" }, "#directors", event);
+  //   });
+  // }
+  // bindActor(handler) {
+  //   $(".actor").click((event) => {
+  //     this.#excecuteHandler(handler, [this.dataset.actor], "body", { action: "showActor", actor: this.dataset.actor }, "#actor", event);
+  //   });
+  // }
+  // bindDirector(handler) {
+  //   $(".director").click((event) => {
+  //     this.#excecuteHandler(handler, [this.dataset.director], "body", { action: "showDirector", director: this.dataset.director }, "#director", event);
+  //   });
+  // }
+
   init(iteratorCategories) {
     $(this.main).empty();
     let content = "";
@@ -119,9 +179,24 @@ class videoSystemView {
       handler(this.windows);
     });
   }
-  bindAdminMenu(handlerNewProduction, handlerRemoveProduction, handlerAssignPerson, handlerDeassignPerson, hAddRemoveCategory, hNewPerson, hRemovePerson) {
-    $('#newCategory').click((event) => {
-      this.#excecuteHandler(handlerNewProduction, [], 'body', { action: 'newCategory' }, '#newCategory', event);
+  bindAdminMenu(handlerNewProduction, handlerRemoveProduction, handlerAssignDeassignPerson, handlerAddRemoveCategory, handlerNewPerson, handlerRemovePerson) {
+    $('#newProduction').click((event) => {
+      this.#excecuteHandler(handlerNewProduction, [], 'body', { action: 'newProduction' }, '#newProduction', event);
+    });
+    $('#removeProduction').click((event) => {
+      this.#excecuteHandler(handlerRemoveProduction, [], 'body', { action: 'removeProduction' }, '#removeProduction', event);
+    });
+    $('#assignDeassignPerson').click((event) => {
+      this.#excecuteHandler(handlerAssignDeassignPerson, [], 'body', { action: 'assignDeassignPerson' }, '#assignDeassignPerson', event);
+    });
+    $('#addRemoveCategory').click((event) => {
+      this.#excecuteHandler(handlerAddRemoveCategory, [], 'body', { action: 'addRemoveCategory' }, '#addRemoveCategory', event);
+    });
+    $('#newPerson').click((event) => {
+      this.#excecuteHandler(handlerNewPerson, [], 'body', { action: 'newPerson' }, '#newPerson', event);
+    });
+    $('#removePerson').click((event) => {
+      this.#excecuteHandler(handlerRemovePerson, [], 'body', { action: 'removePerson' }, '#removePerson', event);
     });
   }
   productionsCarousel(productions) {
@@ -413,13 +488,34 @@ class videoSystemView {
       <div class="dropdown-menu" aria-labelledby="navAdmin">
 			<a id="newProduction" class="dropdown-item" href="#NewProduction">Crear producción</a>
 			<a id="removeProduction" class="dropdown-item" href="#RemoveProduction">Eliminar producción</a>
-			<a id="assignPerson" class="dropdown-item" href="#AssignPerson">Asignar persona</a>
-			<a id="deassignPerson" class="dropdown-item" href="#DeassignPerson">Desasignar persona</a>
+			<a id="assignDeassignPerson" class="dropdown-item" href="#AssignPerson">Asignar y desasignar personas</a>
+			<a id="addRemoveCategory" class="dropdown-item" href="#AddRemoveCategory">Añadir y eliminar categorias</a>
 			<a id="newPerson" class="dropdown-item" href="#NewPerson">Nueva persona</a>
 			<a id="removePerson" class="dropdown-item" href="#RemovePerson">Eliminar persona</a>
 		</div>
     </li>`);
     this.navContent.append(li);
+  }
+  showNewProductionForm(){
+    console.log("TestNewProd");
+  }
+  showRemoveProductionForm(productions){
+    console.log("TestRemove");
+  }
+  showAssignDeassignPersonForm(actors,directors,productions){
+    console.log("TestAssDess");
+  }
+  showAddRemoveCategoryForm(categories){
+    console.log("TestAddRem");
+
+  }
+  showNewPersonForm(){
+    console.log("TestNewPers");
+
+  }
+  showRemovePersonForm(actors, directors){
+    console.log("TestRemPers");
+
   }
 }
 
