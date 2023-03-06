@@ -104,6 +104,48 @@ class videoSystemView {
     });
   }
 
+  // bindProductionsCategoryList(handler) {
+  //   $(this.mainContent).find('a').click((event) => {
+  //     //let category = $(event.target).closest($('a')).get(0).dataset.category;
+  //     this.#excecuteHandler(handler, [this.dataset.category], "body", { action: "productionsCategoryList", category: this.dataset.category }, "#category-list", event);
+  //   });
+  // }
+  // bindProductionsCategoryListInMenu(handler) {
+  //   $(this.categories).children().click((event) => {
+  //     this.#excecuteHandler(handler, [this.dataset.category], "body", { action: "productionsCategoryList", category: this.dataset.category }, "#category-list", event);
+  //   });
+  // }
+  // bindCastProductionList(handler) {
+  //   $(this.mainContent).find("a").click((event) => {
+  //     console.log(this.dataset.production);
+  //     this.#excecuteHandler(handler, [this.dataset.production], "body", { action: "showCast", production: this.dataset.production }, "#production", event);
+  //   });
+  //   this.mainCarousel.find("a").click((event) => {
+  //     console.log(this.dataset.production);
+  //     console.log(this);
+  //     this.#excecuteHandler(handler, [this.dataset.production], "body", { action: "showCast", production: this.dataset.production }, "#production", event);
+  //   });
+  // }
+  // bindActorsListInMenu(handler) {
+  //   $("#actors").click((event) => {
+  //     this.#excecuteHandler(handler, [], "body", { action: "showActors" }, "#actors", event);
+  //   });
+  // }
+  // bindDirectorsListInMenu(handler) {
+  //   $("#directors").click((event) => {
+  //     this.#excecuteHandler(handler, [], "body", { action: "showDirectors" }, "#directors", event);
+  //   });
+  // }
+  // bindActor(handler) {
+  //   $(".actor").click((event) => {
+  //     this.#excecuteHandler(handler, [this.dataset.actor], "body", { action: "showActor", actor: this.dataset.actor }, "#actor", event);
+  //   });
+  // }
+  // bindDirector(handler) {
+  //   $(".director").click((event) => {
+  //     this.#excecuteHandler(handler, [this.dataset.director], "body", { action: "showDirector", director: this.dataset.director }, "#director", event);
+  //   });
+  // }
   bindProductionsCategoryList(handler) {
     $(this.mainContent).find('a').click(function (event) {
       //let category = $(event.target).closest($('a')).get(0).dataset.category;
@@ -513,7 +555,6 @@ class videoSystemView {
   }
   showRemovePersonForm(actors, directors){
     console.log("TestRemPers");
-
   }
 }
 
