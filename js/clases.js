@@ -200,7 +200,6 @@ class Movie extends Production {
     #resource;
     #locations;
     constructor(title, nationality, publication, synopsis, image, resource = new Resource(1, ""), locations = []) {
-
         super(title, publication, nationality, synopsis, image);
         this.#resource = resource;
         this.#locations = locations;

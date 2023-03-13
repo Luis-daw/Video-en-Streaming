@@ -1,5 +1,5 @@
 "use strict";
-
+import {showFeedBack, defaultCheckElement, newProductionValidation} from "./validation.js";
 function excecuteHandler(
   handler, handlerArguments, scrollElement, data, url, event) {
   handler(...handlerArguments);
@@ -538,8 +538,114 @@ class videoSystemView {
     </li>`);
     this.navContent.append(li);
   }
-  showNewProductionForm(){
-    console.log("TestNewProd");
+  showNewProductionForm(directors, actors, categories){
+    this.mainContent.empty();
+    this.mainCarousel.empty();
+    let add = `
+    <div id="form">
+    <form class="row g-3 needs-validation" id="newProductionForm" novalidate>
+      <div class="col-lg-4 col-md-6">
+        <label for="title" class="form-label">Titulo</label>
+        <input type="text" class="form-control" id="title" placeholder="Título" minlength="4" required>
+        <div class="valid-feedback">
+          El título está bien introducido.
+        </div>
+        <div class="invalid-feedback">
+          El título es demasiado corto.
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <label for="publication" class="form-label">Fecha de publicación:</label>
+        <input type="date" class="form-control" id="publication" required>
+        <div class="valid-feedback">
+          Fecha seleccionada correctamente.
+        </div>
+        <div class="invalid-feedback">
+          Selecciona una fecha
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <label for="nationality" class="form-label">Nacionalidad</label>
+        <input type="text" class="form-control" id="nationality" placeholder="Nacionalidad" minlength="4">
+        <div class="valid-feedback">
+          La nacionalidad está bien introducida.
+        </div>
+        <div class="invalid-feedback">
+          La nacionalidad introducida es demasiado corta.
+        </div>
+      </div>
+      <div class="col-md-8">
+        <label for="sinopsis" class="form-label">Sinopsis</label>
+        <input type="text" class="form-control" name="sinopsis" id="sinopsis" placeholder="Sinopsis" minlength="20">
+        <div class="valid-feedback">
+          La sinopsis está bien introducida.
+        </div>
+        <div class="invalid-feedback">
+          La sinopsis es demasiado corta.
+        </div>
+      </div>
+      <div class="col-md-4">
+        <label for="image" class="form-label">Seleccione una imagen</label>
+        <input type="file" class="form-control" id="image">
+        <div class="invalid-feedback">
+          El archivo no es una imagen
+        </div>
+        <div class="valid-feedback">
+          Imagen bien introducida.
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <label for="selectDirectors" class="form-label">Selecciona un director</label>
+        <select class="form-select" id="selectDirectors" multiple>
+          `
+          for (const director of directors) {
+            add+=`<option value="${director.name}">${director.name}</option>`
+          }
+        add+=`</select>
+        <div class="invalid-feedback">
+          Selecciona algo.
+        </div>
+        <div class="valid-feedback">
+          Directores seleccionados.
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <label for="selectActors" class="form-label">Selecciona el casting</label>
+        <select class="form-select" id="selectActors" multiple>
+          `
+          for (const actor of actors) {
+            add+=`<option value="${actor.name}">${actor.name}</option>`
+          }
+        add+=`</select>
+        <div class="invalid-feedback">
+          Selecciona algo.
+        </div>
+        <div class="valid-feedback">
+          Actores seleccionados.
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <label for="selectCategories" class="form-label">Selecciona categorias</label>
+        <select class="form-select" id="selectCategories" multiple>
+          `
+          for (const category of categories) {
+            add+=`<option value="${category.name}">${category.name}</option>`
+          }
+        add+=`</select>
+        <div class="invalid-feedback">
+          Selecciona algo.
+        </div>
+        <div class="valid-feedback">
+          Categorias seleccionados.
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <button class="btn btn-primary" type="submit">Agregar produccion</button>
+      </div>
+    </form>
+  </div>
+    `;
+    this.mainContent.append(add);
   }
   showRemoveProductionForm(productions){
     console.log("TestRemove");
@@ -555,6 +661,10 @@ class videoSystemView {
   }
   showRemovePersonForm(actors, directors){
     console.log("TestRemPers");
+  }
+
+  bindNewProductionForm(handler){
+    newProductionValidation(handler);
   }
 }
 

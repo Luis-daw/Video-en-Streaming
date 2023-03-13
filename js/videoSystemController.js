@@ -7,18 +7,18 @@ class videoSystemController {
         let cat2 = this.#videoSystemModel.getCategory("Fantasia", "Genero fantasia");
         let cat3 = this.#videoSystemModel.getCategory("Comedia", "Genero comedia");
 
-        let prod1 = new Serie("Chicago PD", "Estados Unidos", 2014);
-        let prod2 = new Serie("The Witcher", "Estados Unidos", 2022);
-        let prod3 = new Movie("Uncharted", "Estados Unidos", 2022);
-        let prod4 = new Movie("National Treasure", "Estados Unidos", 2011);
-        let prod5 = new Serie("Juego de Tronos", "Estados Unidos", 2011);
-        let prod6 = new Serie("The Umbrella Academy", "Estados Unidos", 2019);
-        let prod7 = new Movie("Harry Potter", "Estados Unidos", 2001);
-        let prod8 = new Movie("El señor de los anillos", "Estados Unidos", 2001);
-        let prod9 = new Movie("No mires arriba", "Estados Unidos", 2021);
-        let prod10 = new Movie("Intouchables", "Francia", 2011);
-        let prod11 = new Serie("Los Simpson", "Estados Unidos", 1989);
-        let prod12 = new Serie("Rick y Morty", "Estados Unidos", 2013);
+        let prod1 = new Serie("Chicago PD", "Estados Unidos", new Date(2014, 1, 1));
+        let prod2 = new Serie("The Witcher", "Estados Unidos", new Date(2022, 1, 1));
+        let prod3 = new Movie("Uncharted", "Estados Unidos", new Date(2022, 1, 1));
+        let prod4 = new Movie("National Treasure", "Estados Unidos", new Date(2011, 1, 1));
+        let prod5 = new Serie("Juego de Tronos", "Estados Unidos", new Date(2011, 1, 1));
+        let prod6 = new Serie("The Umbrella Academy", "Estados Unidos", new Date(2019, 1, 1));
+        let prod7 = new Movie("Harry Potter", "Estados Unidos", new Date(2001, 1, 1));
+        let prod8 = new Movie("El señor de los anillos", "Estados Unidos", new Date(2001, 1, 1));
+        let prod9 = new Movie("No mires arriba", "Estados Unidos", new Date(2021, 1, 1));
+        let prod10 = new Movie("Intouchables", "Francia", new Date(2011, 1, 1));
+        let prod11 = new Serie("Los Simpson", "Estados Unidos", new Date(1989, 1, 1));
+        let prod12 = new Serie("Rick y Morty", "Estados Unidos", new Date(2013, 1, 1));
 
         prod1.image = "../img/ChicagoPD.jpg";
         prod2.image = "../img/TheWitcher.jpg";
@@ -233,7 +233,11 @@ class videoSystemController {
         });
     }
     handleNewProduction = () => {
-        this.#videoSystemView.showNewProductionForm();
+        let directors = this.#videoSystemModel.directors;
+        let actors = this.#videoSystemModel.actors;
+        let categories = this.#videoSystemModel.categories;
+        this.#videoSystemView.showNewProductionForm(directors, actors, categories);
+        this.#videoSystemView.bindNewProductionForm(this.handleCreateProduction);
     }
     handleRemoveProduction = () => {
         let productions = this.#videoSystemModel.productions;
@@ -256,6 +260,48 @@ class videoSystemController {
         let actors = this.#videoSystemModel.actors;
         let directors = this.#videoSystemModel.directors;
         this.#videoSystemView.showRemovePersonForm(actors, directors);
+    }
+    handleCreateProduction = (title, fecha, nacionalidad, sinopsis, imagen, directors, casting, categories, type) => {
+        console.log("Llego al handler");
+        let production;
+
+        if (type == "movie") {
+            console.log("Entra movie");
+            let date = new Date(fecha);
+            console.log(date.toString());
+            production = new Movie(title, nacionalidad, 2020, sinopsis, imagen);
+            console.log(production);
+        }
+        else {
+            console.log("Entra serie");
+            production = new Serie(title, nacionalidad, 2020, sinopsis, imagen);
+        }
+
+
+        console.log(production);
+        let done, error;
+        try {
+            console.log("Llego al try");
+            this.#videoSystemModel.addProduction(production);
+            console.log("Addproduction");
+            directors.forEach(director => {
+                this.#videoSystemModel.assignDirector(this.#videoSystemModel.getDirector(director), production);
+            });
+            console.log("Directors");
+            casting.forEach(actor => {
+                this.#videoSystemModel.assignActor(this.#videoSystemModel.getActor(actor), production);
+            });
+            console.log("actors");
+            categories.forEach(category => {
+                this.#videoSystemModel.assignCategory(this.#videoSystemModel.getCategory(category), production);
+            });
+            console.log("categories");
+            done = true;
+        } catch (exception) {
+            done = false;
+            error = exception;
+        }
+        console.log(done);
     }
 }
 
