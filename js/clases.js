@@ -12,7 +12,7 @@ class Person {
     #lastname2;
     #born;
     #picture;
-
+    //Añadir fotos de personas
     constructor(name, lastname1, born, lastname2 = "", picture = "") {
         if (name == null) throw new InvalidValueException();
         if (lastname1 == null) throw new InvalidValueException();

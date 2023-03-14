@@ -1,5 +1,10 @@
 "use strict";
-import {showFeedBack, defaultCheckElement, newProductionValidation, removeProductionValidation, assignDeassignPersonValidation} from "./validation.js";
+import {
+  showFeedBack, defaultCheckElement, newProductionValidation, removeProductionValidation,
+  assignDeassignPersonValidation, addRemoveCategoriesValidation, addPersonValidation,
+  removePersonValidation
+} from "./validation.js";
+
 function excecuteHandler(
   handler, handlerArguments, scrollElement, data, url, event) {
   handler(...handlerArguments);
@@ -34,8 +39,8 @@ class videoSystemView {
   //   let content = "";
   //   for (const category of iteratorCategories) {
   //     content += `<div class="col-6">
-	// 	 	<h1 data-category='${category.name}'"> ${category.name}</h1>
-	// 	 </div>`;
+  // 	 	<h1 data-category='${category.name}'"> ${category.name}</h1>
+  // 	 </div>`;
   //   }
   //   this.main.append(`<div class='row'>${content}</div>`);
   // }
@@ -538,7 +543,7 @@ class videoSystemView {
     </li>`);
     this.navContent.append(li);
   }
-  showNewProductionForm(directors, actors, categories){
+  showNewProductionForm(directors, actors, categories) {
     this.mainContent.empty();
     this.mainCarousel.empty();
     let add = `
@@ -598,10 +603,10 @@ class videoSystemView {
         <label for="selectDirectors" class="form-label">Selecciona un director</label>
         <select class="form-select" id="selectDirectors" multiple>
           `
-          for (const director of directors) {
-            add+=`<option value="${director.name}">${director.name}</option>`
-          }
-        add+=`</select>
+    for (const director of directors) {
+      add += `<option value="${director.name}">${director.name}</option>`
+    }
+    add += `</select>
         <div class="invalid-feedback">
           Selecciona algo.
         </div>
@@ -613,10 +618,10 @@ class videoSystemView {
         <label for="selectActors" class="form-label">Selecciona el casting</label>
         <select class="form-select" id="selectActors" multiple>
           `
-          for (const actor of actors) {
-            add+=`<option value="${actor.name}">${actor.name}</option>`
-          }
-        add+=`</select>
+    for (const actor of actors) {
+      add += `<option value="${actor.name}">${actor.name}</option>`
+    }
+    add += `</select>
         <div class="invalid-feedback">
           Selecciona algo.
         </div>
@@ -628,10 +633,10 @@ class videoSystemView {
         <label for="selectCategories" class="form-label">Selecciona categorias</label>
         <select class="form-select" id="selectCategories" multiple>
           `
-          for (const category of categories) {
-            add+=`<option value="${category.name}">${category.name}</option>`
-          }
-        add+=`</select>
+    for (const category of categories) {
+      add += `<option value="${category.name}">${category.name}</option>`
+    }
+    add += `</select>
         <div class="invalid-feedback">
           Selecciona algo.
         </div>
@@ -647,7 +652,7 @@ class videoSystemView {
     `;
     this.mainContent.append(add);
   }
-  showRemoveProductionForm(productions){
+  showRemoveProductionForm(productions) {
     this.mainContent.empty();
     this.mainCarousel.empty();
     let content = `
@@ -657,10 +662,10 @@ class videoSystemView {
         <label for="selectProductions" class="form-label"> Selecciona las producciones a eliminar </label>
           <select class="form-select" id="selectProductions" multiple>
           `;
-          for (const production of productions) {
-            content+=`<option value="${production.title}">${production.title}</option>`
-          }
-        content+=`</select>
+    for (const production of productions) {
+      content += `<option value="${production.title}">${production.title}</option>`
+    }
+    content += `</select>
         <div class="invalid-feedback">
           Selecciona al menos una produccion.
         </div>
@@ -676,7 +681,7 @@ class videoSystemView {
     `
     this.mainContent.append(content);
   }
-  showAssignDeassignPersonForm(actors,directors,productions){
+  showAssignDeassignPersonForm(actors, directors, productions) {
     this.mainContent.empty();
     this.mainCarousel.empty();
     let content = `
@@ -719,20 +724,20 @@ class videoSystemView {
     </form>
     </div>
     `
-   
+
     this.mainContent.append(content);
   }
-  showPersonsAssignDeassignPersonsSelect(persons){
-    if (persons){
+  showPersonsAssignDeassignPersonsSelect(persons) {
+    if (persons) {
       $("#pers").empty();
       let content = `     
         <label for="selectPerson" class="form-label"> Selecciona una persona </label>
           <select class="form-select" id="selectPerson">
           `;
-          for (const person of persons) {
-            content+=`<option value="${person.name}">${person.name}</option>`
-          }
-        content+=`</select>
+      for (const person of persons) {
+        content += `<option value="${person.name}">${person.name}</option>`
+      }
+      content += `</select>
         <div class="invalid-feedback">
           Selecciona al menos una produccion.
         </div>
@@ -743,17 +748,17 @@ class videoSystemView {
       $("#pers").append(``)
     }
   }
-  showProductionsAssignDeassignPersonsSelect(productions, name){
-    if (productions && name){
+  showProductionsAssignDeassignPersonsSelect(productions, name) {
+    if (productions && name) {
       $("#prod").empty();
       let content = `     
         <label for="selectPerson" class="form-label"> Selecciona una persona </label>
           <select class="form-select" id="selectPerson">
           `;
-          for (const production of productions) {
-            content+=`<option value="${production.title}">${production.title}</option>`
-          }
-        content+=`</select>
+      for (const production of productions) {
+        content += `<option value="${production.title}">${production.title}</option>`
+      }
+      content += `</select>
         <div class="invalid-feedback">
           Selecciona al menos una produccion.
         </div>
@@ -765,26 +770,193 @@ class videoSystemView {
       $("#button").empty();
       $("#button").append(`<button class="btn btn-primary" type="submit">${name}</button>`)
     }
-    
+
   }
-  showAddRemoveCategoryForm(categories){
+  showAddRemoveCategoryForm(productions, name) {
+    if (productions && name) {
+      $("#prod").empty();
+      let content = `     
+        <label for="selectPerson" class="form-label"> Selecciona una persona </label>
+          <select class="form-select" id="selectPerson">
+          `;
+      for (const production of productions) {
+        content += `<option value="${production.title}">${production.title}</option>`
+      }
+      content += `</select>
+        <div class="invalid-feedback">
+          Selecciona al menos una produccion.
+        </div>
+        <div class="valid-feedback">
+          Porducciones seleccionadas.
+        </div>
+      `
+      $("#prod").append(content)
+      $("#button").empty();
+      $("#button").append(`<button class="btn btn-primary" type="submit">${name}</button>`)
+    }
+
+  }
+  showAddRemoveCategoryForm(categories) {
     console.log("TestAddRem");
   }
-  showNewPersonForm(){
-    console.log("TestNewPers");
+  showNewPersonForm() {
+    this.mainContent.empty();
+    this.mainCarousel.empty();
+    //name, lastname1, born, lastname2 = "", picture = ""
+    this.mainContent.append(`
+    <div id="form">
+    <form class="row g-3 needs-validation" id="newPersonForm" novalidate>
+      <div class="col-lg-4 col-md-6">
+        <label for="name" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="name" placeholder="Nombre" minlength="4" required>
+        <div class="valid-feedback">
+          El nombre está bien introducido.
+        </div>
+        <div class="invalid-feedback">
+          El nombre es demasiado corto.
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <label for="lastname1" class="form-label">Primer apellido</label>
+        <input type="text" class="form-control" id="lastname1" minlength="4" required>
+        <div class="valid-feedback">
+          El apellido está bien introducido.
+        </div>
+        <div class="invalid-feedback">
+          El apellido es demasiado corto.
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <label for="lastname2" class="form-label">Segundo apellido</label>
+        <input type="text" class="form-control" id="lastname2" minlength="4">
+        <div class="valid-feedback">
+        </div>
+        <div class="invalid-feedback">
+          El apellido es demasiado corto.
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <label for="born" class="form-label">Fecha de nacimiento</label>
+        <input type="date" class="form-control" id="born" required>
+        <div class="valid-feedback">
+          Fecha seleccionada correctamente.
+        </div>
+        <div class="invalid-feedback">
+          Selecciona una fecha
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <label for="picture" class="form-label">Foto</label>
+        <input type="file" class="form-control" id="picture">
+        <div class="valid-feedback">
+          La nacionalidad está bien introducida.
+        </div>
+        <div class="invalid-feedback">
+          La nacionalidad introducida es demasiado corta.
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <label for="selecType" class="form-label">Trabajo de la persona</label>
+        <select class="form-select" id="selecType">
+          <option value=""></option>
+          <option value="actor">Actor</option>
+          <option value="director">Director</option>
+        </select>
+        <div class="valid-feedback">
+          Opcion elegida.
+        </div>
+        <div class="invalid-feedback">
+          Elige una opcion.
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <button class="btn btn-primary" type="submit">Agregar persona</button>
+        <button class="btn btn-primary" type="reset">Reiniciar</button>
+      </div>
+    </form>
+  </div>
+    `
+    );
   }
-  showRemovePersonForm(actors, directors){
-    console.log("TestRemPers");
+  showRemovePersonForm(persons) {
+   
+    if (persons) {
+      let content = ``;
+      for (const person of persons) {
+        content += `<option value="${person.name}">${person.name}</option>`;
+      }
+      $("#selecPers").empty();
+      $("#selecPers").append(content);
+      $("#botones").empty();
+      $("#botones").append(`
+      <button class="btn btn-primary" type="submit">Eliminar persona</button>
+      <button class="btn btn-primary" type="reset">Reiniciar</button>
+      `)
+    }
+    else {
+      this.mainContent.empty();
+      this.mainCarousel.empty();
+      this.mainContent.append(`
+      <div id="form">
+      <form class="row g-3 needs-validation" id="removePersonForm" novalidate>
+      <div class="col-md-6">
+        <label for="selecTypePerson" class="form-label">Rol de la persona</label>
+        <select class="form-select" id="selecTypePerson">
+          <option value=""></option>
+          <option value="actor">Actor</option>
+          <option value="director">Director</option>
+        </select>
+        <div class="valid-feedback">
+          Opcion elegida.
+        </div>
+        <div class="invalid-feedback">
+          Elige una opcion.
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="selecPers" class="form-label">Elige personas a eliminar</label>
+        <select class="form-select" id="selecPers" multiple>
+          <option value=""></option>
+        </select>
+        <div class="valid-feedback">
+          Opcion elegida.
+        </div>
+        <div class="invalid-feedback">
+          Elige una opcion.
+        </div>
+      </div>
+      <div class="col-lg-12" id="botones">
+      </div>
+    </form>
+  </div>
+    `
+
+        //   <div class="col-lg-12">
+        //   
+        // </div>
+      );
+    }
   }
-  bindNewProductionForm(handler){
+  bindNewProductionForm(handler) {
     newProductionValidation(handler);
   }
-  bindRemoveProductionForm(handler){
+  bindRemoveProductionForm(handler) {
     removeProductionValidation(handler);
   }
-  bindAssignDeassignPersonForm(handler){
+  bindAssignDeassignPersonForm(handler) {
     assignDeassignPersonValidation(handler);
   }
+  bindAssignDeassignPersonForm(handler) {
+    addRemoveCategoriesValidation(handler);
+  }
+  bindNewPersonForm(handler) {
+    addPersonValidation(handler);
+  }
+  bindRemovePersonForm(handler, callHandler) {
+    removePersonValidation(handler);
+    $("#selecTypePerson").change(function (event) {
+      callHandler(this.value);
+    });
+  }
 }
-
 export default videoSystemView;

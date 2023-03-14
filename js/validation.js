@@ -275,4 +275,241 @@ function assignDeassignPersonValidation(handler) {
         }
     });
 }
-export { showFeedBack, defaultCheckElement, newProductionValidation, removeProductionValidation, assignDeassignPersonValidation};
+function addRemoveCategoriesValidation(handler) {
+
+}
+function addPersonValidation(handler) {
+    let form = document.forms.newPersonForm;
+    $(form).attr('novalidate', true);
+
+    $(form).submit(function (event) {
+        console.log("Entro submit");
+        let isValid = true;
+        let firstInvalidElement = null;
+
+        // this.title.value = this.title.value.trim();
+        // showFeedBack($(this.title), true);
+        if (!this.name.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.name), false);
+            firstInvalidElement = this.name;
+        } else {
+            showFeedBack($(this.name), true);
+        }
+        if (!this.lastname1.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.lastname1), false);
+            firstInvalidElement = this.lastname1;
+        } else {
+            showFeedBack($(this.lastname1), true);
+        }
+
+        if (!this.lastname2.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.lastname2), false);
+            firstInvalidElement = this.lastname2;
+        } else {
+            showFeedBack($(this.lastname2), true);
+        }
+        if (!this.born.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.sinopsis), false);
+            firstInvalidElement = this.sinopsis;
+        } else {
+            showFeedBack($(this.sinopsis), true);
+        }
+        if (this.selecType.value == "") {
+            isValid = false;
+            showFeedBack($(this.selecType), false);
+            firstInvalidElement = this.selecType;
+        } else {
+            showFeedBack($(this.selecType), true);
+        }
+        let size = 1024;
+        if (this.picture.value != "") {
+            if (!checkFileExtension(this.picture.files[0], ['jpg', 'png', 'gif'])) {
+                isValid = false;
+                firstInvalidElement = this.picture;
+                let message = 'Debe seleccionar un archivo con extensión jpg, png o gif.';
+                showFeedBack($(this.picture), false, message);
+            } else if (checkFileSize(this.picture.files[0], size)) {
+                isValid = false;
+                firstInvalidElement = this.picture;
+                let message = `El archivo ${this.picture.files[0].name} no debe ser mayor a ${size}KB`;
+                showFeedBack($(this.picture), false, message);
+            } else {
+                let message = "Imagen bien introducida."
+                showFeedBack($(this.picture), true, message);
+            }
+        }
+
+
+
+        let img;
+        if (this.picture.value != "") {
+            img = "../img/" + this.picture.files[0].name;
+        }
+        else {
+            img = "";
+        }
+        console.log("Imagen" + img);
+        if (!isValid) {
+            console.log("No es valido");
+            firstInvalidElement.focus();
+        } else {
+            console.log("Es valido");
+            handler(this.name.value, this.lastname1.value, this.born.value, this.selecType.value, this.lastname2.value, img);
+        }
+        event.preventDefault();
+        event.stopPropagation();
+    });
+
+    form.addEventListener('reset', (function (event) {
+        let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
+        feedDivs.removeClass('d-block').addClass('d-none');
+        let inputs = $(this).find('input');
+        inputs.removeClass('is-valid is-invalid');
+    }));
+
+    $(form.name).change(defaultCheckElement);
+    $(form.lastname1).change(defaultCheckElement);
+    $(form.lastname2).change(defaultCheckElement);
+    $(form.born).change(defaultCheckElement);
+    $(form.picture).change(function (event) {
+        let size = 1024;
+        let message = "";
+        $(this).nextAll('label').text(this.value);
+        console.log("Entra change");
+        if (!checkFileExtension(this.files[0], ['jpg', 'png', 'gif'])) {
+            console.log("Falla extension");
+            message = 'Debe seleccionar un archivo con extensión jpg, png o gif.';
+            showFeedBack($(this), false, message);
+        } else if (checkFileSize(this.files[0], size)) {
+            message = `El archivo ${this.files[0].name} no debe ser mayor a ${size}KB`;
+            showFeedBack($(this), false, message);
+        } else {
+            showFeedBack($(this), true, message);
+        }
+    });
+}
+function removePersonValidation(handler) {
+    selecTypePerson;
+    selecPers;
+    let form = document.forms.newPersonForm;
+    $(form).attr('novalidate', true);
+
+    $(form).submit(function (event) {
+        console.log("Entro submit");
+        let isValid = true;
+        let firstInvalidElement = null;
+
+        // this.title.value = this.title.value.trim();
+        // showFeedBack($(this.title), true);
+        if (!this.name.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.name), false);
+            firstInvalidElement = this.name;
+        } else {
+            showFeedBack($(this.name), true);
+        }
+        if (!this.lastname1.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.lastname1), false);
+            firstInvalidElement = this.lastname1;
+        } else {
+            showFeedBack($(this.lastname1), true);
+        }
+
+        if (!this.lastname2.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.lastname2), false);
+            firstInvalidElement = this.lastname2;
+        } else {
+            showFeedBack($(this.lastname2), true);
+        }
+        if (!this.born.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.sinopsis), false);
+            firstInvalidElement = this.sinopsis;
+        } else {
+            showFeedBack($(this.sinopsis), true);
+        }
+        if (this.selecType.value == "") {
+            isValid = false;
+            showFeedBack($(this.selecType), false);
+            firstInvalidElement = this.selecType;
+        } else {
+            showFeedBack($(this.selecType), true);
+        }
+        let size = 1024;
+        if (this.picture.value != "") {
+            if (!checkFileExtension(this.picture.files[0], ['jpg', 'png', 'gif'])) {
+                isValid = false;
+                firstInvalidElement = this.picture;
+                let message = 'Debe seleccionar un archivo con extensión jpg, png o gif.';
+                showFeedBack($(this.picture), false, message);
+            } else if (checkFileSize(this.picture.files[0], size)) {
+                isValid = false;
+                firstInvalidElement = this.picture;
+                let message = `El archivo ${this.picture.files[0].name} no debe ser mayor a ${size}KB`;
+                showFeedBack($(this.picture), false, message);
+            } else {
+                let message = "Imagen bien introducida."
+                showFeedBack($(this.picture), true, message);
+            }
+        }
+
+
+
+        let img;
+        if (this.picture.value != "") {
+            img = "../img/" + this.picture.files[0].name;
+        }
+        else {
+            img = "";
+        }
+        console.log("Imagen" + img);
+        if (!isValid) {
+            console.log("No es valido");
+            firstInvalidElement.focus();
+        } else {
+            console.log("Es valido");
+            handler(this.name.value, this.lastname1.value, this.born.value, this.selecType.value, this.lastname2.value, img);
+        }
+        event.preventDefault();
+        event.stopPropagation();
+    });
+
+    form.addEventListener('reset', (function (event) {
+        let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
+        feedDivs.removeClass('d-block').addClass('d-none');
+        let inputs = $(this).find('input');
+        inputs.removeClass('is-valid is-invalid');
+    }));
+
+    $(form.name).change(defaultCheckElement);
+    $(form.lastname1).change(defaultCheckElement);
+    $(form.lastname2).change(defaultCheckElement);
+    $(form.born).change(defaultCheckElement);
+    $(form.picture).change(function (event) {
+        let size = 1024;
+        let message = "";
+        $(this).nextAll('label').text(this.value);
+        console.log("Entra change");
+        if (!checkFileExtension(this.files[0], ['jpg', 'png', 'gif'])) {
+            console.log("Falla extension");
+            message = 'Debe seleccionar un archivo con extensión jpg, png o gif.';
+            showFeedBack($(this), false, message);
+        } else if (checkFileSize(this.files[0], size)) {
+            message = `El archivo ${this.files[0].name} no debe ser mayor a ${size}KB`;
+            showFeedBack($(this), false, message);
+        } else {
+            showFeedBack($(this), true, message);
+        }
+    });
+}
+export {
+    showFeedBack, defaultCheckElement, newProductionValidation, removeProductionValidation,
+    assignDeassignPersonValidation, addRemoveCategoriesValidation, addPersonValidation,
+    removePersonValidation
+};

@@ -1,4 +1,4 @@
-import { Movie, Serie, User } from "./clases.js";
+import { Movie, Serie, User, Person } from "./clases.js";
 class videoSystemController {
     #videoSystemView;
     #videoSystemModel;
@@ -248,24 +248,39 @@ class videoSystemController {
         let actors = this.#videoSystemModel.actors;
         let directors = this.#videoSystemModel.directors;
         let productions = this.#videoSystemModel.productions;
-        this.#videoSystemView.showAssignDeassignPersonForm(actors, directors, productions)
+        this.#videoSystemView.showAssignDeassignPersonForm(actors, directors, productions);
+        this.#videoSystemView.bindAssignDeassignPersonForm(this.handleAssignDeassign);
     }
     handleAddRemoveCategory = () => {
         let categories = this.#videoSystemView.categories;
         this.#videoSystemView.showAddRemoveCategoryForm(categories);
+        this.#videoSystemView.bindAddRemoveCategoryForm(this.handleAddRemoveCategory);
     }
     handleNewPerson = () => {
         this.#videoSystemView.showNewPersonForm();
+        this.#videoSystemView.bindNewPersonForm(this.handleCreatePerson);
     }
-    handleRemovePerson = () => {
-        let actors = this.#videoSystemModel.actors;
-        let directors = this.#videoSystemModel.directors;
-        this.#videoSystemView.showRemovePersonForm(actors, directors);
+    handleRemovePerson = (typePerson) => {
+        let persons;
+        if (!typePerson) {
+            this.#videoSystemView.showRemovePersonForm();
+        }
+        else{
+            if (typePerson == "actor"){
+                persons = this.#videoSystemModel.actors;
+            }else if (typePerson == "director"){
+                persons = this.#videoSystemModel.directors;                
+            }
+            this.#videoSystemView.showRemovePersonForm(persons);
+        }
+        this.#videoSystemView.bindRemovePersonForm(this.handleDeletePerson, this.handleRemovePerson);
+    }
+    handleAssignDeassignButtons = () => {
+
     }
     handleCreateProduction = (title, fecha, nacionalidad, sinopsis, imagen, directors, casting, categories, type) => {
         console.log("Llego al handler");
         let production;
-
         if (type == "movie") {
             console.log("Entra movie");
             let date = new Date(fecha);
@@ -277,8 +292,6 @@ class videoSystemController {
             console.log("Entra serie");
             production = new Serie(title, nacionalidad, 2020, sinopsis, imagen);
         }
-
-
         console.log(production);
         let done, error;
         try {
@@ -317,11 +330,103 @@ class videoSystemController {
             done = false;
             error = exception;
         }
-        if (done){
+        if (done) {
             console.log("Produccion eliminada");
         }
-        else{
-            console.log("Produccion no eliminada, error: "+error);
+        else {
+            console.log("Produccion no eliminada, error: " + error);
+        }
+        this.handleRemoveProduction();
+    }
+    handleAssignDeassign = (typePerson, typeOperation, person, productions) => {
+        let error;
+        let done;
+        try {
+            productions.forEach(production => {
+                this.#videoSystemModel.removeProduction(this.#videoSystemModel.getProductionTitle(production));
+            });
+            console.log("categories");
+            done = true;
+        } catch (exception) {
+            done = false;
+            error = exception;
+        }
+        if (done) {
+            console.log("Produccion eliminada");
+        }
+        else {
+            console.log("Produccion no eliminada, error: " + error);
+        }
+        this.handleRemoveProduction();
+    }
+    handleCreateDeleteCategory = (typePerson, typeOperation, person, productions) => {
+        let error;
+        let done;
+        try {
+            productions.forEach(production => {
+                this.#videoSystemModel.removeProduction(this.#videoSystemModel.getProductionTitle(production));
+            });
+            console.log("categories");
+            done = true;
+        } catch (exception) {
+            done = false;
+            error = exception;
+        }
+        if (done) {
+            console.log("Produccion eliminada");
+        }
+        else {
+            console.log("Produccion no eliminada, error: " + error);
+        }
+        this.handleRemoveProduction();
+    }
+    handleCreatePerson = (name, lastname1, born, typePerson, lastname2, picture) => {
+        let error;
+        let done;
+        let person;
+        try {
+            if (typePerson == "actor") {
+                console.log("actor");
+                person = this.#videoSystemModel.getActor(name, lastname1, new Date(born), lastname2, picture);
+                this.#videoSystemModel.addActor(person);
+            }
+            if (typePerson == "director") {
+                console.log("director");
+                person = this.#videoSystemModel.getDirector(name, lastname1, new Date(born), lastname2, picture);
+                this.#videoSystemModel.addDirector(person);
+            }
+            console.log(person);
+            done = true;
+        } catch (exception) {
+            done = false;
+            error = exception;
+        }
+        if (done) {
+            console.log("Persona creada");
+        }
+        else {
+            console.log("Persona no creada, error: " + error);
+        }
+        this.handleNewPerson();
+    }
+    handleDeletePerson = (typePerson, typeOperation, person, productions) => {
+        let error;
+        let done;
+        try {
+            productions.forEach(production => {
+                this.#videoSystemModel.removeProduction(this.#videoSystemModel.getProductionTitle(production));
+            });
+            console.log("categories");
+            done = true;
+        } catch (exception) {
+            done = false;
+            error = exception;
+        }
+        if (done) {
+            console.log("Produccion eliminada");
+        }
+        else {
+            console.log("Produccion no eliminada, error: " + error);
         }
         this.handleRemoveProduction();
     }
