@@ -230,6 +230,16 @@ let VideoSystem = (function () {
                 if (!(production instanceof Production)) throw new ProductionVideoSystemException();
                 let pos = this.#productions.findIndex((elem) => elem.title == production.title);
                 if (pos == -1) throw new NotOnListException();
+                production = this.#productions[pos];
+                for (const actor of this.getCast(production)) {
+                    this.deassignActor(actor, production);
+                } 
+                for (const director of this.getDirectorsProduction(production)) {
+                    this.deassignDirector(director, production);
+                } 
+                for (const category of this.getCategoriesProduction(production)) {
+                    this.deassignCategory(category, production);
+                } 
                 this.#productions.splice(pos, 1);
                 return this.#productions.length;
             }
@@ -480,6 +490,17 @@ let VideoSystem = (function () {
                     *[Symbol.iterator]() {
                         for (let i = 0; i < array.length; i++) {
                             yield array[i].director;
+                        }
+                    }
+                }
+            }
+            getCategoriesProduction(production){
+                if (!(production instanceof Production)) throw new ProductionVideoSystemException();
+                let array = this.#categories.filter((elem) => elem.productions.findIndex((elemProduc) => elemProduc.title == production.title) !== -1)
+                return {
+                    *[Symbol.iterator]() {
+                        for (let i = 0; i < array.length; i++) {
+                            yield array[i].category;
                         }
                     }
                 }

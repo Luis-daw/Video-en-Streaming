@@ -1,5 +1,5 @@
 "use strict";
-import {showFeedBack, defaultCheckElement, newProductionValidation} from "./validation.js";
+import {showFeedBack, defaultCheckElement, newProductionValidation, removeProductionValidation, assignDeassignPersonValidation} from "./validation.js";
 function excecuteHandler(
   handler, handlerArguments, scrollElement, data, url, event) {
   handler(...handlerArguments);
@@ -648,10 +648,124 @@ class videoSystemView {
     this.mainContent.append(add);
   }
   showRemoveProductionForm(productions){
-    console.log("TestRemove");
+    this.mainContent.empty();
+    this.mainCarousel.empty();
+    let content = `
+    <div id="form">
+    <form class="row g-3 needs-validation" id="removeProductionForm" novalidate>
+      <div class="col-md-6">
+        <label for="selectProductions" class="form-label"> Selecciona las producciones a eliminar </label>
+          <select class="form-select" id="selectProductions" multiple>
+          `;
+          for (const production of productions) {
+            content+=`<option value="${production.title}">${production.title}</option>`
+          }
+        content+=`</select>
+        <div class="invalid-feedback">
+          Selecciona al menos una produccion.
+        </div>
+        <div class="valid-feedback">
+          Porducciones seleccionadas.
+        </div>
+      </div>
+      <div class="col-md-6">
+        <button class="btn btn-primary" type="submit">Eliminar produccion</button>
+      </div>
+    </form>
+    </div>
+    `
+    this.mainContent.append(content);
   }
   showAssignDeassignPersonForm(actors,directors,productions){
-    console.log("TestAssDess");
+    this.mainContent.empty();
+    this.mainCarousel.empty();
+    let content = `
+    <div id="form">
+    <form class="row g-3 needs-validation" id="removeProductionForm" novalidate>
+      <div class="col-md-6">
+        <label for="selectTypePerson" class="form-label"> Selecciona actores o directores </label>
+          <select class="form-select" id="selectTypePerson">          
+            <option value=""></option> 
+            <option value="actors">Actores</option> 
+            <option value="directors">Directores</option> 
+          </select>
+        <div class="invalid-feedback">
+          Selecciona al menos una produccion.
+        </div>
+        <div class="valid-feedback">
+          Porducciones seleccionadas.
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="selectAction" class="form-label"> Selecciona actores o directores </label>
+          <select class="form-select" id="selectTypePerson">          
+            <option value=""></option> 
+            <option value="assign">Asignar</option> 
+            <option value="deassign">Desasignar</option> 
+          </select>
+        <div class="invalid-feedback">
+          Selecciona al menos una produccion.
+        </div>
+        <div class="valid-feedback">
+          Porducciones seleccionadas.
+        </div>
+      </div>
+      <div class="col-md-6" id="pers">
+      </div>
+      <div class="col-md-6" id="prod">
+      </div>
+      <div class="col-md-6" id="button">
+      </div>
+    </form>
+    </div>
+    `
+   
+    this.mainContent.append(content);
+  }
+  showPersonsAssignDeassignPersonsSelect(persons){
+    if (persons){
+      $("#pers").empty();
+      let content = `     
+        <label for="selectPerson" class="form-label"> Selecciona una persona </label>
+          <select class="form-select" id="selectPerson">
+          `;
+          for (const person of persons) {
+            content+=`<option value="${person.name}">${person.name}</option>`
+          }
+        content+=`</select>
+        <div class="invalid-feedback">
+          Selecciona al menos una produccion.
+        </div>
+        <div class="valid-feedback">
+          Porducciones seleccionadas.
+        </div>
+      `
+      $("#pers").append(``)
+    }
+  }
+  showProductionsAssignDeassignPersonsSelect(productions, name){
+    if (productions && name){
+      $("#prod").empty();
+      let content = `     
+        <label for="selectPerson" class="form-label"> Selecciona una persona </label>
+          <select class="form-select" id="selectPerson">
+          `;
+          for (const production of productions) {
+            content+=`<option value="${production.title}">${production.title}</option>`
+          }
+        content+=`</select>
+        <div class="invalid-feedback">
+          Selecciona al menos una produccion.
+        </div>
+        <div class="valid-feedback">
+          Porducciones seleccionadas.
+        </div>
+      `
+      $("#prod").append(content)
+      $("#button").empty();
+      $("#button").append(`<button class="btn btn-primary" type="submit">${name}</button>`)
+    }
+    
   }
   showAddRemoveCategoryForm(categories){
     console.log("TestAddRem");
@@ -662,9 +776,14 @@ class videoSystemView {
   showRemovePersonForm(actors, directors){
     console.log("TestRemPers");
   }
-
   bindNewProductionForm(handler){
     newProductionValidation(handler);
+  }
+  bindRemoveProductionForm(handler){
+    removeProductionValidation(handler);
+  }
+  bindAssignDeassignPersonForm(handler){
+    assignDeassignPersonValidation(handler);
   }
 }
 

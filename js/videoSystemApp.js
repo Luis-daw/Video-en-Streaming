@@ -5,12 +5,6 @@ import videoSystemView from './videoSystemView.js';
 const VideoSystemApp =  new videoSystemController(
 	VideoSystem.getInstance(), new videoSystemView()
 );
-// let VideoSystemApp;
-// $(function() {
-// 	VideoSystemApp = new videoSystemController(
-// 		VideoSystem.getInstance(), new videoSystemView()
-// 	);
-// });
-console.log(VideoSystemApp);
-VideoSystemApp.handleInit();
+// console.log(VideoSystemApp);
+// VideoSystemApp.handleInit();
 export default VideoSystemApp;

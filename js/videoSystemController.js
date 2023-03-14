@@ -242,6 +242,7 @@ class videoSystemController {
     handleRemoveProduction = () => {
         let productions = this.#videoSystemModel.productions;
         this.#videoSystemView.showRemoveProductionForm(productions);
+        this.#videoSystemView.bindRemoveProductionForm(this.handleDeleteProduction);
     }
     handleAssignDeassignPerson = () => {
         let actors = this.#videoSystemModel.actors;
@@ -303,6 +304,28 @@ class videoSystemController {
         }
         console.log(done);
     }
+    handleDeleteProduction = (productions) => {
+        let error;
+        let done;
+        try {
+            productions.forEach(production => {
+                this.#videoSystemModel.removeProduction(this.#videoSystemModel.getProductionTitle(production));
+            });
+            console.log("categories");
+            done = true;
+        } catch (exception) {
+            done = false;
+            error = exception;
+        }
+        if (done){
+            console.log("Produccion eliminada");
+        }
+        else{
+            console.log("Produccion no eliminada, error: "+error);
+        }
+        this.handleRemoveProduction();
+    }
+
 }
 
 export default videoSystemController;

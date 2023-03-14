@@ -79,9 +79,9 @@ function newProductionValidation(handler) {
         // }
         let img;
         if (!this.image) {
-            img = "../img/"+this.image.files[0];
+            img = "../img/" + this.image.files[0];
         }
-        else{
+        else {
             img = "";
         }
         if (!isValid) {
@@ -143,4 +143,136 @@ function newProductionValidation(handler) {
     });
 }
 
-export { showFeedBack, defaultCheckElement, newProductionValidation };
+function removeProductionValidation(handler) {
+    let form = document.forms.removeProductionForm;
+    $(form).attr('novalidate', true);
+
+    $(form).submit(function (event) {
+        console.log("Entro submit");
+        let isValid = true;
+        let firstInvalidElement = null;
+
+        // this.title.value = this.title.value.trim();
+        // showFeedBack($(this.title), true);
+        console.log();
+        if (this.selectProductions.value === "") {
+            isValid = false;
+            showFeedBack($(this.selectProductions), false);
+            firstInvalidElement = this.selectProductions;
+        } else {
+            showFeedBack($(this.title), true);
+        }
+        if (!isValid) {
+            console.log("Valid falso");
+            firstInvalidElement.focus();
+        } else {
+            console.log("Valid bueno");
+
+            let productions = [];
+
+            for (const option of this.selectProductions.options) {
+                if (option.selected) {
+                    productions.push(option.value);
+                }
+            }
+            handler(productions);
+        }
+        event.preventDefault();
+        event.stopPropagation();
+    });
+
+    // form.addEventListener('reset',(function(event){
+    //   let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
+    //   feedDivs.removeClass('d-block').addClass('d-none');
+    //   let inputs = $(this).find('input');
+    //   inputs.removeClass('is-valid is-invalid');
+    // }));
+
+    $(form.title).change(defaultCheckElement);
+    $(form.publication).change(defaultCheckElement);
+    $(form.nationality).change(defaultCheckElement);
+    $(form.sinopsis).change(defaultCheckElement);
+    $(form.image).change(function (event) {
+        let size = 1024;
+        let message = "";
+        $(this).nextAll('label').text(this.value);
+        console.log("Entra change");
+        if (!checkFileExtension(this.files[0], ['jpg', 'png', 'gif'])) {
+            console.log("Falla extension");
+            message = 'Debe seleccionar un archivo con extensión jpg, png o gif.';
+            showFeedBack($(this), false, message);
+        } else if (checkFileSize(this.files[0], size)) {
+            message = `El archivo ${this.files[0].name} no debe ser mayor a ${size}KB`;
+            showFeedBack($(this), false, message);
+        } else {
+            showFeedBack($(this), true, message);
+        }
+    });
+}
+function assignDeassignPersonValidation(handler) {
+    let form = document.forms.removeProductionForm;
+    $(form).attr('novalidate', true);
+
+    $(form).submit(function (event) {
+        console.log("Entro submit");
+        let isValid = true;
+        let firstInvalidElement = null;
+
+        // this.title.value = this.title.value.trim();
+        // showFeedBack($(this.title), true);
+        console.log();
+        if (this.selectProductions.value === "") {
+            isValid = false;
+            showFeedBack($(this.selectProductions), false);
+            firstInvalidElement = this.selectProductions;
+        } else {
+            showFeedBack($(this.title), true);
+        }
+        if (!isValid) {
+            console.log("Valid falso");
+            firstInvalidElement.focus();
+        } else {
+            console.log("Valid bueno");
+
+            let productions = [];
+
+            for (const option of this.selectProductions.options) {
+                if (option.selected) {
+                    productions.push(option.value);
+                }
+            }
+            handler(productions);
+        }
+        event.preventDefault();
+        event.stopPropagation();
+    });
+
+    // form.addEventListener('reset',(function(event){
+    //   let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
+    //   feedDivs.removeClass('d-block').addClass('d-none');
+    //   let inputs = $(this).find('input');
+    //   inputs.removeClass('is-valid is-invalid');
+    // }));
+
+    $(form.title).change(defaultCheckElement);
+    $(form.publication).change(defaultCheckElement);
+    $(form.nationality).change(defaultCheckElement);
+    $(form.sinopsis).change(defaultCheckElement);
+    $(form.image).change(function (event) {
+        let size = 1024;
+        let message = "";
+        $(this).nextAll('label').text(this.value);
+        console.log("Entra change");
+        if (!checkFileExtension(this.files[0], ['jpg', 'png', 'gif'])) {
+            console.log("Falla extension");
+            message = 'Debe seleccionar un archivo con extensión jpg, png o gif.';
+            showFeedBack($(this), false, message);
+        } else if (checkFileSize(this.files[0], size)) {
+            message = `El archivo ${this.files[0].name} no debe ser mayor a ${size}KB`;
+            showFeedBack($(this), false, message);
+        } else {
+            showFeedBack($(this), true, message);
+        }
+    });
+}
+export { showFeedBack, defaultCheckElement, newProductionValidation, removeProductionValidation, assignDeassignPersonValidation};
