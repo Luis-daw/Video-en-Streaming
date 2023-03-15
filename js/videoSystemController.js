@@ -98,6 +98,12 @@ class videoSystemController {
         this.#videoSystemModel.assignDirector(dir5, prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10, prod11, prod12);
 
     }
+    #loadVideoSystemObjectsJSON() {
+        fetch("./datos.json")
+            .then(function(result){
+                console.log(result);
+            })
+    }
     constructor(videoSystemModel, videoSystemView) {
         this.#videoSystemModel = videoSystemModel;
         this.#videoSystemView = videoSystemView;
@@ -116,6 +122,7 @@ class videoSystemController {
 
     onLoad = () => {
         this.#loadVideoSystemObjects();
+        this.#loadVideoSystemObjectsJSON();
         //this.#videoSystemView.showCategoriesType(this.#videoSystemModel.categories);
         this.handleActorsAndDirectors();
         this.handleWindowsInMenu();
@@ -532,7 +539,7 @@ class videoSystemController {
                 this.#videoSystemView.bindLogout(this.handleLogout);
                 done = true;
             }
-            else{
+            else {
                 done = false;
                 error = "El usuario no existe en el sistema";
             }
