@@ -1,6 +1,226 @@
 {
-   "usuarios":[
-        
+   "users": [
+      {
+         "username": "luis",
+         "email": "luis@gmail.com",
+         "password": "123"
+      },
+      {
+         "username": "luis",
+         "email": "luis@gmail.com",
+         "password": "123"
+      }
+   ],
+   "categories": [
+      {
+         "name": "Accion",
+         "description": "Genero accion"
+      },
+      {
+         "name": "Fantasia",
+         "description": "Genero fantasia"
+      },
+      {
+         "name": "Comedia",
+         "description": "Genero comedia"
+      }
+   ],
+  
+   "serie": [
+      {
+         "title": "Chicago PD",
+         "nationality": "Estados Unidos",
+         "publicationDate": "2014-1-1",
+         "synopsis": "",
+         "image": "../img/ChicagoPD.jpg"
+      },
+      {
+         "title": "The Witcher",
+         "nationality": "Estados Unidos",
+         "publicationDate": "2222-1-1",
+         "synopsis": "",
+         "image": "../img/TheWitcher.jpg"
+      },
+      {
+         "title": "Juego de Tronos",
+         "nationality": "Estados Unidos",
+         "publicationDate": "2011-1-1",
+         "synopsis": "",
+         "image": "../img/JuegoDeTronos.jpg"
+      },
+      {
+         "title": "The Umbrella Academy",
+         "nationality": "Estados Unidos",
+         "publicationDate": "2019-1-1",
+         "synopsis": "",
+         "image": "../img/UmbrellaAcademy.jpg"
+      },
+      {
+         "title": "Los Simpson",
+         "nationality": "Estados Unidos",
+         "publicationDate": "1989-1-1",
+         "synopsis": "",
+         "image": "../img/Simpsons.jpg"
+      },
+      {
+         "title": "Rick y Morty",
+         "nationality": "Estados Unidos",
+         "publicationDate": "2013-1-1",
+         "synopsis": "",
+         "image": "../img/RickyMorty.jpg"
+      }
+   ],
+   "movie": [
+      {
+         "title": "Uncharted",
+         "nationality": "Estados Unidos",
+         "publicationDate": "2022-1-1",
+         "synopsis": "",
+         "image": "../img/Uncharted.jpg"
+      },
+      {
+         "title": "National Treasure",
+         "nationality": "Estados Unidos",
+         "publicationDate": "2011-1-1",
+         "synopsis": "",
+         "image": "../img/NationalTreasure.jpg"
+      },
+      {
+         "title": "Harry Potter",
+         "nationality": "Estados Unidos",
+         "publicationDate": "2001-1-1",
+         "synopsis": "",
+         "image": "../img/HarryPotter.jpg"
+      },
+      {
+         "title": "El señor de los anillos",
+         "nationality": "Estados Unidos",
+         "publicationDate": "2001-1-1",
+         "synopsis": "",
+         "image": "../img/Anillos.jpg"
+      },
+      {
+         "title": "No mires arriba",
+         "nationality": "Estados Unidos",
+         "publicationDate": "2021-1-1",
+         "synopsis": "",
+         "image": "../img/NoMiresArriba.jpg"
+      },
+      {
+         "title": "Intouchables",
+         "nationality": "Francia",
+         "publicationDate": "2011-1-1",
+         "synopsis": "",
+         "image": "../img/Intocables.jpg"
+      }
+   ],
+   "directors": [
+      {
+         "name": "Quentin",
+         "lastname1": "Tarantino",
+         "born": "1963-1-1",
+         "lastname2": "",
+         "picture": ""
+      },
+      {
+         "name": "Stanley",
+         "lastname1": "Kubrick",
+         "born": "1928-1-1",
+         "lastname2": "",
+         "picture": ""
+      },
+      {
+         "name": "Martin",
+         "lastname1": "Scorsese",
+         "born": "1942-1-1",
+         "lastname2": "",
+         "picture": ""
+      },
+      {
+         "name": "Alfred",
+         "lastname1": "Hitchcock",
+         "born": "1899-1-1",
+         "lastname2": "",
+         "picture": ""
+      },
+      {
+         "name": "Billy",
+         "lastname1": "Wilder",
+         "born": "1906-1-1",
+         "lastname2": "",
+         "picture": ""
+      }
+   ],
+   "actors": [
+      {
+         "name": "Brad",
+         "lastname1": "Pitt",
+         "born": "1987-1-1",
+         "lastname2": "",
+         "picture": ""
+      },
+      {
+         "name": "Leonardo",
+         "lastname1": "DiCaprio",
+         "born": "1974-1-1",
+         "lastname2": "",
+         "picture": ""
+      },
+      {
+         "name": "Billy",
+         "lastname1": "Wilder",
+         "born": "1906-1-1",
+         "lastname2": "",
+         "picture": ""
+      },
+      {
+         "name": "Billy",
+         "lastname1": "Wilder",
+         "born": "1906-1-1",
+         "lastname2": "",
+         "picture": ""
+      },
+      {
+         "name": "Billy",
+         "lastname1": "Wilder",
+         "born": "1906-1-1",
+         "lastname2": "",
+         "picture": ""
+      },
+      {
+         "name": "Billy",
+         "lastname1": "Wilder",
+         "born": "1906-1-1",
+         "lastname2": "",
+         "picture": ""
+      },
+      {
+         "name": "Billy",
+         "lastname1": "Wilder",
+         "born": "1906-1-1",
+         "lastname2": "",
+         "picture": ""
+      },
+      {
+         "name": "Billy",
+         "lastname1": "Wilder",
+         "born": "1906-1-1",
+         "lastname2": "",
+         "picture": ""
+      },
+      {
+         "name": "Billy",
+         "lastname1": "Wilder",
+         "born": "1906-1-1",
+         "lastname2": "",
+         "picture": ""
+      },
+      {
+         "name": "Billy",
+         "lastname1": "Wilder",
+         "born": "1906-1-1",
+         "lastname2": "",
+         "picture": ""
+      }
    ]
-
 }
