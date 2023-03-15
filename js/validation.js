@@ -242,7 +242,7 @@ function assignDeassignPersonValidation(handler) {
             firstInvalidElement = this.selectPerson;
         } else {
             showFeedBack($(this.selectPerson), true);
-        }selectHaveProduction
+        } selectHaveProduction
         if (this.selectHaveProduction.value === "" && this.selectNotHaveProduction.value === "") {
             isValid = false;
             showFeedBack($(this.selectHaveProduction), false);
@@ -565,10 +565,50 @@ function removePersonValidation(handler) {
     }));
     $(form.selecTypePerson).change(defaultCheckElement);
     $(form.selecPers).change(defaultCheckElement);
+}
+function loginValidation(handler) {
 
+    let form = document.forms.loginForm;
+    $(form).attr('novalidate', true);
+    $(form).unbind();
+    $(form).submit(function (event) {
+        let isValid = true;
+        let firstInvalidElement = null;
+
+        if (!this.user.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.user), false);
+            firstInvalidElement = this.user;
+        } else {
+            showFeedBack($(this.user), true);
+        }
+        if (!this.password.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.password), false);
+            firstInvalidElement = this.password;
+        } else {
+            showFeedBack($(this.password), true);
+        }
+
+        if (!isValid) {
+            firstInvalidElement.focus();
+        } else {
+            handler(this.user.value, this.password.value);
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        form.addEventListener('reset', (function (event) {
+            let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
+            feedDivs.removeClass('d-block').addClass('d-none');
+            let inputs = $(this).find('input');
+            inputs.removeClass('is-valid is-invalid');
+        }));
+        $(form.user).change(defaultCheckElement);
+        $(form.password).change(defaultCheckElement);
+    });
 }
 export {
     showFeedBack, defaultCheckElement, newProductionValidation, removeProductionValidation,
     assignDeassignPersonValidation, addRemoveCategoriesValidation, addPersonValidation,
-    removePersonValidation
+    removePersonValidation, loginValidation
 };

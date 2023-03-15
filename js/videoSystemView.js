@@ -2,7 +2,7 @@
 import {
   showFeedBack, defaultCheckElement, newProductionValidation, removeProductionValidation,
   assignDeassignPersonValidation, addRemoveCategoriesValidation, addPersonValidation,
-  removePersonValidation
+  removePersonValidation, loginValidation
 } from "./validation.js";
 
 function excecuteHandler(
@@ -244,6 +244,12 @@ class videoSystemView {
     });
     $('#removePerson').click((event) => {
       this.#excecuteHandler(handlerRemovePerson, [], 'body', { action: 'removePerson' }, '#removePerson', event);
+    });
+  }
+  bindLogin(handler){
+    console.log("Entra bind")
+    $("#btnLogin").click((event) => {
+      this.#excecuteHandler(handler, [], 'body', { action: 'login' }, '#login', event);
     });
   }
   productionsCarousel(productions) {
@@ -1100,10 +1106,84 @@ class videoSystemView {
 			})
     }
     else{
-      console.log("Entra else");
-      console.error(error);
-      this.mainContent.prepend(`<div class="error text-danger p-3">${error.message}</div>`);
+      $("#msg").remove();
+      if(error.message){
+        this.mainContent.prepend(`<div class="error text-danger p-3" id="msg">${error.message}</div>`);
+      }
+      else{
+        this.mainContent.prepend(`<div class="error text-danger p-3" id="msg">${error}</div>`);
+      }
     }
+  }
+  showLoginMenu(){
+    let logout = $("#btnLogout");
+    if (logout){
+      $(logout).parent().remove();
+    }
+    let li = $(`<li class="nav-item">
+      <a class="nav-link" id="btnLogin" href="#login">Login</a>
+    </li>`);
+    this.navContent.append(li);
+  }
+  showLogin(){
+    this.mainCarousel.empty();
+    this.mainContent.empty();
+    let login=`<div id="form">
+    <form class="row g-3 needs-validation" id="loginForm" novalidate>
+      <div class="col-md-6">
+        <label for="user" class="form-label">Nombre de usuario</label>
+        <input type="text" class="form-control" id="user" placeholder="Usuario" minlength="4" required>
+        <div class="valid-feedback">
+          El nombre de usuario está bien introducido.
+        </div>
+        <div class="invalid-feedback">
+          El nombre de usuario es demasiado corto.
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="password" class="form-label">Contraseña</label>
+        <input type="password" class="form-control" id="password" placeholder="Título" minlength="4" required>
+        <div class="valid-feedback">
+          La contraseña está bien introducida.
+        </div>
+        <div class="invalid-feedback">
+          La contraseña es demasiado cortañ.
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <button class="btn btn-primary" type="submit">Login</button>
+        <button class="btn btn-primary" type="reset">Reiniciar</button>
+      </div>
+    </form>
+    </div>  
+      `;
+      this.mainContent.append(login);
+  }
+  bindLoginForm(handler){
+    loginValidation(handler);
+  }
+  showUsernameInMenu(username){
+    $("#mensaje").empty();
+    $("#mensaje").append("Bienvenido "+username);
+  }
+  showWelcomeMessage(){
+    $("#mensaje").empty();
+    $("#mensaje").append("Bienvenido");
+  }
+  showLogout(){
+    let login = $("#btnLogin");
+    if (login){
+      $(login).parent().remove();
+    }
+    let li = $(`<li class="nav-item">
+      <a class="nav-link" id="btnLogout" href="#logout">Logout</a>
+    </li>`);
+    this.navContent.append(li);
+  }
+  bindLogout(handler){
+    $("#btnLogout").click(function (event) {
+      handler();
+    });
   }
 }
 export default videoSystemView;

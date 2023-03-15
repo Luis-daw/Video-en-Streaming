@@ -34,6 +34,7 @@ class videoSystemController {
         prod12.image = "../img/RickyMorty.jpg";
 
         let usr1 = this.#videoSystemModel.getUsers("luis", "luis@gmail.com", "123");
+        let usr2 = this.#videoSystemModel.getUsers("admin", "admin@gmail.com", "admin");
 
         let dir1 = this.#videoSystemModel.getDirector("Quentin", "Tarantino", new Date(1963, 0, 0, 0, 0, 0));
         let dir2 = this.#videoSystemModel.getDirector("Stanley", "Kubrick", new Date(1928, 0, 0, 0, 0, 0));
@@ -52,6 +53,8 @@ class videoSystemController {
         let act9 = this.#videoSystemModel.getActor("Jennifer", "Lawrence", new Date(1990, 0, 0, 0, 0, 0));
         let act10 = this.#videoSystemModel.getActor("Marilyn", "Monroe", new Date(1926, 0, 0, 0, 0, 0));
 
+        this.#videoSystemModel.addUser(usr1);
+        this.#videoSystemModel.addUser(usr2);
         this.#videoSystemModel.addCategory(cat1);
         this.#videoSystemModel.addCategory(cat2);
         this.#videoSystemModel.addCategory(cat3);
@@ -109,7 +112,6 @@ class videoSystemController {
         this.#videoSystemView.showCategoriesType(categories);
         this.#videoSystemView.bindProductionsCategoryList(this.handleProductionsCategoryList);
         this.#videoSystemView.bindProductionsCategoryListInMenu(this.handleProductionsCategoryList);
-
     }
 
     onLoad = () => {
@@ -128,7 +130,27 @@ class videoSystemController {
             this.handleNewPerson,
             this.handleRemovePerson
         );
-
+        let user = this.getCookie("username");
+        if (!user) {
+            this.#videoSystemView.showLoginMenu();
+            this.#videoSystemView.bindLogin(this.handleLogin);
+        }
+        else {
+            this.#videoSystemView.showUsernameInMenu(user);
+            this.#videoSystemView.showLogout();
+            this.#videoSystemView.bindLogout(this.handleLogout);
+        }
+    }
+    getCookie(cname) {
+        let re = new RegExp('(?:(?:^|.*;\\s*)' + cname +
+            '\\s*\\=\\s*([^;]*).*$)|^.*$');
+        return document.cookie.replace(re, "$1");
+    }
+    setCookie(cname, cvalue, exdays) {
+        const d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        let expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }
 
     handleInit = (categories) => {
@@ -469,7 +491,7 @@ class videoSystemController {
             done = false;
             error = exception;
         }
-        this.#videoSystemView.showModal(done, "Persona añadida", `La persona ${name + " " +lastname1} se ha añadido`, error);
+        this.#videoSystemView.showModal(done, "Persona añadida", `La persona ${name + " " + lastname1} se ha añadido`, error);
     }
     handleDeletePerson = (typePerson, persons) => {
         let error;
@@ -495,7 +517,42 @@ class videoSystemController {
             this.handleRemovePerson(typePerson);
         }
     }
+    handleLogin = () => {
+        this.#videoSystemView.showLogin();
+        this.#videoSystemView.bindLoginForm(this.handleCheckLogin);
+    }
+    handleCheckLogin = (user, password) => {
+        let error;
+        let done;
+        try {
+            if (this.#videoSystemModel.userLogin(user, password)) {
+                document.cookie = `username = ${user}`;
+                this.#videoSystemView.showUsernameInMenu(user);
+                this.#videoSystemView.showLogout();
+                this.#videoSystemView.bindLogout(this.handleLogout);
+                done = true;
+            }
+            else{
+                done = false;
+                error = "El usuario no existe en el sistema";
+            }
 
+        } catch (exception) {
+            done = false;
+            error = exception;
+        }
+        console.log(error);
+        this.#videoSystemView.showModal(done, "Login hecho", `Has hecho login con el usuario ${user}`, error);
+        if (done) {
+            this.onInit();
+        }
+    }
+    handleLogout = () => {
+        this.setCookie("username", '', 0);
+        this.#videoSystemView.showWelcomeMessage();
+        this.#videoSystemView.showLoginMenu();
+        this.#videoSystemView.bindLogin(this.handleLogin);
+    }
 }
 
 export default videoSystemController;

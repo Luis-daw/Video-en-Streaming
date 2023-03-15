@@ -642,6 +642,15 @@ let VideoSystem = (function () {
                 }
                 return arr2;
             }
+            userLogin(username, password){
+                let login = false;
+                this.#systemUsers.forEach(user => {
+                    if (user.username == username && user.password == password){
+                        login = true;
+                    }
+                });
+                return login;
+            }
         }
         //Creamos el objeto, lo congelamos y lo devolvemos
         let vs = new VideoSystem("Video System");
