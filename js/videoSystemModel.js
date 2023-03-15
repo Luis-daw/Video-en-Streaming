@@ -183,7 +183,7 @@ let VideoSystem = (function () {
                 if (!(category instanceof Category)) throw new CategoryVideoSystemException();
                 let pos = this.#categories.findIndex((elem) => elem.category == category);
                 if (pos == -1) throw new NotOnListException();
-                this.assignCategory(this.#categories[0].category,...this.#categories[pos].productions);
+                // this.assignCategory(this.#categories[0].category,...this.#categories[pos].productions);
                 this.#categories.splice(pos, 1);
                 return this.#categories.length;
             }
@@ -464,11 +464,11 @@ let VideoSystem = (function () {
                     }
                 }
             }
-            getNotHaveProductionsActor(productionsActor) {
+            getNotHaveProductions(productionsPerson) {
                 let arrayPos = [];
                 let array = [];
                 let verif;
-                for (const production of productionsActor) {
+                for (const production of productionsPerson) {
                     let pos = this.#productions.findIndex((prod) => production.title == prod.title);
                     if(pos !== -1){
                         arrayPos.push(pos);

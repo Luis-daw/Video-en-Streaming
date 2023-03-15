@@ -686,7 +686,7 @@ class videoSystemView {
     this.mainCarousel.empty();
     let content = `
     <div id="form">
-    <form class="row g-3 needs-validation" id="removeProductionForm" novalidate>
+    <form class="row g-3 needs-validation" id="assignDeassignForm" novalidate>
       <div class="col-md-6">
         <label for="selectTypePerson" class="form-label"> Selecciona actores o directores </label>
           <select class="form-select" id="selectTypePerson">
@@ -717,7 +717,7 @@ class videoSystemView {
     if (persons) {
       console.log("Existen las personas");
       content += `<div class="col-md-6">
-        <label for="selectAction" class="form-label"> Selecciona la persona </label>
+        <label for="selectPerson" class="form-label"> Selecciona la persona </label>
           <select class="form-select" id="selectPerson">
             <option value=""></option> `;
       for (const person of persons) {
@@ -742,7 +742,7 @@ class videoSystemView {
           <h3> Seleccione las producciones a añadir o quitar </h3> 
         </div>
         <div class="col-md-6">
-        <label for="selectAction" class="form-label"> Producciones asignadas </label>
+        <label for="selectHaveProduction" class="form-label"> Producciones asignadas </label>
           <select class="form-select" id="selectHaveProduction" multiple>
        `;
         for (const production of haveProductions) {
@@ -757,11 +757,10 @@ class videoSystemView {
           </div>
         </div>
         <div class="col-md-6">
-        <label for="selectAction" class="form-label"> Producciones sin asignar </label>
+        <label for="selectNotHaveProduction" class="form-label"> Producciones sin asignar </label>
           <select class="form-select" id="selectNotHaveProduction" multiple>
              `;
         for (const production of notHaveProductions) {
-          console.log(production);
           content+=`<option value="${production.title}">${production.title}</option>`;
         }
         content += `</select>
@@ -772,14 +771,15 @@ class videoSystemView {
             Producciones seleccionadas.
           </div>
         </div>
+        <div class="col-lg-12">
+          <button class="btn btn-primary" type="submit">Realizar cambios</button>
+          <button class="btn btn-primary" type="reset">Reiniciar</button>
+        </div>
         `;
 
       }
     }
     content += `
-      <div class="col-md-6" id="pers">
-      
-      </div>
     </form>
     </div>
     `
@@ -879,10 +879,8 @@ class videoSystemView {
       <div class="col-md-4">
         <label for="selecEliminateCategory" class="form-label">Selecciona las categorias</label>
         <select class="form-select" id="selecEliminateCategory" multiple>`;
-        console.log(cat);
         for (const category of cat) {
           content += `<option value="${category.name}">${category.name}</option>`;
-          console.log(category);
         }
         content += `</select>
         <div class="valid-feedback">
@@ -1035,10 +1033,6 @@ class videoSystemView {
     </form>
   </div>
     `
-
-        //   <div class="col-lg-12">
-        //   
-        // </div>
       );
     }
   }
@@ -1050,7 +1044,6 @@ class videoSystemView {
   }
   bindAssignDeassignPersonForm(handler, callHandler) {
     assignDeassignPersonValidation(handler);
-    console.log("Entra al bind");
     $("#selectTypePerson").change(function (event){
       callHandler(this.value);
     });
@@ -1058,8 +1051,8 @@ class videoSystemView {
       callHandler($("#selectTypePerson")[0].value, this.value);
     });
   }
-  bindAddRemoveCategoryForm(handler, callHandler) {
-    addRemoveCategoriesValidation(handler);
+  bindAddRemoveCategoryForm(handlerAdd, handlerRem, callHandler) {
+    addRemoveCategoriesValidation(handlerAdd, handlerRem);
     $("#selecTypeCategory").change(function (event) {
       callHandler(this.value);
     });
@@ -1073,6 +1066,44 @@ class videoSystemView {
     $("#selecTypePerson").change(function (event) {
       callHandler(this.value);
     });
+  }
+  showModal(done, title, message, error){
+    if (done){
+      let modal = `
+        <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="showModal">${title}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                ${message}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      $('body').append(modal);
+			let myModal = $('#showModal');
+			myModal.modal('show');
+      myModal.find('button').click(() => {
+				myModal.on('hidden.bs.modal', function (event) {
+					document.forms[0].reset();
+          document.forms[0][0].focus();
+					this.remove();
+				});
+				myModal.modal('hide');
+			})
+    }
+    else{
+      console.log("Entra else");
+      console.error(error);
+      this.mainContent.prepend(`<div class="error text-danger p-3">${error.message}</div>`);
+    }
   }
 }
 export default videoSystemView;

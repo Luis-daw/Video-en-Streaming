@@ -252,26 +252,25 @@ class videoSystemController {
         }
         else if (typePerson == "actors") {
             let actors = this.#videoSystemModel.actors;
-            if (person){
+            if (person) {
                 let actor = this.#videoSystemModel.getActor(person);
                 let haveProductions = this.#videoSystemModel.getProductionsActor(actor);
-                let notHaveProductions = this.#videoSystemModel.getNotHaveProductionsActor(haveProductions);
+                let notHaveProductions = this.#videoSystemModel.getNotHaveProductions(haveProductions);
                 this.#videoSystemView.showAssignDeassignPersonForm(typePerson, actors, actor.name, haveProductions, notHaveProductions);
             }
-            else{
+            else {
                 this.#videoSystemView.showAssignDeassignPersonForm(typePerson, actors);
             }
         }
         else if (typePerson == "directors") {
             let directors = this.#videoSystemModel.directors;
-            if (person){
+            if (person) {
                 let director = this.#videoSystemModel.getDirector(person);
                 let haveProductions = this.#videoSystemModel.getProductionsDirector(director);
-                console.log(haveProductions);
-                //let notHaveProductions;
-                this.#videoSystemView.showAssignDeassignPersonForm(typePerson, directors, director.name, haveProductions, []);
+                let notHaveProductions = this.#videoSystemModel.getNotHaveProductions(haveProductions);
+                this.#videoSystemView.showAssignDeassignPersonForm(typePerson, directors, director.name, haveProductions, notHaveProductions);
             }
-            else{
+            else {
                 this.#videoSystemView.showAssignDeassignPersonForm(typePerson, directors);
             }
         }
@@ -292,7 +291,7 @@ class videoSystemController {
             console.log(cat);
             this.#videoSystemView.showAddRemoveCategoryForm(type, cat);
         }
-        this.#videoSystemView.bindAddRemoveCategoryForm(this.handleAddRemoveCategory, this.handleAddRemoveCategory);
+        this.#videoSystemView.bindAddRemoveCategoryForm(this.handleCreateCategory, this.handleDeleteCategory, this.handleAddRemoveCategory);
     }
     handleNewPerson = () => {
         this.#videoSystemView.showNewPersonForm();
@@ -300,6 +299,7 @@ class videoSystemController {
     }
     handleRemovePerson = (typePerson) => {
         let persons;
+        console.log(typePerson);
         if (!typePerson) {
             this.#videoSystemView.showRemovePersonForm();
         }
@@ -313,9 +313,7 @@ class videoSystemController {
         }
         this.#videoSystemView.bindRemovePersonForm(this.handleDeletePerson, this.handleRemovePerson);
     }
-    handleAssignDeassignButtons = () => {
 
-    }
     handleCreateProduction = (title, fecha, nacionalidad, sinopsis, imagen, directors, casting, categories, type) => {
         console.log("Llego al handler");
         let production;
@@ -353,7 +351,7 @@ class videoSystemController {
             done = false;
             error = exception;
         }
-        console.log(done);
+        this.#videoSystemView.showModal(done, "Producción añadida", `La producción ${title} se ha añadido`, error);
     }
     handleDeleteProduction = (productions) => {
         let error;
@@ -368,76 +366,87 @@ class videoSystemController {
             done = false;
             error = exception;
         }
-        if (done) {
-            console.log("Produccion eliminada");
-        }
-        else {
-            console.log("Produccion no eliminada, error: " + error);
-        }
+        this.#videoSystemView.showModal(done, "Producciones eliminadas", `Las producciones seleccionadas se han eliminado`, error);
         this.handleRemoveProduction();
     }
-    handleAssignDeassign = (typePerson, typeOperation, person, productions) => {
+    handleAssignDeassign = (typePerson, namePerson, haveProductions, notHaveProductions) => {
         let error;
         let done;
+        let message;
+        console.log(typePerson);
         try {
-            productions.forEach(production => {
-                this.#videoSystemModel.removeProduction(this.#videoSystemModel.getProductionTitle(production));
-            });
-            console.log("categories");
+            if (typePerson == "actors") {
+                let person = this.#videoSystemModel.getActor(namePerson);
+                if (haveProductions) {
+                    haveProductions.forEach(production => {
+                        this.#videoSystemModel.deassignActor(person, this.#videoSystemModel.getProductionTitle(production));
+                    });
+                }
+                if (notHaveProductions) {
+                    notHaveProductions.forEach(production => {
+                        this.#videoSystemModel.assignActor(person, this.#videoSystemModel.getProductionTitle(production));
+                    });
+                }
+                message = `Cambios modificados en el actor ${namePerson}`;
+            }
+            else if (typePerson == "directors") {
+                let person = this.#videoSystemModel.getDirector(namePerson);
+                if (haveProductions) {
+                    haveProductions.forEach(production => {
+                        this.#videoSystemModel.deassignDirector(person, this.#videoSystemModel.getProductionTitle(production));
+                    });
+                }
+                if (notHaveProductions) {
+                    notHaveProductions.forEach(production => {
+                        this.#videoSystemModel.assignDirector(person, this.#videoSystemModel.getProductionTitle(production));
+                    });
+                }
+                message = `Cambios modificados en el director ${namePerson}`;
+            }
+            else {
+                throw new Error("El tipo de persona no es actor ni director");
+            }
             done = true;
         } catch (exception) {
             done = false;
             error = exception;
         }
-        if (done) {
-            console.log("Produccion eliminada");
-        }
-        else {
-            console.log("Produccion no eliminada, error: " + error);
-        }
-        this.handleRemoveProduction();
+        this.#videoSystemView.showModal(done, "Producción añadida", message, error);
+        this.handleAssignDeassignPerson(typePerson, namePerson);
     }
-    handleCreateCategory = (typePerson, typeOperation, person, productions) => {
+    handleCreateCategory = (name, description) => {
         let error;
         let done;
         try {
-            productions.forEach(production => {
-                this.#videoSystemModel.removeProduction(this.#videoSystemModel.getProductionTitle(production));
-            });
-            console.log("categories");
+            let category = this.#videoSystemModel.getCategory(name, description);
+            this.#videoSystemModel.addCategory(category);
             done = true;
+            this.onAddCategory();
+            this.#videoSystemView.bindProductionsCategoryListInMenu(this.handleProductionsCategoryList);
         } catch (exception) {
             done = false;
             error = exception;
         }
-        if (done) {
-            console.log("Produccion eliminada");
-        }
-        else {
-            console.log("Produccion no eliminada, error: " + error);
-        }
-        this.handleRemoveProduction();
+        this.#videoSystemView.showModal(done, "Categoria añadida", `La categoria ${name} se ha añadido`, error);
     }
-    handleDeleteCategory = (typePerson, typeOperation, person, productions) => {
+    handleDeleteCategory = (categories) => {
         let error;
         let done;
         try {
-            productions.forEach(production => {
-                this.#videoSystemModel.removeProduction(this.#videoSystemModel.getProductionTitle(production));
+            categories.forEach(category => {
+                this.#videoSystemModel.removeCategory(this.#videoSystemModel.getCategory(category));
             });
-            console.log("categories");
             done = true;
+            this.onAddCategory();
+            this.#videoSystemView.bindProductionsCategoryListInMenu(this.handleProductionsCategoryList);
         } catch (exception) {
             done = false;
             error = exception;
         }
+        this.#videoSystemView.showModal(done, "Categorias eliminadas", `Las categorias se han eliminado`, error);
         if (done) {
-            console.log("Produccion eliminada");
+            this.handleAddRemoveCategory("eliminar");
         }
-        else {
-            console.log("Produccion no eliminada, error: " + error);
-        }
-        this.handleRemoveProduction();
     }
     handleCreatePerson = (name, lastname1, born, typePerson, lastname2, picture) => {
         let error;
@@ -460,43 +469,31 @@ class videoSystemController {
             done = false;
             error = exception;
         }
-        if (done) {
-            console.log("Persona creada");
-        }
-        else {
-            console.log("Persona no creada, error: " + error);
-        }
-        this.handleNewPerson();
+        this.#videoSystemView.showModal(done, "Persona añadida", `La persona ${name + " " +lastname1} se ha añadido`, error);
     }
     handleDeletePerson = (typePerson, persons) => {
         let error;
         let done;
         try {
             if (typePerson == "actor") {
-                console.log("actores");
                 persons.forEach(actor => {
                     this.#videoSystemModel.removeActor(this.#videoSystemModel.getActor(actor));
                 });
             }
             else if (typePerson == "director") {
-                console.log("directores");
                 persons.forEach(director => {
                     this.#videoSystemModel.removeDirector(this.#videoSystemModel.getDirector(director));
                 });
             }
-            console.log("personas eliminadas de la aplicacion");
             done = true;
         } catch (exception) {
             done = false;
             error = exception;
         }
+        this.#videoSystemView.showModal(done, "Persona eliminada", `Las personas seleccionadas han sido eliminadas`, error);
         if (done) {
-            console.log("Persona eliminada");
+            this.handleRemovePerson(typePerson);
         }
-        else {
-            console.log("Persona no eliminada, error: " + error);
-        }
-        this.handleRemovePerson(typePerson);
     }
 
 }

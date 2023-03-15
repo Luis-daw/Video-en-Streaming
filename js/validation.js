@@ -48,7 +48,7 @@ function newProductionValidation(handler) {
         } else {
             showFeedBack($(this.title), true);
         }
-        if (!this.publication.checkValidity()) {
+        if (!this.publication.value == "") {
             isValid = false;
             showFeedBack($(this.publication), false);
             firstInvalidElement = this.publication;
@@ -221,48 +221,73 @@ function removeProductionValidation(handler) {
 }
 
 function assignDeassignPersonValidation(handler) {
-    let form = document.forms.removeProductionForm;
+    let form = document.forms.assignDeassignForm;
     $(form).attr('novalidate', true);
 
     $(form).submit(function (event) {
-        console.log("Entro submit");
         let isValid = true;
         let firstInvalidElement = null;
 
-        // this.title.value = this.title.value.trim();
-        // showFeedBack($(this.title), true);
         console.log();
-        if (this.selectProductions.value === "") {
+        if (this.selectTypePerson.value === "") {
             isValid = false;
-            showFeedBack($(this.selectProductions), false);
-            firstInvalidElement = this.selectProductions;
+            showFeedBack($(this.selectTypePerson), false);
+            firstInvalidElement = this.selectTypePerson;
         } else {
-            showFeedBack($(this.title), true);
+            showFeedBack($(this.selectTypePerson), true);
         }
+        if (this.selectPerson.value === "") {
+            isValid = false;
+            showFeedBack($(this.selectPerson), false);
+            firstInvalidElement = this.selectPerson;
+        } else {
+            showFeedBack($(this.selectPerson), true);
+        }selectHaveProduction
+        if (this.selectHaveProduction.value === "" && this.selectNotHaveProduction.value === "") {
+            isValid = false;
+            showFeedBack($(this.selectHaveProduction), false);
+            showFeedBack($(this.selectNotHaveProduction), false);
+            firstInvalidElement = this.selectHaveProduction;
+        } else {
+            showFeedBack($(this.selectHaveProduction), true);
+            showFeedBack($(this.selectNotHaveProduction), true);
+        }
+        console.log(isValid);
         if (!isValid) {
-            console.log("Valid falso");
             firstInvalidElement.focus();
         } else {
-            console.log("Valid bueno");
-
-            let productions = [];
-
-            for (const option of this.selectProductions.options) {
-                if (option.selected) {
-                    productions.push(option.value);
+            let haveProductions = [];
+            if (this.selectHaveProduction.value != "") {
+                for (const option of this.selectHaveProduction.options) {
+                    if (option.selected) {
+                        haveProductions.push(option.value);
+                    }
                 }
+            } else {
+                haveProductions == null;
             }
-            handler(productions);
+            let notHaveProductions = [];
+            if (this.selectNotHaveProduction.value != "") {
+                for (const option of this.selectNotHaveProduction.options) {
+                    if (option.selected) {
+                        notHaveProductions.push(option.value);
+                    }
+                }
+            } else {
+                notHaveProductions == null;
+            }
+
+            handler(this.selectTypePerson.value, this.selectPerson.value, haveProductions, notHaveProductions);
         }
         event.preventDefault();
         event.stopPropagation();
     });
 
-    form.addEventListener('reset',(function(event){
-      let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
-      feedDivs.removeClass('d-block').addClass('d-none');
-      let inputs = $(this).find('input');
-      inputs.removeClass('is-valid is-invalid');
+    form.addEventListener('reset', (function (event) {
+        let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
+        feedDivs.removeClass('d-block').addClass('d-none');
+        let inputs = $(this).find('input');
+        inputs.removeClass('is-valid is-invalid');
     }));
 
     $(form.title).change(defaultCheckElement);
@@ -288,7 +313,94 @@ function assignDeassignPersonValidation(handler) {
 }
 
 //Añadir los 2 formularios aqui dentro y hacer la validacion propia de cada uno.
-function addRemoveCategoriesValidation(handler) {
+function addRemoveCategoriesValidation(handlerAdd, handlerRem) {
+
+    if (document.forms.addCategory) {
+        let form = document.forms.addCategory;
+        $(form).attr('novalidate', true);
+        $(form).submit(function (event) {
+            let isValid = true;
+            let firstInvalidElement = null;
+
+            if (!this.name.checkValidity()) {
+                isValid = false;
+                showFeedBack($(this.name), false);
+                firstInvalidElement = this.name;
+            } else {
+                showFeedBack($(this.name), true);
+            }
+            if (!this.description.checkValidity()) {
+                isValid = false;
+                showFeedBack($(this.description), false);
+                firstInvalidElement = this.description;
+            } else {
+                showFeedBack($(this.description), true);
+            }
+            if (!isValid) {
+                console.log("Valid falso");
+                firstInvalidElement.focus();
+            } else {
+                console.log("Valid bueno");
+                handlerAdd(this.name.value, this.description.value);
+            }
+            event.preventDefault();
+            event.stopPropagation();
+        });
+
+        form.addEventListener('reset', (function (event) {
+            let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
+            feedDivs.removeClass('d-block').addClass('d-none');
+            let inputs = $(this).find('input');
+            inputs.removeClass('is-valid is-invalid');
+        }));
+
+        $(form.name).change(defaultCheckElement);
+        $(form.description).change(defaultCheckElement);
+
+    }
+    else if (document.forms.removeCategory) {
+        let form = document.forms.removeCategory;
+        $(form).attr('novalidate', true);
+        $(form).submit(function (event) {
+            let isValid = true;
+            let firstInvalidElement = null;
+
+            if (this.selecEliminateCategory.value == "") {
+                isValid = false;
+                showFeedBack($(this.selecEliminateCategory), false);
+                firstInvalidElement = this.selecEliminateCategory;
+            } else {
+                showFeedBack($(this.selecEliminateCategory), true);
+            }
+
+            if (!isValid) {
+                firstInvalidElement.focus();
+            } else {
+                let categories = [];
+                for (const option of this.selecEliminateCategory.options) {
+                    if (option.selected) {
+                        categories.push(option.value);
+                    }
+                }
+                handlerRem(categories);
+            }
+            event.preventDefault();
+            event.stopPropagation();
+        });
+
+        form.addEventListener('reset', (function (event) {
+            let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
+            feedDivs.removeClass('d-block').addClass('d-none');
+            let inputs = $(this).find('input');
+            inputs.removeClass('is-valid is-invalid');
+        }));
+
+        $(form.name).change(defaultCheckElement);
+        $(form.description).change(defaultCheckElement);
+    }
+
+
+
 
 }
 function addPersonValidation(handler) {
@@ -324,12 +436,12 @@ function addPersonValidation(handler) {
         } else {
             showFeedBack($(this.lastname2), true);
         }
-        if (!this.born.checkValidity()) {
+        if (this.born.value == "") {
             isValid = false;
-            showFeedBack($(this.sinopsis), false);
-            firstInvalidElement = this.sinopsis;
+            showFeedBack($(this.born), false);
+            firstInvalidElement = this.born;
         } else {
-            showFeedBack($(this.sinopsis), true);
+            showFeedBack($(this.born), true);
         }
         if (this.selecType.value == "") {
             isValid = false;
@@ -356,8 +468,6 @@ function addPersonValidation(handler) {
             }
         }
 
-
-
         let img;
         if (this.picture.value != "") {
             img = "../img/" + this.picture.files[0].name;
@@ -367,7 +477,6 @@ function addPersonValidation(handler) {
         }
         console.log("Imagen" + img);
         if (!isValid) {
-            console.log("No es valido");
             firstInvalidElement.focus();
         } else {
             console.log("Es valido");
@@ -456,7 +565,7 @@ function removePersonValidation(handler) {
     }));
     $(form.selecTypePerson).change(defaultCheckElement);
     $(form.selecPers).change(defaultCheckElement);
-   
+
 }
 export {
     showFeedBack, defaultCheckElement, newProductionValidation, removeProductionValidation,
