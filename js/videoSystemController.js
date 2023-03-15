@@ -20,18 +20,18 @@ class videoSystemController {
         let prod11 = new Serie("Los Simpson", "Estados Unidos", new Date(1989, 1, 1));
         let prod12 = new Serie("Rick y Morty", "Estados Unidos", new Date(2013, 1, 1));
 
-        prod1.image = "../img/ChicagoPD.jpg";
-        prod2.image = "../img/TheWitcher.jpg";
-        prod3.image = "../img/Uncharted.jpg";
-        prod4.image = "../img/NationalTreasure.jpg";
-        prod5.image = "../img/JuegoDeTronos.jpg";
-        prod6.image = "../img/UmbrellaAcademy.jpg";
-        prod7.image = "../img/HarryPotter.jpg";
-        prod8.image = "../img/Anillos.jpg";
-        prod9.image = "../img/NoMiresArriba.jpg";
-        prod10.image = "../img/Intocables.jpg";
-        prod11.image = "../img/Simpsons.jpg";
-        prod12.image = "../img/RickyMorty.jpg";
+        prod1.image = "./img/ChicagoPD.jpg";
+        prod2.image = "./img/TheWitcher.jpg";
+        prod3.image = "./img/Uncharted.jpg";
+        prod4.image = "./img/NationalTreasure.jpg";
+        prod5.image = "./img/JuegoDeTronos.jpg";
+        prod6.image = "./img/UmbrellaAcademy.jpg";
+        prod7.image = "./img/HarryPotter.jpg";
+        prod8.image = "./img/Anillos.jpg";
+        prod9.image = "./img/NoMiresArriba.jpg";
+        prod10.image = "./img/Intocables.jpg";
+        prod11.image = "./img/Simpsons.jpg";
+        prod12.image = "./img/RickyMorty.jpg";
 
         let usr1 = this.#videoSystemModel.getUsers("luis", "luis@gmail.com", "123");
         let usr2 = this.#videoSystemModel.getUsers("admin", "admin@gmail.com", "admin");
@@ -99,18 +99,52 @@ class videoSystemController {
 
     }
     #loadVideoSystemObjectsJSON() {
-        fetch("./datos.json")
+        let ref = this;
+        fetch("./js/datos.json")
             .then(function(result){
-                console.log(result);
+                return result.json();
             })
+            .then(function(data){
+                data.users.forEach(user => {
+                    let usr = ref.#videoSystemModel.getUsers(user.username, user.email, user.password);
+                    ref.#videoSystemModel.addUser(usr);
+                });
+                data.categories.forEach(category => {
+                    let cat = ref.#videoSystemModel.getCategory(category.name, category.description);
+                    ref.#videoSystemModel.addCategory(cat);
+                });
+                data.series.forEach(serie => {
+                    let prod = new Serie(serie.title, serie.nationality, new Date(serie.publicationDate), serie.synopsis, serie.image);
+                    prod.image = serie.image;
+                    console.log(prod);
+                    ref.#videoSystemModel.addProduction(prod);
+                   
+                });
+                data.movies.forEach(movie => {
+                    let prod = new Movie(movie.title, movie.nationality, new Date(movie.publicationDate), movie.synopsis, movie.image);
+                    prod.image = movie.image;
+                    ref.#videoSystemModel.addProduction(prod);
+                });
+                data.directors.forEach(director => {
+                    let dir = ref.#videoSystemModel.getDirector(director.name, director.lastname1, new Date(director.born), director.lastname2, director.picture);
+                    ref.#videoSystemModel.addDirector(dir);
+                });
+                data.actors.forEach(actor => {
+                    let act = ref.#videoSystemModel.getActor(actor.name, actor.lastname1, new Date(actor.born), actor.lastname2, actor.picture);
+                    ref.#videoSystemModel.addActor(act);
+                });
+                
+            })
+            .then(function (){
+                ref.onLoad();
+                ref.onInit();
+            });
     }
     constructor(videoSystemModel, videoSystemView) {
         this.#videoSystemModel = videoSystemModel;
         this.#videoSystemView = videoSystemView;
         this.arrayProductions;
-        this.onLoad();
-        this.onInit();
-        this.#videoSystemView.bindInit(this.handleInit.bind(this, this.#videoSystemModel.categories));
+        this.#loadVideoSystemObjectsJSON();
     }
     onInit = () => {
         let categories = this.#videoSystemModel.categories;
@@ -121,9 +155,10 @@ class videoSystemController {
     }
 
     onLoad = () => {
-        this.#loadVideoSystemObjects();
-        this.#loadVideoSystemObjectsJSON();
+        // this.#loadVideoSystemObjects();
+        
         //this.#videoSystemView.showCategoriesType(this.#videoSystemModel.categories);
+        this.#videoSystemView.bindInit(this.handleInit.bind(this, this.#videoSystemModel.categories));
         this.handleActorsAndDirectors();
         this.handleWindowsInMenu();
         this.onAddCategory();

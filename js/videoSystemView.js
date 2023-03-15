@@ -259,7 +259,9 @@ class videoSystemView {
     <div id="carouselExampleControls" class="carousel slide carousel-dark" data-bs-ride="carousel">
       <div class="carousel-inner">`;
     productions.forEach(production => {
+      console.log(production.image);
       if (first) {
+        
         content += `
           <div class="carousel-item active">
           <a href="#${production.title}" data-production="${production.title}">
@@ -272,7 +274,7 @@ class videoSystemView {
         content += `
           <div class="carousel-item">
           <a href="#${production.title}" data-production="${production.title}">
-          <img src="${production.image}" class="d-block w-100" alt="...">
+          <img src="/${production.image}" class="d-block w-100" alt="...">
           </a>
           </div>
           `

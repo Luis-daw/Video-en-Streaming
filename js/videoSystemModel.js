@@ -4,52 +4,52 @@ import { BaseException } from './generalExceptions.js';
 
 //Excepciones VideoSystem
 class VideoSystemException extends BaseException {
-	constructor(message = "Error: Excepción general de la clase VideoSystem.",fileName, lineNumber) {
-		super(message, fileName, lineNumber);
-		this.name = "VideoSystemException";
-	}
+    constructor(message = "Error: Excepción general de la clase VideoSystem.", fileName, lineNumber) {
+        super(message, fileName, lineNumber);
+        this.name = "VideoSystemException";
+    }
 }
 class PersonVideoSystemException extends VideoSystemException {
-	constructor(fileName, lineNumber) {
-		super("Error: El método necesita una persona.", fileName, lineNumber);
-		this.name = "PersonVideoSystemException";
-	}
+    constructor(fileName, lineNumber) {
+        super("Error: El método necesita una persona.", fileName, lineNumber);
+        this.name = "PersonVideoSystemException";
+    }
 }
 class CategoryVideoSystemException extends VideoSystemException {
-	constructor(fileName, lineNumber) {
-		super("Error: El método necesita una categoria.", fileName, lineNumber);
-		this.name = "CategoryVideoSystemException";
-	}
+    constructor(fileName, lineNumber) {
+        super("Error: El método necesita una categoria.", fileName, lineNumber);
+        this.name = "CategoryVideoSystemException";
+    }
 }
 class ProductionVideoSystemException extends VideoSystemException {
-	constructor(fileName, lineNumber) {
-		super("Error: El método necesita una producción.", fileName, lineNumber);
-		this.name = "ProductionVideoSystemException";
-	}
+    constructor(fileName, lineNumber) {
+        super("Error: El método necesita una producción.", fileName, lineNumber);
+        this.name = "ProductionVideoSystemException";
+    }
 }
 class EmptyArrayException extends VideoSystemException {
-	constructor(fileName, lineNumber) {
-		super("Error: El método necesita una producción o más.", fileName, lineNumber);
-		this.name = "EmptyArrayException";
-	}
+    constructor(fileName, lineNumber) {
+        super("Error: El método necesita una producción o más.", fileName, lineNumber);
+        this.name = "EmptyArrayException";
+    }
 }
 class UserVideoSystemException extends VideoSystemException {
-	constructor(fileName, lineNumber) {
-		super("Error: El método necesita un usuario.", fileName, lineNumber);
-		this.name = "UserVideoSystemException";
-	}
+    constructor(fileName, lineNumber) {
+        super("Error: El método necesita un usuario.", fileName, lineNumber);
+        this.name = "UserVideoSystemException";
+    }
 }
 class OnListException extends VideoSystemException {
-	constructor(fileName, lineNumber) {
-		super("Error: El objeto ya está en la lista.", fileName, lineNumber);
-		this.name = "OnListException";
-	}
+    constructor(fileName, lineNumber) {
+        super("Error: El objeto ya está en la lista.", fileName, lineNumber);
+        this.name = "OnListException";
+    }
 }
 class NotOnListException extends VideoSystemException {
-	constructor(fileName, lineNumber) {
-		super("Error: El objeto no está en la lista.", fileName, lineNumber);
-		this.name = "NotOnListException";
-	}
+    constructor(fileName, lineNumber) {
+        super("Error: El objeto no está en la lista.", fileName, lineNumber);
+        this.name = "NotOnListException";
+    }
 }
 
 
@@ -233,13 +233,13 @@ let VideoSystem = (function () {
                 production = this.#productions[pos];
                 for (const actor of this.getCast(production)) {
                     this.deassignActor(actor, production);
-                } 
+                }
                 for (const director of this.getDirectorsProduction(production)) {
                     this.deassignDirector(director, production);
-                } 
+                }
                 for (const category of this.getCategoriesProduction(production)) {
                     this.deassignCategory(category, production);
-                } 
+                }
                 this.#productions.splice(pos, 1);
                 return this.#productions.length;
             }
@@ -317,7 +317,7 @@ let VideoSystem = (function () {
                     }
                     this.#categories[pos].productions.push(production);
                 });
-                return this.#categories[pos].productions.length; 
+                return this.#categories[pos].productions.length;
             }
             /**
              * Método que elimina producciones de una categoría
@@ -470,18 +470,18 @@ let VideoSystem = (function () {
                 let verif;
                 for (const production of productionsPerson) {
                     let pos = this.#productions.findIndex((prod) => production.title == prod.title);
-                    if(pos !== -1){
+                    if (pos !== -1) {
                         arrayPos.push(pos);
                     }
                 }
                 for (let i = 0; i < this.#productions.length; i++) {
                     verif = false;
                     arrayPos.forEach(position => {
-                        if(i == position){
+                        if (i == position) {
                             verif = true;
                         }
                     });
-                    if(!verif){
+                    if (!verif) {
                         array.push(this.#productions[i]);
                     }
                 }
@@ -512,7 +512,7 @@ let VideoSystem = (function () {
                 }
             }
 
-            getDirectorsProduction(production){
+            getDirectorsProduction(production) {
                 if (!(production instanceof Production)) throw new ProductionVideoSystemException();
                 let array = this.#directors.filter((elem) => elem.productions.findIndex((elemProduc) => elemProduc.title == production.title) !== -1)
                 return {
@@ -523,7 +523,7 @@ let VideoSystem = (function () {
                     }
                 }
             }
-            getCategoriesProduction(production){
+            getCategoriesProduction(production) {
                 if (!(production instanceof Production)) throw new ProductionVideoSystemException();
                 let array = this.#categories.filter((elem) => elem.productions.findIndex((elemProduc) => elemProduc.title == production.title) !== -1)
                 return {
@@ -534,14 +534,14 @@ let VideoSystem = (function () {
                     }
                 }
             }
-            getProductionTitle(title){
+            getProductionTitle(title) {
                 let pos = this.#productions.findIndex((prod) => prod.title == title);
                 return this.#productions[pos];
             }
 
             //Factorias o también conocidas como patrones de diseño flyweight, comprueban si un objeto esta añadido a la clase
             //Si está lo devuelve, si no lo crea, de esta manera se ahorra mucho espacio de memoria evitando crear los mismos objetos
-            
+
             /**
              * Factoria de actor
              * @param {String} name 
@@ -551,17 +551,17 @@ let VideoSystem = (function () {
              * @param {String} picture 
              * @returns actor
              */
-            getActor(name, lastname1, born, lastname2 = "", picture ="") {
-				
-				let position = this.#actors.findIndex((act) => act.actor.name === name);
-				let actor;
-				if (position === -1){ 
-					actor = new Person(name, lastname1, born, lastname2, picture); 
-				} else { 
-					actor = this.#actors[position].actor;
-				}
-				return actor;
-			}
+            getActor(name, lastname1, born, lastname2 = "", picture = "") {
+
+                let position = this.#actors.findIndex((act) => act.actor.name === name);
+                let actor;
+                if (position === -1) {
+                    actor = new Person(name, lastname1, born, lastname2, picture);
+                } else {
+                    actor = this.#actors[position].actor;
+                }
+                return actor;
+            }
             /**
              * Factoria de director
              * @param {String} name 
@@ -571,34 +571,34 @@ let VideoSystem = (function () {
              * @param {String} picture 
              * @returns director
              */
-            getDirector(name, lastname1, born, lastname2 = "", picture ="") {
-				
-				let position = this.#directors.findIndex((dir) => dir.director.name === name);
-				let director;
-				if (position === -1){ 
-					director = new Person(name, lastname1, born, lastname2, picture); 
-				} else { 
-					director = this.#directors[position].director;
-				}
-				return director;
-			}
+            getDirector(name, lastname1, born, lastname2 = "", picture = "") {
+
+                let position = this.#directors.findIndex((dir) => dir.director.name === name);
+                let director;
+                if (position === -1) {
+                    director = new Person(name, lastname1, born, lastname2, picture);
+                } else {
+                    director = this.#directors[position].director;
+                }
+                return director;
+            }
             /**
              * Factoria de categoria
              * @param {String} name 
              * @param {String} description 
              * @returns category
              */
-            getCategory(name, description ="") {
-				
-				let position = this.#categories.findIndex((cat) => cat.category.name === name);
-				let category;
-				if (position === -1){ 
-					category = new Category(name, description); 
-				} else { 
-					category = this.#categories[position].category;
-				}
-				return category;
-			}
+            getCategory(name, description = "") {
+
+                let position = this.#categories.findIndex((cat) => cat.category.name === name);
+                let category;
+                if (position === -1) {
+                    category = new Category(name, description);
+                } else {
+                    category = this.#categories[position].category;
+                }
+                return category;
+            }
 
             /**
              * Factoria de usuario
@@ -608,44 +608,47 @@ let VideoSystem = (function () {
              * @returns User
              */
             getUsers(username, email, password) {
-				
-				let position = this.#systemUsers.findIndex((user) => user.username === username);
-				let user;
-				if (position === -1){ 
-					user = new User(username, email, password); 
-				} else { 
-					user = this.#systemUsers[position];
-				}
-				return user;
-			}
-            getSomeRandomProductions(quantity){
+
+                let position = this.#systemUsers.findIndex((user) => user.username === username);
+                let user;
+                if (position === -1) {
+                    user = new User(username, email, password);
+                } else {
+                    user = this.#systemUsers[position];
+                }
+                return user;
+            }
+            getSomeRandomProductions(quantity) {
                 let arr = [];
                 let arr2 = [];
                 let num;
                 let verif = true;
-                arr.push[Math.floor(Math.random() * this.#productions.length)];
-                do {
-                    num = Math.floor(Math.random() * this.#productions.length);
-                    arr.forEach(element => {
-                        if(element == num) verif = false;
-                        console.log("hola");
-                    });
-                    if(verif){
-                        console.log("pase a verif");
-                        arr.push(num);
+                if (this.#productions.length > 0) {
+                    arr.push[Math.floor(Math.random() * this.#productions.length)];
+                    do {
+                        num = Math.floor(Math.random() * this.#productions.length);
+                        arr.forEach(element => {
+                            if (element == num) verif = false;
+                            console.log("hola");
+                        });
+                        if (verif) {
+                            console.log("pase a verif");
+                            arr.push(num);
+                        }
+                        verif = true;
+                    } while (arr.length < quantity);
+                    for (let i = 0; i < arr.length; i++) {
+                        arr2.push(this.#productions[arr[i]]);
+                        console.log(this.#productions[arr[i]]);
                     }
-                    verif = true;
-                } while (arr.length < quantity);
-                for (let i = 0; i < arr.length; i++) {
-                   arr2.push(this.#productions[arr[i]]);
-                   console.log(this.#productions[arr[i]]);
+                    
                 }
                 return arr2;
             }
-            userLogin(username, password){
+            userLogin(username, password) {
                 let login = false;
                 this.#systemUsers.forEach(user => {
-                    if (user.username == username && user.password == password){
+                    if (user.username == username && user.password == password) {
                         login = true;
                     }
                 });
@@ -659,13 +662,13 @@ let VideoSystem = (function () {
     }
 
     //Devolvemos el método getInstance que devolverá siempre la misma instancia.
-    return{
-		getInstance: function () {
-			if (!instantiated) { 
-				instantiated = init(); 
-			}
-			return instantiated; 
-		}
+    return {
+        getInstance: function () {
+            if (!instantiated) {
+                instantiated = init();
+            }
+            return instantiated;
+        }
     }
 })();
 //Exportamos por defecto VideoSystem, la variable, no la clase

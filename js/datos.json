@@ -6,9 +6,9 @@
          "password": "123"
       },
       {
-         "username": "luis",
-         "email": "luis@gmail.com",
-         "password": "123"
+         "username": "admin",
+         "email": "admin@gmail.com",
+         "password": "admin"
       }
    ],
    "categories": [
@@ -26,92 +26,92 @@
       }
    ],
   
-   "serie": [
+   "series": [
       {
          "title": "Chicago PD",
          "nationality": "Estados Unidos",
          "publicationDate": "2014-1-1",
          "synopsis": "",
-         "image": "../img/ChicagoPD.jpg"
+         "image": "img/ChicagoPD.jpg"
       },
       {
          "title": "The Witcher",
          "nationality": "Estados Unidos",
          "publicationDate": "2222-1-1",
          "synopsis": "",
-         "image": "../img/TheWitcher.jpg"
+         "image": "img/TheWitcher.jpg"
       },
       {
          "title": "Juego de Tronos",
          "nationality": "Estados Unidos",
          "publicationDate": "2011-1-1",
          "synopsis": "",
-         "image": "../img/JuegoDeTronos.jpg"
+         "image": "img/JuegoDeTronos.jpg"
       },
       {
          "title": "The Umbrella Academy",
          "nationality": "Estados Unidos",
          "publicationDate": "2019-1-1",
          "synopsis": "",
-         "image": "../img/UmbrellaAcademy.jpg"
+         "image": "img/UmbrellaAcademy.jpg"
       },
       {
          "title": "Los Simpson",
          "nationality": "Estados Unidos",
          "publicationDate": "1989-1-1",
          "synopsis": "",
-         "image": "../img/Simpsons.jpg"
+         "image": "img/Simpsons.jpg"
       },
       {
          "title": "Rick y Morty",
          "nationality": "Estados Unidos",
          "publicationDate": "2013-1-1",
          "synopsis": "",
-         "image": "../img/RickyMorty.jpg"
+         "image": "img/RickyMorty.jpg"
       }
    ],
-   "movie": [
+   "movies": [
       {
          "title": "Uncharted",
          "nationality": "Estados Unidos",
          "publicationDate": "2022-1-1",
          "synopsis": "",
-         "image": "../img/Uncharted.jpg"
+         "image": "img/Uncharted.jpg"
       },
       {
          "title": "National Treasure",
          "nationality": "Estados Unidos",
          "publicationDate": "2011-1-1",
          "synopsis": "",
-         "image": "../img/NationalTreasure.jpg"
+         "image": "img/NationalTreasure.jpg"
       },
       {
          "title": "Harry Potter",
          "nationality": "Estados Unidos",
          "publicationDate": "2001-1-1",
          "synopsis": "",
-         "image": "../img/HarryPotter.jpg"
+         "image": "img/HarryPotter.jpg"
       },
       {
          "title": "El señor de los anillos",
          "nationality": "Estados Unidos",
          "publicationDate": "2001-1-1",
          "synopsis": "",
-         "image": "../img/Anillos.jpg"
+         "image": "img/Anillos.jpg"
       },
       {
          "title": "No mires arriba",
          "nationality": "Estados Unidos",
          "publicationDate": "2021-1-1",
          "synopsis": "",
-         "image": "../img/NoMiresArriba.jpg"
+         "image": "img/NoMiresArriba.jpg"
       },
       {
          "title": "Intouchables",
          "nationality": "Francia",
          "publicationDate": "2011-1-1",
          "synopsis": "",
-         "image": "../img/Intocables.jpg"
+         "image": "img/Intocables.jpg"
       }
    ],
    "directors": [
@@ -202,7 +202,7 @@
          "picture": ""
       },
       {
-         "name": "Jennifer",
+         "name": "Jenifer",
          "lastname1": "Aniston",
          "born": "1969-1-1",
          "lastname2": "",
