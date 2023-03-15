@@ -109,7 +109,7 @@ class videoSystemController {
         this.#videoSystemView.showCategoriesType(categories);
         this.#videoSystemView.bindProductionsCategoryList(this.handleProductionsCategoryList);
         this.#videoSystemView.bindProductionsCategoryListInMenu(this.handleProductionsCategoryList);
-        //this.#videoSystemView.bindCastProductionList(this.handleCastProductionList);
+
     }
 
     onLoad = () => {
@@ -244,17 +244,55 @@ class videoSystemController {
         this.#videoSystemView.showRemoveProductionForm(productions);
         this.#videoSystemView.bindRemoveProductionForm(this.handleDeleteProduction);
     }
-    handleAssignDeassignPerson = () => {
+    handleAssignDeassignPerson = (typePerson, person) => {
+        console.log(typePerson);
+        console.log(person);
+        if (!typePerson) {
+            this.#videoSystemView.showAssignDeassignPersonForm();
+        }
+        else if (typePerson == "actors") {
+            let actors = this.#videoSystemModel.actors;
+            if (person){
+                let actor = this.#videoSystemModel.getActor(person);
+                let haveProductions = this.#videoSystemModel.getProductionsActor(actor);
+                let notHaveProductions = this.#videoSystemModel.getNotHaveProductionsActor(haveProductions);
+                this.#videoSystemView.showAssignDeassignPersonForm(typePerson, actors, actor.name, haveProductions, notHaveProductions);
+            }
+            else{
+                this.#videoSystemView.showAssignDeassignPersonForm(typePerson, actors);
+            }
+        }
+        else if (typePerson == "directors") {
+            let directors = this.#videoSystemModel.directors;
+            if (person){
+                let director = this.#videoSystemModel.getDirector(person);
+                let haveProductions = this.#videoSystemModel.getProductionsDirector(director);
+                console.log(haveProductions);
+                //let notHaveProductions;
+                this.#videoSystemView.showAssignDeassignPersonForm(typePerson, directors, director.name, haveProductions, []);
+            }
+            else{
+                this.#videoSystemView.showAssignDeassignPersonForm(typePerson, directors);
+            }
+        }
         let actors = this.#videoSystemModel.actors;
         let directors = this.#videoSystemModel.directors;
         let productions = this.#videoSystemModel.productions;
-        this.#videoSystemView.showAssignDeassignPersonForm(actors, directors, productions);
-        this.#videoSystemView.bindAssignDeassignPersonForm(this.handleAssignDeassign);
+        this.#videoSystemView.bindAssignDeassignPersonForm(this.handleAssignDeassign, this.handleAssignDeassignPerson);
     }
-    handleAddRemoveCategory = () => {
-        let categories = this.#videoSystemView.categories;
-        this.#videoSystemView.showAddRemoveCategoryForm(categories);
-        this.#videoSystemView.bindAddRemoveCategoryForm(this.handleAddRemoveCategory);
+    handleAddRemoveCategory = (type) => {
+        if (!type) {
+            this.#videoSystemView.showAddRemoveCategoryForm();
+        }
+        else if (type == "crear") {
+            this.#videoSystemView.showAddRemoveCategoryForm(type);
+        }
+        else if (type == "eliminar") {
+            let cat = this.#videoSystemModel.categories;
+            console.log(cat);
+            this.#videoSystemView.showAddRemoveCategoryForm(type, cat);
+        }
+        this.#videoSystemView.bindAddRemoveCategoryForm(this.handleAddRemoveCategory, this.handleAddRemoveCategory);
     }
     handleNewPerson = () => {
         this.#videoSystemView.showNewPersonForm();
@@ -265,11 +303,11 @@ class videoSystemController {
         if (!typePerson) {
             this.#videoSystemView.showRemovePersonForm();
         }
-        else{
-            if (typePerson == "actor"){
+        else {
+            if (typePerson == "actor") {
                 persons = this.#videoSystemModel.actors;
-            }else if (typePerson == "director"){
-                persons = this.#videoSystemModel.directors;                
+            } else if (typePerson == "director") {
+                persons = this.#videoSystemModel.directors;
             }
             this.#videoSystemView.showRemovePersonForm(persons);
         }
@@ -359,7 +397,28 @@ class videoSystemController {
         }
         this.handleRemoveProduction();
     }
-    handleCreateDeleteCategory = (typePerson, typeOperation, person, productions) => {
+    handleCreateCategory = (typePerson, typeOperation, person, productions) => {
+        let error;
+        let done;
+        try {
+            productions.forEach(production => {
+                this.#videoSystemModel.removeProduction(this.#videoSystemModel.getProductionTitle(production));
+            });
+            console.log("categories");
+            done = true;
+        } catch (exception) {
+            done = false;
+            error = exception;
+        }
+        if (done) {
+            console.log("Produccion eliminada");
+        }
+        else {
+            console.log("Produccion no eliminada, error: " + error);
+        }
+        this.handleRemoveProduction();
+    }
+    handleDeleteCategory = (typePerson, typeOperation, person, productions) => {
         let error;
         let done;
         try {
@@ -409,26 +468,35 @@ class videoSystemController {
         }
         this.handleNewPerson();
     }
-    handleDeletePerson = (typePerson, typeOperation, person, productions) => {
+    handleDeletePerson = (typePerson, persons) => {
         let error;
         let done;
         try {
-            productions.forEach(production => {
-                this.#videoSystemModel.removeProduction(this.#videoSystemModel.getProductionTitle(production));
-            });
-            console.log("categories");
+            if (typePerson == "actor") {
+                console.log("actores");
+                persons.forEach(actor => {
+                    this.#videoSystemModel.removeActor(this.#videoSystemModel.getActor(actor));
+                });
+            }
+            else if (typePerson == "director") {
+                console.log("directores");
+                persons.forEach(director => {
+                    this.#videoSystemModel.removeDirector(this.#videoSystemModel.getDirector(director));
+                });
+            }
+            console.log("personas eliminadas de la aplicacion");
             done = true;
         } catch (exception) {
             done = false;
             error = exception;
         }
         if (done) {
-            console.log("Produccion eliminada");
+            console.log("Persona eliminada");
         }
         else {
-            console.log("Produccion no eliminada, error: " + error);
+            console.log("Persona no eliminada, error: " + error);
         }
-        this.handleRemoveProduction();
+        this.handleRemovePerson(typePerson);
     }
 
 }

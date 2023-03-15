@@ -464,6 +464,35 @@ let VideoSystem = (function () {
                     }
                 }
             }
+            getNotHaveProductionsActor(productionsActor) {
+                let arrayPos = [];
+                let array = [];
+                let verif;
+                for (const production of productionsActor) {
+                    let pos = this.#productions.findIndex((prod) => production.title == prod.title);
+                    if(pos !== -1){
+                        arrayPos.push(pos);
+                    }
+                }
+                for (let i = 0; i < this.#productions.length; i++) {
+                    verif = false;
+                    arrayPos.forEach(position => {
+                        if(i == position){
+                            verif = true;
+                        }
+                    });
+                    if(!verif){
+                        array.push(this.#productions[i]);
+                    }
+                }
+                return {
+                    *[Symbol.iterator]() {
+                        for (let i = 0; i < array.length; i++) {
+                            yield array[i];
+                        }
+                    }
+                }
+            }
             /**
              * Método que itera todas las producciones de una categoría
              * @param {Category} category 
