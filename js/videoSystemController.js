@@ -2,6 +2,13 @@ import { Movie, Serie, User, Person } from "./clases.js";
 class videoSystemController {
     #videoSystemView;
     #videoSystemModel;
+    #backup = {
+        systemusers: [],
+        categories: [],
+        productions: [],
+        actors: [],
+        directors: []
+    }
     #loadVideoSystemObjects() {
         let cat1 = this.#videoSystemModel.getCategory("Accion", "Genero accion");
         let cat2 = this.#videoSystemModel.getCategory("Fantasia", "Genero fantasia");
@@ -101,41 +108,111 @@ class videoSystemController {
     #loadVideoSystemObjectsJSON() {
         let ref = this;
         fetch("./js/datos.json")
-            .then(function(result){
+            .then(function (result) {
                 return result.json();
             })
-            .then(function(data){
+            .then(function (data) {
+                let prodArray = [];
+                let cont = 0;
                 data.users.forEach(user => {
                     let usr = ref.#videoSystemModel.getUsers(user.username, user.email, user.password);
                     ref.#videoSystemModel.addUser(usr);
                 });
-                data.categories.forEach(category => {
-                    let cat = ref.#videoSystemModel.getCategory(category.name, category.description);
-                    ref.#videoSystemModel.addCategory(cat);
-                });
+
                 data.series.forEach(serie => {
                     let prod = new Serie(serie.title, serie.nationality, new Date(serie.publicationDate), serie.synopsis, serie.image);
                     prod.image = serie.image;
-                    console.log(prod);
                     ref.#videoSystemModel.addProduction(prod);
-                   
+                    prodArray.push(prod);
                 });
                 data.movies.forEach(movie => {
                     let prod = new Movie(movie.title, movie.nationality, new Date(movie.publicationDate), movie.synopsis, movie.image);
                     prod.image = movie.image;
                     ref.#videoSystemModel.addProduction(prod);
+                    prodArray.push(prod);
                 });
+                data.categories.forEach(category => {
+                    let cat = ref.#videoSystemModel.getCategory(category.name, category.description);
+                    ref.#videoSystemModel.addCategory(cat);
+                    if (cont == 0) {
+                        ref.#videoSystemModel.assignCategory(cat, prodArray[0], prodArray[1], prodArray[2], prodArray[3]);
+                    }
+                    else if (cont == 1) {
+                        ref.#videoSystemModel.assignCategory(cat, prodArray[4], prodArray[5], prodArray[6], prodArray[7]);
+                    }
+                    else {
+                        ref.#videoSystemModel.assignCategory(cat, prodArray[8], prodArray[9], prodArray[10], prodArray[11])
+                    }
+                    cont++;
+                });
+                cont = 0;
                 data.directors.forEach(director => {
                     let dir = ref.#videoSystemModel.getDirector(director.name, director.lastname1, new Date(director.born), director.lastname2, director.picture);
                     ref.#videoSystemModel.addDirector(dir);
+                    switch (cont) {
+                        case 0:
+                            ref.#videoSystemModel.assignDirector(dir, prodArray[1], prodArray[2], prodArray[3], prodArray[4], prodArray[5], prodArray[6]);
+                            break;
+                        case 1:
+                            ref.#videoSystemModel.assignDirector(dir, prodArray[7], prodArray[8], prodArray[9], prodArray[10], prodArray[11], prodArray[1]);
+                            break;
+                        case 2:
+                            ref.#videoSystemModel.assignDirector(dir, prodArray[0], prodArray[2], prodArray[6], prodArray[7], prodArray[10], prodArray[0]);
+                            break;
+                        case 3:
+                            ref.#videoSystemModel.assignDirector(dir, prodArray[3], prodArray[4], prodArray[5], prodArray[8], prodArray[9], prodArray[11]);
+                            break;
+                        case 4:
+                            ref.#videoSystemModel.assignDirector(dir, prodArray[1], prodArray[2], prodArray[3], prodArray[4], prodArray[5], prodArray[6], prodArray[7], prodArray[8], prodArray[9], prodArray[10], prodArray[11], prodArray[0]);
+                            break;
+                        default:
+                            break;
+                    }
+                    cont++;
                 });
+                cont = 0;
                 data.actors.forEach(actor => {
                     let act = ref.#videoSystemModel.getActor(actor.name, actor.lastname1, new Date(actor.born), actor.lastname2, actor.picture);
                     ref.#videoSystemModel.addActor(act);
+                    switch (cont) {
+                        case 0:
+                            ref.#videoSystemModel.assignActor(act, prodArray[1 - 1], prodArray[2 - 1], prodArray[3 - 1], prodArray[4 - 1]);
+                            break;
+                        case 1:
+                            ref.#videoSystemModel.assignActor(act, prodArray[1 - 1], prodArray[2 - 1], prodArray[3 - 1], prodArray[4 - 1]);
+                            break;
+                        case 2:
+                            ref.#videoSystemModel.assignActor(act, prodArray[1 - 1], prodArray[2 - 1], prodArray[3 - 1], prodArray[4 - 1]);
+                            break;
+                        case 3:
+                            ref.#videoSystemModel.assignActor(act, prodArray[5 - 1], prodArray[6 - 1], prodArray[7 - 1], prodArray[8 - 1]);
+                            break;
+                        case 4:
+                            ref.#videoSystemModel.assignActor(act, prodArray[5 - 1], prodArray[6 - 1], prodArray[7 - 1], prodArray[8 - 1]);
+                            break;
+                        case 5:
+                            ref.#videoSystemModel.assignActor(act, prodArray[5 - 1], prodArray[6 - 1], prodArray[7 - 1], prodArray[8 - 1]);
+                            break;
+                        case 6:
+                            ref.#videoSystemModel.assignActor(act, prodArray[9 - 1], prodArray[10 - 1], prodArray[11 - 1], prodArray[12 - 1]);
+                            break;
+                        case 7:
+                            ref.#videoSystemModel.assignActor(act, prodArray[9 - 1], prodArray[10 - 1], prodArray[11 - 1], prodArray[12 - 1]);
+                            break;
+                        case 8:
+                            ref.#videoSystemModel.assignActor(act, prodArray[1 - 1], prodArray[2 - 1], prodArray[3 - 1], prodArray[4 - 1], prodArray[5 - 1], prodArray[6 - 1], prodArray[7 - 1], prodArray[8 - 1], prodArray[9 - 1], prodArray[10 - 1], prodArray[11 - 1], prodArray[12 - 1]);
+                            break;
+                        case 9:
+                            ref.#videoSystemModel.assignActor(act, prodArray[1 - 1], prodArray[2 - 1], prodArray[3 - 1], prodArray[4 - 1], prodArray[5 - 1], prodArray[6 - 1], prodArray[7 - 1], prodArray[8 - 1], prodArray[9 - 1], prodArray[10 - 1], prodArray[11 - 1], prodArray[12 - 1]);
+                            break;
+                        default:
+                            break;
+                    }
+                    cont++;
                 });
-                
+
             })
-            .then(function (){
+            .then(function () {
                 ref.onLoad();
                 ref.onInit();
             });
@@ -156,7 +233,7 @@ class videoSystemController {
 
     onLoad = () => {
         // this.#loadVideoSystemObjects();
-        
+
         //this.#videoSystemView.showCategoriesType(this.#videoSystemModel.categories);
         this.#videoSystemView.bindInit(this.handleInit.bind(this, this.#videoSystemModel.categories));
         this.handleActorsAndDirectors();
@@ -170,7 +247,8 @@ class videoSystemController {
             this.handleAssignDeassignPerson,
             this.handleAddRemoveCategory,
             this.handleNewPerson,
-            this.handleRemovePerson
+            this.handleRemovePerson,
+            this.handleBackup
         );
         let user = this.getCookie("username");
         if (!user) {
@@ -423,6 +501,7 @@ class videoSystemController {
         try {
             productions.forEach(production => {
                 this.#videoSystemModel.removeProduction(this.#videoSystemModel.getProductionTitle(production));
+                this.#backup.productions.push(production);
             });
             console.log("categories");
             done = true;
@@ -594,6 +673,75 @@ class videoSystemController {
         this.#videoSystemView.showWelcomeMessage();
         this.#videoSystemView.showLoginMenu();
         this.#videoSystemView.bindLogin(this.handleLogin);
+    }
+    handleBackup = () => {
+        let categories = this.#videoSystemModel.categories;
+        let actors = this.#videoSystemModel.actors;
+        let directors = this.#videoSystemModel.directors;
+        let productions = this.#videoSystemModel.productions;
+        let users = this.#videoSystemModel.users;
+        for (const category of categories) {
+            let obj = {
+                name: category.name,
+                description: category.description
+            }
+            this.#backup.categories.push(obj);
+        }
+        for (const actor of actors) {
+            let obj2 = {
+                name: actor.name,
+                lastname1: actor.lastname1,
+                born: actor.born,
+                lastname2: actor.lastname2,
+                picture: actor.picture
+            }
+            this.#backup.actors.push(obj2);
+        }
+        for (const director of directors) {
+            let obj = {
+                name: director.name,
+                lastname1: director.lastname1,
+                born: director.born,
+                lastname2: director.lastname2,
+                picture: director.picture
+            }
+            this.#backup.directors.push(obj);
+        }
+        for (const production of productions) {
+            let obj = {
+                title: production.title,
+                nationality: production.nationality,
+                publicationDate: production.publication,
+                synopsis: production.synopsis,
+                image: production.image
+            }
+            this.#backup.productions.push(obj);
+        }
+        for (const user of users) {
+            let obj = {
+                username: user.username,
+                email: user.email,
+                password: user.password
+            }
+            this.#backup.systemusers.push(obj);
+        }
+        let json = JSON.stringify(this.#backup);
+        console.log(json);
+        let base = location.protocol + '//' + location.host + location.pathname;
+		let url = new URL('backup.php', base);
+		console.log(url);
+		console.log(base);
+
+		fetch(url, {
+			method: 'post',
+			body: json
+		}).then(function(response) {
+			return response.json();
+		}).then(function(data) {
+			console.dir(data);
+		}).catch(function(err) {
+			console.log('No se ha recibido respuesta.'+err);
+		});
     }
 }
 

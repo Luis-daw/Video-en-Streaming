@@ -226,7 +226,7 @@ class videoSystemView {
       handler(this.windows);
     });
   }
-  bindAdminMenu(handlerNewProduction, handlerRemoveProduction, handlerAssignDeassignPerson, handlerAddRemoveCategory, handlerNewPerson, handlerRemovePerson) {
+  bindAdminMenu(handlerNewProduction, handlerRemoveProduction, handlerAssignDeassignPerson, handlerAddRemoveCategory, handlerNewPerson, handlerRemovePerson,handlerBackup) {
     $('#newProduction').click((event) => {
       this.#excecuteHandler(handlerNewProduction, [], 'body', { action: 'newProduction' }, '#newProduction', event);
     });
@@ -244,6 +244,9 @@ class videoSystemView {
     });
     $('#removePerson').click((event) => {
       this.#excecuteHandler(handlerRemovePerson, [], 'body', { action: 'removePerson' }, '#removePerson', event);
+    });
+    $('#executeBackup').click((event) => {
+      handlerBackup();
     });
   }
   bindLogin(handler){
@@ -274,7 +277,7 @@ class videoSystemView {
         content += `
           <div class="carousel-item">
           <a href="#${production.title}" data-production="${production.title}">
-          <img src="/${production.image}" class="d-block w-100" alt="...">
+          <img src="${production.image}" class="d-block w-100" alt="...">
           </a>
           </div>
           `
@@ -547,6 +550,7 @@ class videoSystemView {
 			<a id="addRemoveCategory" class="dropdown-item" href="#AddRemoveCategory">Añadir y eliminar categorias</a>
 			<a id="newPerson" class="dropdown-item" href="#NewPerson">Nueva persona</a>
 			<a id="removePerson" class="dropdown-item" href="#RemovePerson">Eliminar persona</a>
+			<a id="executeBackup" class="dropdown-item" href="#ExecuteBackup">Realizar copia de seguridad</a>
 		</div>
     </li>`);
     this.navContent.append(li);
