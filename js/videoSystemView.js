@@ -165,7 +165,7 @@ class videoSystemView {
         content += `
           <div class="carousel-item active">
           <a href="#${production.title}" data-production="${production.title}">
-          <img src="${production.image}" class="d-block w-75" alt="...">
+          <img src="${production.image}" class="d-block w-100" alt="...">
           </a>
           </div>
           `
@@ -568,7 +568,7 @@ class videoSystemView {
           Categorias seleccionados.
         </div>
       </div>
-      <div class="col-lg-4 col-md-6">
+      <div class="col-md-12">
         <button class="btn btn-primary" type="submit">Agregar produccion</button>
       </div>
     </form>
@@ -597,7 +597,7 @@ class videoSystemView {
           Porducciones seleccionadas.
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-12">
         <button class="btn btn-primary" type="submit">Eliminar produccion</button>
       </div>
     </form>
@@ -775,7 +775,7 @@ class videoSystemView {
         </div>
       </div>
       <div class="col-lg-12">
-        <button class="btn btn-primary" type="submit">Agregar persona</button>
+        <button class="btn btn-primary" type="submit">Agregar categoria</button>
         <button class="btn btn-primary" type="reset">Reiniciar</button>
       </div>
       </form>
@@ -815,7 +815,7 @@ class videoSystemView {
         </div>
       </div> 
       <div class="col-lg-12">
-        <button class="btn btn-primary" type="submit">Agregar persona</button>
+        <button class="btn btn-primary" type="submit">Eliminar categoria</button>
         <button class="btn btn-primary" type="reset">Reiniciar</button>
       </div>  
       </form>
