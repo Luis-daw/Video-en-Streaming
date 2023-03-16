@@ -120,35 +120,35 @@
          "lastname1": "Tarantino",
          "born": "1963-1-1",
          "lastname2": "",
-         "picture": ""
+         "picture": "img/QuentinTarantino.jpg"
       },
       {
          "name": "Stanley",
          "lastname1": "Kubrick",
          "born": "1928-1-1",
          "lastname2": "",
-         "picture": ""
+         "picture": "img/StanleyKubrick.jpg"
       },
       {
          "name": "Martin",
          "lastname1": "Scorsese",
          "born": "1942-1-1",
          "lastname2": "",
-         "picture": ""
+         "picture": "img/MartinScorsese.jpg"
       },
       {
          "name": "Alfred",
          "lastname1": "Hitchcock",
          "born": "1899-1-1",
          "lastname2": "",
-         "picture": ""
+         "picture": "img/AlfredHitchcock.jpg"
       },
       {
          "name": "Billy",
          "lastname1": "Wilder",
          "born": "1906-1-1",
          "lastname2": "",
-         "picture": ""
+         "picture": "img/BillyWilder.jpg"
       }
    ],
    "actors": [
@@ -157,70 +157,70 @@
          "lastname1": "Pitt",
          "born": "1987-1-1",
          "lastname2": "",
-         "picture": ""
+         "picture": "img/BradPitt.jpg"
       },
       {
          "name": "Leonardo",
          "lastname1": "DiCaprio",
          "born": "1974-1-1",
          "lastname2": "",
-         "picture": ""
+         "picture": "img/LeonardoDicaprio.jpg"
       },
       {
          "name": "Morgan",
          "lastname1": "Freeman",
          "born": "1937-1-1",
          "lastname2": "",
-         "picture": ""
+         "picture": "img/MorganFreeman.jpg"
       },
       {
          "name": "Tom",
          "lastname1": "Hanks",
          "born": "1980-1-1",
          "lastname2": "",
-         "picture": ""
+         "picture": "img/TomHanks.jpg"
       },
       {
          "name": "Marion",
          "lastname1": "Brando",
          "born": "1924-1-1",
          "lastname2": "",
-         "picture": ""
+         "picture": "img/MarlonBrando.jpg"
       },
       {
          "name": "Scarlett",
          "lastname1": "Johansson",
          "born": "1984-1-1",
          "lastname2": "",
-         "picture": ""
+         "picture": "img/ScarlettJohansson.jpg"
       },
       {
          "name": "Angelina",
          "lastname1": "Jolie",
          "born": "1975-1-1",
          "lastname2": "",
-         "picture": ""
+         "picture": "img/AngelinaJolie.jpg"
       },
       {
          "name": "Jenifer",
          "lastname1": "Aniston",
          "born": "1969-1-1",
          "lastname2": "",
-         "picture": ""
+         "picture": "img/JeniferAniston.jpg"
       },
       {
          "name": "Jennifer",
          "lastname1": "Lawrence",
          "born": "1990-1-1",
          "lastname2": "",
-         "picture": ""
+         "picture": "img/JenifferLawrence.jpg"
       },
       {
          "name": "Marilyn",
          "lastname1": "Monroe",
          "born": "1926-1-1",
          "lastname2": "",
-         "picture": ""
+         "picture": "img/MarilynMonroe.jpg"
       }
    ]
 }

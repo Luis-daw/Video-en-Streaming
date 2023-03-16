@@ -72,6 +72,13 @@ let VideoSystem = (function () {
             #actors = [];
             #directors = [];
 
+            #backup = {
+                systemusers: [],
+                categories: [],
+                productions: [],
+                actors: [],
+                directors: []
+            }
             #defaultCategory = new Category("Default", "Default category");
             /*
             Nuestros objetos se van a gestionar de la siguiente manera:
@@ -172,6 +179,11 @@ let VideoSystem = (function () {
                     category: category,
                     productions: []
                 }
+                let backup = {
+                    name: category.name,
+                    description: category.description
+                }
+                this.#backup.categories.push(backup);
                 return this.#categories.push(cat);
             }
             /**
@@ -196,6 +208,14 @@ let VideoSystem = (function () {
                 if (!(user instanceof User)) throw new UserVideoSystemException();
                 if (this.#systemUsers.findIndex((elem) => elem.username == user.username) != -1) throw new OnListException();
                 if (this.#systemUsers.findIndex((elem) => elem.email == user.email) != -1) throw new OnListException();
+
+                let backup = {
+                    username: user.username,
+                    email: user.email,
+                    password: user.password
+                }
+
+                this.#backup.systemusers.push(backup);
                 return this.#systemUsers.push(user);
             }
             /**
@@ -219,6 +239,16 @@ let VideoSystem = (function () {
             addProduction = function (production) {
                 if (!(production instanceof Production)) throw new ProductionVideoSystemException();
                 if (this.#productions.findIndex((elem) => elem.title == production.title) != -1) throw new OnListException();
+
+                let backup = {
+                    title: production.title,
+                    nationality: production.nationality,
+                    publicationDate: production.publication,
+                    synopsis: production.synopsis,
+                    image: production.image
+                }
+                this.#backup.productions.push(backup);
+
                 return this.#productions.push(production);
             }
             /**
@@ -255,6 +285,15 @@ let VideoSystem = (function () {
                     actor: actor,
                     productions: []
                 }
+                let backup = {
+                    name: actor.name,
+                    lastname1: actor.lastname1,
+                    born: actor.born,
+                    lastname2: actor.lastname2,
+                    picture: actor.picture
+                }
+                this.#backup.actors.push(backup);
+
                 return this.#actors.push(act);
             }
             /**
@@ -282,6 +321,14 @@ let VideoSystem = (function () {
                     director: director,
                     productions: []
                 }
+                let backup = {
+                    name: director.name,
+                    lastname1: director.lastname1,
+                    born: director.born,
+                    lastname2: director.lastname2,
+                    picture: director.picture
+                }
+                this.#backup.directors.push(backup);
                 return this.#directors.push(dir);
             }
 
@@ -641,7 +688,7 @@ let VideoSystem = (function () {
                         arr2.push(this.#productions[arr[i]]);
                         console.log(this.#productions[arr[i]]);
                     }
-                    
+
                 }
                 return arr2;
             }
@@ -653,6 +700,25 @@ let VideoSystem = (function () {
                     }
                 });
                 return login;
+            }
+            generateBackup() {
+                let json = JSON.stringify(this.#backup);
+                console.log(json);
+                let base = location.protocol + '//' + location.host + location.pathname;
+                let url = new URL('backup.php', base);
+                console.log(url);
+                console.log(base);
+
+                fetch(url, {
+                    method: 'post',
+                    body: json
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    console.dir(data);
+                }).catch(function (err) {
+                    console.log('No se ha recibido respuesta.' + err);
+                });
             }
         }
         //Creamos el objeto, lo congelamos y lo devolvemos

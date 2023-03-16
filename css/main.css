@@ -23,3 +23,11 @@ main{
 .al-center{
     text-align: center;
 }
+.personImage{
+    width: 50%;
+    height: 100px;
+}
+.personImageMenu{
+    width: 50%;
+    height:250px;
+}

@@ -10,6 +10,12 @@ const historyActions = {
     showDirectors: () => VideoSystemApp.handleDirectors(),
     showActor: (event) => VideoSystemApp.handleActor(event.state.actor),
     showDirector: (event) => VideoSystemApp.handleDirector(event.state.director),
+    newProduction: () => VideoSystemApp.handleNewProduction(),
+    removeProduction: () => VideoSystemApp.handleRemoveProduction(),
+    assignDeassignPerson: () => VideoSystemApp.handleAssignDeassignPerson(),
+    addRemoveCategory: () => VideoSystemApp.handleAddRemoveCategory(),
+    newPerson: () => VideoSystemApp.handleNewPerson(),
+    removePerson: () => VideoSystemApp.handleRemovePerson(),
 }
 window.addEventListener('popstate', function (event) {
     if (event.state) {

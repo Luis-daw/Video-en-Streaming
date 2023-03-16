@@ -1,0 +1,227 @@
+{
+    "systemusers": [
+        {
+            "username": "luis",
+            "email": "luis@gmail.com",
+            "password": "123"
+        },
+        {
+            "username": "admin",
+            "email": "admin@gmail.com",
+            "password": "admin"
+        }
+    ],
+    "categories": [
+        {
+            "name": "Default",
+            "description": "Default category"
+        },
+        {
+            "name": "Accion",
+            "description": "Genero accion"
+        },
+        {
+            "name": "Fantasia",
+            "description": "Genero fantasia"
+        },
+        {
+            "name": "Comedia",
+            "description": "Genero comedia"
+        }
+    ],
+    "productions": [
+        {
+            "title": "Chicago PD",
+            "nationality": "Estados Unidos",
+            "publicationDate": "2013-12-31T23:00:00.000Z",
+            "synopsis": "",
+            "image": "img\/ChicagoPD.jpg"
+        },
+        {
+            "title": "The Witcher",
+            "nationality": "Estados Unidos",
+            "publicationDate": "2221-12-31T23:00:00.000Z",
+            "synopsis": "",
+            "image": "img\/TheWitcher.jpg"
+        },
+        {
+            "title": "Juego de Tronos",
+            "nationality": "Estados Unidos",
+            "publicationDate": "2010-12-31T23:00:00.000Z",
+            "synopsis": "",
+            "image": "img\/JuegoDeTronos.jpg"
+        },
+        {
+            "title": "The Umbrella Academy",
+            "nationality": "Estados Unidos",
+            "publicationDate": "2018-12-31T23:00:00.000Z",
+            "synopsis": "",
+            "image": "img\/UmbrellaAcademy.jpg"
+        },
+        {
+            "title": "Los Simpson",
+            "nationality": "Estados Unidos",
+            "publicationDate": "1988-12-31T23:00:00.000Z",
+            "synopsis": "",
+            "image": "img\/Simpsons.jpg"
+        },
+        {
+            "title": "Rick y Morty",
+            "nationality": "Estados Unidos",
+            "publicationDate": "2012-12-31T23:00:00.000Z",
+            "synopsis": "",
+            "image": "img\/RickyMorty.jpg"
+        },
+        {
+            "title": "Uncharted",
+            "nationality": "Estados Unidos",
+            "publicationDate": "2021-12-31T23:00:00.000Z",
+            "synopsis": "",
+            "image": "img\/Uncharted.jpg"
+        },
+        {
+            "title": "National Treasure",
+            "nationality": "Estados Unidos",
+            "publicationDate": "2010-12-31T23:00:00.000Z",
+            "synopsis": "",
+            "image": "img\/NationalTreasure.jpg"
+        },
+        {
+            "title": "Harry Potter",
+            "nationality": "Estados Unidos",
+            "publicationDate": "2000-12-31T23:00:00.000Z",
+            "synopsis": "",
+            "image": "img\/HarryPotter.jpg"
+        },
+        {
+            "title": "El se\u00f1or de los anillos",
+            "nationality": "Estados Unidos",
+            "publicationDate": "2000-12-31T23:00:00.000Z",
+            "synopsis": "",
+            "image": "img\/Anillos.jpg"
+        },
+        {
+            "title": "No mires arriba",
+            "nationality": "Estados Unidos",
+            "publicationDate": "2020-12-31T23:00:00.000Z",
+            "synopsis": "",
+            "image": "img\/NoMiresArriba.jpg"
+        },
+        {
+            "title": "Intouchables",
+            "nationality": "Francia",
+            "publicationDate": "2010-12-31T23:00:00.000Z",
+            "synopsis": "",
+            "image": "img\/Intocables.jpg"
+        }
+    ],
+    "actors": [
+        {
+            "name": "Brad",
+            "lastname1": "Pitt",
+            "born": "1986-12-31T23:00:00.000Z",
+            "lastname2": "",
+            "picture": ""
+        },
+        {
+            "name": "Leonardo",
+            "lastname1": "DiCaprio",
+            "born": "1973-12-31T23:00:00.000Z",
+            "lastname2": "",
+            "picture": ""
+        },
+        {
+            "name": "Morgan",
+            "lastname1": "Freeman",
+            "born": "1937-01-01T00:00:00.000Z",
+            "lastname2": "",
+            "picture": ""
+        },
+        {
+            "name": "Tom",
+            "lastname1": "Hanks",
+            "born": "1979-12-31T23:00:00.000Z",
+            "lastname2": "",
+            "picture": ""
+        },
+        {
+            "name": "Marion",
+            "lastname1": "Brando",
+            "born": "1924-01-01T00:00:00.000Z",
+            "lastname2": "",
+            "picture": ""
+        },
+        {
+            "name": "Scarlett",
+            "lastname1": "Johansson",
+            "born": "1983-12-31T23:00:00.000Z",
+            "lastname2": "",
+            "picture": ""
+        },
+        {
+            "name": "Angelina",
+            "lastname1": "Jolie",
+            "born": "1974-12-31T23:00:00.000Z",
+            "lastname2": "",
+            "picture": ""
+        },
+        {
+            "name": "Jenifer",
+            "lastname1": "Aniston",
+            "born": "1968-12-31T23:00:00.000Z",
+            "lastname2": "",
+            "picture": ""
+        },
+        {
+            "name": "Jennifer",
+            "lastname1": "Lawrence",
+            "born": "1989-12-31T23:00:00.000Z",
+            "lastname2": "",
+            "picture": ""
+        },
+        {
+            "name": "Marilyn",
+            "lastname1": "Monroe",
+            "born": "1926-01-01T00:00:00.000Z",
+            "lastname2": "",
+            "picture": ""
+        }
+    ],
+    "directors": [
+        {
+            "name": "Quentin",
+            "lastname1": "Tarantino",
+            "born": "1962-12-31T23:00:00.000Z",
+            "lastname2": "",
+            "picture": ""
+        },
+        {
+            "name": "Stanley",
+            "lastname1": "Kubrick",
+            "born": "1928-01-01T00:00:00.000Z",
+            "lastname2": "",
+            "picture": ""
+        },
+        {
+            "name": "Martin",
+            "lastname1": "Scorsese",
+            "born": "1941-12-31T23:00:00.000Z",
+            "lastname2": "",
+            "picture": ""
+        },
+        {
+            "name": "Alfred",
+            "lastname1": "Hitchcock",
+            "born": "1899-01-01T00:14:44.000Z",
+            "lastname2": "",
+            "picture": ""
+        },
+        {
+            "name": "Billy",
+            "lastname1": "Wilder",
+            "born": "1906-01-01T00:00:00.000Z",
+            "lastname2": "",
+            "picture": ""
+        }
+    ]
+}

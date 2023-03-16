@@ -13,7 +13,7 @@ class Person {
     #born;
     #picture;
     //Añadir fotos de personas
-    constructor(name, lastname1, born, lastname2 = "", picture = "") {
+    constructor(name, lastname1, born, lastname2 = "", picture = "img/defaultImage.png") {
         if (name == null) throw new InvalidValueException();
         if (lastname1 == null) throw new InvalidValueException();
         if (!(born instanceof Date)) throw new InvalidValueException();
@@ -137,7 +137,7 @@ class Production {
     #publication;
     #synopsis;
     #image;
-    constructor(title, publication, nationality = "", synopsis = "", image = "") {
+    constructor(title, publication, nationality = "", synopsis = "", image = "img/defaultImage.png") {
         if (new.target === Production) throw new AbstractClassException("Production");
         if (title == null) throw new InvalidValueException();
         if (nationality == null) throw new InvalidValueException();

@@ -48,7 +48,7 @@ function newProductionValidation(handler) {
         } else {
             showFeedBack($(this.title), true);
         }
-        if (!this.publication.value == "") {
+        if (this.publication.value == "") {
             isValid = false;
             showFeedBack($(this.publication), false);
             firstInvalidElement = this.publication;
@@ -89,7 +89,7 @@ function newProductionValidation(handler) {
         }
         let img;
         if (this.image.value != "") {
-            img = "../img/" + this.image.files[0].name;
+            img = "img/" + this.image.files[0].name;
         }
         else {
             img = "";
@@ -470,7 +470,7 @@ function addPersonValidation(handler) {
 
         let img;
         if (this.picture.value != "") {
-            img = "../img/" + this.picture.files[0].name;
+            img = "img/" + this.picture.files[0].name;
         }
         else {
             img = "";

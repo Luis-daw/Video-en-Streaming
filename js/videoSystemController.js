@@ -662,10 +662,11 @@ class videoSystemController {
             done = false;
             error = exception;
         }
-        console.log(error);
-        this.#videoSystemView.showModal(done, "Login hecho", `Has hecho login con el usuario ${user}`, error);
         if (done) {
             this.onInit();
+        }
+        else{
+            this.#videoSystemView.showModal(done, "Login hecho", `Has hecho login con el usuario ${user}`, error);
         }
     }
     handleLogout = () => {
@@ -675,73 +676,8 @@ class videoSystemController {
         this.#videoSystemView.bindLogin(this.handleLogin);
     }
     handleBackup = () => {
-        let categories = this.#videoSystemModel.categories;
-        let actors = this.#videoSystemModel.actors;
-        let directors = this.#videoSystemModel.directors;
-        let productions = this.#videoSystemModel.productions;
-        let users = this.#videoSystemModel.users;
-        for (const category of categories) {
-            let obj = {
-                name: category.name,
-                description: category.description
-            }
-            this.#backup.categories.push(obj);
-        }
-        for (const actor of actors) {
-            let obj2 = {
-                name: actor.name,
-                lastname1: actor.lastname1,
-                born: actor.born,
-                lastname2: actor.lastname2,
-                picture: actor.picture
-            }
-            this.#backup.actors.push(obj2);
-        }
-        for (const director of directors) {
-            let obj = {
-                name: director.name,
-                lastname1: director.lastname1,
-                born: director.born,
-                lastname2: director.lastname2,
-                picture: director.picture
-            }
-            this.#backup.directors.push(obj);
-        }
-        for (const production of productions) {
-            let obj = {
-                title: production.title,
-                nationality: production.nationality,
-                publicationDate: production.publication,
-                synopsis: production.synopsis,
-                image: production.image
-            }
-            this.#backup.productions.push(obj);
-        }
-        for (const user of users) {
-            let obj = {
-                username: user.username,
-                email: user.email,
-                password: user.password
-            }
-            this.#backup.systemusers.push(obj);
-        }
-        let json = JSON.stringify(this.#backup);
-        console.log(json);
-        let base = location.protocol + '//' + location.host + location.pathname;
-		let url = new URL('backup.php', base);
-		console.log(url);
-		console.log(base);
+        this.#videoSystemModel.generateBackup();
 
-		fetch(url, {
-			method: 'post',
-			body: json
-		}).then(function(response) {
-			return response.json();
-		}).then(function(data) {
-			console.dir(data);
-		}).catch(function(err) {
-			console.log('No se ha recibido respuesta.'+err);
-		});
     }
 }
 
